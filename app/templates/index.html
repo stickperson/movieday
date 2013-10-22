@@ -1,0 +1,24 @@
+<html>
+    <head>
+        <script type="text/javascript" src="static/js/jquery-2.0.3.min.js"></script>
+        <script type="text/javascript" src="static/js/mustache.js"></script>
+        <script type="text/javascript" src="static/js/application.js"></script>
+    </head>
+    <body>
+    {% verbatim %}
+        <script type="text/template" id="results">
+            <h3>Template loaded</h3>
+            {{#.}}
+                <p>{{name}}</p>
+            {{/.}}
+        </script>
+    {% endverbatim %}
+        <div id="container">
+            <h3>Please enter your zip code to select a theater</h3>
+            <form>
+                <input type="text" id="zip"/>
+                <button type="button" id="search">Go!</button>
+            </form>
+        </div>
+    </body>
+</html>
