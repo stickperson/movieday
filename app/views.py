@@ -1,12 +1,21 @@
 from django.http import HttpResponse
 from django.shortcuts import render
 import requests
+import re
 import json
 from bs4 import BeautifulSoup
 
 
 def home(request):
     return render(request, 'index.html')
+
+
+# some spans return NEW!
+def is_not_new(string):
+    if string == 'NEW!':
+        return False
+
+    return True
 
 
 def get_nearby(request):
@@ -30,8 +39,15 @@ def get_nearby(request):
         title_divs = movie_div.find_all('div', class_='title')
 
         for title_div in title_divs:
-            movie_name = title_div.find('h4').find('a').contents[0]
             m = {}
+            movie_name = title_div.find('h4').find('a').contents[0]
+            rating_duration = title_div.find('span').contents[0].strip().encode('ascii', 'ignore')
+            if is_not_new(rating_duration):
+                duration = rating_duration.split(",")[1]
+                duration_numb = re.sub("[^0-9]", "", duration)
+                minutes = int(duration_numb[0])*60 + int(duration_numb[1:])
+                m['duration'] = duration
+                m['minutes'] = minutes
             m['name'] = movie_name
             m['showtimes'] = []
             siblings = title_div.next_siblings # returns a generator
@@ -45,6 +61,4 @@ def get_nearby(request):
             t['movies'].append(m)
         results.append(t)
     data = json.dumps(results)
-    print type(data)
-    print type(results)
     return HttpResponse(data)

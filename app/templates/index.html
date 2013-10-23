@@ -7,14 +7,21 @@
     <body>
     {% verbatim %}
         <script type="text/template" id="results">
-            <h3>Template loaded</h3>
             {{#.}}
-                <p>{{name}}</p>
+                <h3>{{name}}</h3>
+                {{#movies}}
+                    <h4 style="clear:both;padding:5px">{{name}}</h4>
+                    <ul>
+                    {{#showtimes}}
+                        <li style="display:inline; float:left; padding-right: 5px">{{.}}</li>
+                    {{/showtimes}}
+                    </ul>
+                {{/movies}}
             {{/.}}
         </script>
     {% endverbatim %}
         <div id="container">
-            <h3>Please enter your zip code to select a theater</h3>
+            <h2>Please enter your zip code to select a theater</h2>
             <form>
                 <input type="text" id="zip"/>
                 <button type="button" id="search">Go!</button>
