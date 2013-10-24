@@ -17,7 +17,6 @@ def is_not_new(string):
 
     return True
 
-# test comment
 def get_nearby(request):
     zip = request.POST['zip']
     r = requests.get('http://www.fandango.com/{}_movietimes'.format(zip))
