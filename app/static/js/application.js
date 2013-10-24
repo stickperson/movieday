@@ -7,22 +7,21 @@ $(document).ready(function(){
         }
         $.post('/search', data, function(response){
             theaters = JSON.parse(response);
+            for (var i=0; i<theaters.length; i++){
+                theaters[i]['id'] = i
+                console.log(theaters[i]['name']);
+            }
             console.log(theaters);
             $('#container').html(Mustache.render($('#results').html(), theaters));
         });
     });
-    $('body').on('click', '#theater-link', function(){
-        // GET everything from session, set to variable
-        // Extract theater name
-        // Loop through session data for name
-        // Display showtimes?
-        $.ajax({
-            url: '/session',
-            dataType: 'JSON',
-            type: 'GET',
-            success: function(data){
-                theaters = data
-            }
-        })
+    $('body').on('click', '.theater-link', function(){
+        id = $(this).attr('id');
+        console.log(id)
+        console.log(theaters[id]);
+        
+        // Once user clicks on theater, show movies playing (js and mustache)
+        // Prompt user to select movies (checkboxes)
+        // Once submitted, graph movies (find JS library)
     });
 });
