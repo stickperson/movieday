@@ -66,3 +66,12 @@ def get_nearby(request):
 def get_session(request):
     data = request.session['results']
     return HttpResponse(data)
+
+
+def selected(request):
+    theater = request.POST['theater']
+    movies = request.POST['movies']
+    data = {}
+    data['theater'] = theater
+    data['movies'] = movies
+    return HttpResponse(data)

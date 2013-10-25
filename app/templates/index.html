@@ -18,9 +18,9 @@
             <h3>Select movies</h3>
             <form>
             {{#movies}}
-                <input type="checkbox">{{name}}<br>
+                <input type="checkbox" id='{{id}}' class="movie-checkbox">{{name}}<br>
             {{/movies}}
-            <button type="button" id="search">Go!</button>
+            <button type="button" id="select-movies">Go!</button>
             </form>
         </script>
     {% endverbatim %}

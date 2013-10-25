@@ -1,4 +1,5 @@
 $(document).ready(function(){
+    // Scrapes movie data after entering zip code
     $('#search').on('click', function(){
         console.log('hello');
         zip = $('#zip').val();
@@ -15,22 +16,34 @@ $(document).ready(function(){
             $('#container').html(Mustache.render($('#results').html(), theaters));
         });
     });
+
+    // Shows all movies at a particular theater
     $('body').on('click', '.theater-link', function(){
-        id = $(this).attr('id');
-        console.log(id)
-        theater = theaters[id];
+        theater_id = Number($(this).attr('id'));
+        theater = theaters[theater_id];
         for (var i=0; i<theater['movies'].length; i++){
             theater['movies'][i]['id'] = i
         }
-        console.log(theater);
         $('#container').html(Mustache.render($('#theater').html(), theater));
-        // Once user clicks on theater, show movies playing (js and mustache)
-        // Prompt user to select movies (checkboxes)
-        // Once submitted, graph movies (find JS library)
     });
-    var selected = new Array();
-    $('body').on('click', 'input', function(){
-        console.log('input checked');
-        
-    })
+
+    selected_movies = new Array();
+
+    // Adds movie ids to an array
+    $('body').on('click', '.movie-checkbox', function(){
+        movie_id = Number($(this).attr('id'));
+        selected_movies.push(movie_id);
+    });
+
+    // POST movies and theater id
+    $('body').on('click', '#select-movies', function(){
+        movies = JSON.stringify(selected_movies);
+        data = {
+            theater: theater_id,
+            movies: movies
+        }
+        $.post('/selected', data, function(data){
+            console.log('working');
+        });
+    });
 });
