@@ -40,7 +40,7 @@ def get_nearby(request):
         print title_divs[1]
         for title_div in title_divs:
             m = {}
-            movie_name = title_div.find('h4').find('a').contents[0]
+            movie_name = title_div.find('h4').find('a').contents[0].strip()
             rating_duration = title_div.find('span').contents[0].strip().encode('ascii', 'ignore')
             if is_not_new(rating_duration):
                 duration = rating_duration.split(",")[1]
