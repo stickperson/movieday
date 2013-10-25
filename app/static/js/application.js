@@ -53,5 +53,10 @@ $(document).ready(function(){
             var movie = _.findWhere(theater['movies'], {id: selected_movies[i]});
             results.push(movie);
         }
+        var titles = new Array ();
+        for (var i=0; i<results.length; i++){
+            titles.push(results[i]['name']);
+        }
+        $('#container').html(Mustache.render($('#graph').html(), results));
     });
 });
