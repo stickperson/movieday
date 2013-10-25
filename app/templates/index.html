@@ -10,8 +10,18 @@
             <h3>Select a theater</h3>
             {{#.}}
                 <h4><a href='#{{name}}' id="{{id}}" class="theater-link">{{name}}</a></h4>
-                <button type="button" class="test">test!</button>
             {{/.}}
+        </script>
+    {% endverbatim %}
+    {% verbatim %}
+        <script type="text/template" id="theater">
+            <h3>Select movies</h3>
+            <form>
+            {{#movies}}
+                <input type="checkbox">{{name}}<br>
+            {{/movies}}
+            <button type="button" id="search">Go!</button>
+            </form>
         </script>
     {% endverbatim %}
         <div id="container">
