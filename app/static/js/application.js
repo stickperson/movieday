@@ -27,7 +27,7 @@ $(document).ready(function(){
         $('#container').html(Mustache.render($('#theater').html(), theater));
     });
 
-    selected_movies = new Array();
+    var selected_movies = new Array();
 
     // Adds movie ids to an array
     $('body').on('click', '.movie-checkbox', function(){
@@ -37,13 +37,21 @@ $(document).ready(function(){
 
     // POST movies and theater id
     $('body').on('click', '#select-movies', function(){
+        // For Django
         movies = JSON.stringify(selected_movies);
         data = {
             theater: theater_id,
             movies: movies
         }
         $.post('/selected', data, function(data){
-            console.log('working');
+            console.log('POST working');
         });
+
+        // For frontend
+        var results = new Array ();
+        for (var i=0; i<selected_movies.length; i++){
+            var movie = _.findWhere(theater['movies'], {id: selected_movies[i]});
+            results.push(movie);
+        }
     });
 });
