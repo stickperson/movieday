@@ -8,10 +8,6 @@ $(document).ready(function(){
         }
         $.post('/search', data, function(response){
             theaters = JSON.parse(response);
-            for (var i=0; i<theaters.length; i++){
-                theaters[i]['id'] = i
-                console.log(theaters[i]['name']);
-            }
             console.log(theaters);
             $('#container').html(Mustache.render($('#results').html(), theaters));
         });
@@ -21,9 +17,7 @@ $(document).ready(function(){
     $('body').on('click', '.theater-link', function(){
         theater_id = Number($(this).attr('id'));
         theater = theaters[theater_id];
-        for (var i=0; i<theater['movies'].length; i++){
-            theater['movies'][i]['id'] = i
-        }
+        console.log('theater id: ' + theater_id)
         $('#container').html(Mustache.render($('#theater').html(), theater));
     });
 
@@ -32,6 +26,7 @@ $(document).ready(function(){
     // Adds movie ids to an array
     $('body').on('click', '.movie-checkbox', function(){
         movie_id = Number($(this).attr('id'));
+        console.log('movie id: ' + movie_id)
         selected_movies.push(movie_id);
     });
 

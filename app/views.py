@@ -24,8 +24,11 @@ def get_nearby(request):
     soup = BeautifulSoup(t)
     theaters = soup.find_all('div', class_='theaterWrapper')
     results = []
+    theater_id = 0
     for theater in theaters:
         t = {}
+        t['id'] = theater_id
+        theater_id += 1
         # all theaters name
         theater_div = theater.find('div', class_='theater')
         info_div = theater_div.find('h3')
@@ -38,8 +41,11 @@ def get_nearby(request):
         print type(title_divs)
         print len(title_divs)
         print title_divs[1]
+        movie_id = 0
         for title_div in title_divs:
             m = {}
+            m['id'] = movie_id
+            movie_id += 1
             movie_name = title_div.find('h4').find('a').contents[0].strip()
             rating_duration = title_div.find('span').contents[0].strip().encode('ascii', 'ignore')
             if is_not_new(rating_duration):
