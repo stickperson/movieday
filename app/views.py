@@ -90,11 +90,13 @@ def get_session(request):
 
 def selected(request):
     theater_id = int(request.POST['theater'])
-    movies_id = request.POST['movies']
-    movie_ids = [int(i.encode('utf-8')) for i in movies_id.strip('[]').split(',')]
+    movie_ids = request.POST['movies']
+    # movie_ids was a single unicode element, 
+    # needed to re-encode as a utf-8 list and typecast as int for comparison later
+    movie_ids = [int(i.encode('utf-8')) for i in movie_ids.strip('[]').split(',')]
     data = {}
     data['theater'] = theater_id
-    data['movies'] = movies_id
+    data['movies'] = movie_ids
     # print out the users selections here
     results = json.loads(request.session['results'])
     user_picks = []
