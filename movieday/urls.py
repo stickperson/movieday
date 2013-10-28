@@ -16,5 +16,6 @@ urlpatterns = patterns('',
     # url(r'^admin/', include(admin.site.urls)),
     url(r'^$', 'app.views.home'),
     url(r'^search', 'app.views.get_nearby'),
-    url(r'^session$', 'app.views.get_session')
+    url(r'^session$', 'app.views.get_session'),
+    url(r'^selected$', 'app.views.selected')
 )

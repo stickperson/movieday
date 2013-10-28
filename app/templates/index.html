@@ -1,6 +1,7 @@
 <html>
     <head>
         <script type="text/javascript" src="static/js/jquery-2.0.3.min.js"></script>
+        <script type="text/javascript" src="static/js/underscore-min.js"></script>
         <script type="text/javascript" src="static/js/mustache.js"></script>
         <script type="text/javascript" src="static/js/application.js"></script>
     </head>
@@ -9,8 +10,26 @@
         <script type="text/template" id="results">
             <h3>Select a theater</h3>
             {{#.}}
-                <h4><a href='#{{name}}' id="{{  }}">{{name}}</a></h4>
-                <button type="button" class="test">test!</button>
+                <h4><a href='#{{name}}' id="{{id}}" class="theater-link">{{name}}</a></h4>
+            {{/.}}
+        </script>
+        <script type="text/template" id="theater">
+            <h3>Select movies</h3>
+            <form>
+            {{#movies}}
+                <input type="checkbox" id='{{id}}' class="movie-checkbox">{{name}}<br>
+            {{/movies}}
+            <button type="button" id="select-movies">Go!</button>
+            </form>
+        </script>
+        <script type="text/template" id="graph">
+            {{#.}}
+                <h4>{{name}}</h4>
+                <ul>
+                    {{#showtimes}}
+                        <li>{{.}}</li>
+                    {{/showtimes}}
+                </ul>
             {{/.}}
         </script>
     {% endverbatim %}
