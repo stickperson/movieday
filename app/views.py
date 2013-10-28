@@ -3,7 +3,10 @@ from django.shortcuts import render
 import requests
 import re
 import json
+import pprint
 from bs4 import BeautifulSoup
+
+pp = pprint.PrettyPrinter(indent=4)
 
 
 def home(request):
@@ -16,6 +19,15 @@ def is_not_new(string):
         return False
 
     return True
+
+def convert_to_military(time_str):
+    if 'a' in time_str:
+        result = time_str[:len(time_str)-1]
+    else:
+        hour, minutes = time_str.split(':')
+        hour = int(hour) + 12
+        result = str(hour) + ':' + minutes[:len(minutes)-1]
+    return result
 
 def get_nearby(request):
     zip = request.POST['zip']
@@ -61,6 +73,8 @@ def get_nearby(request):
             showtime_links = x[1].find_all('a', class_='showtime_itr')
             for showtime_link in showtime_links:
                 time = showtime_link.contents[0]
+                # convert to military time
+                time = convert_to_military(time)
                 m['showtimes'].append(time)
             t['movies'].append(m)
         results.append(t)
@@ -75,9 +89,11 @@ def get_session(request):
 
 
 def selected(request):
-    theater = request.POST['theater']
-    movies = request.POST['movies']
+    theater_id = request.POST['theater']
+    movies_id = request.POST['movies']
     data = {}
-    data['theater'] = theater
-    data['movies'] = movies
+    data['theater'] = theater_id
+    data['movies'] = movies_id
+    results = json.loads(request.session['results'])
+    pp.pprint(results)
     return HttpResponse(data)

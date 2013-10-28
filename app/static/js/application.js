@@ -41,7 +41,6 @@ $(document).ready(function(){
         $.post('/selected', data, function(data){
             console.log('POST working');
         });
-
         // For frontend
         var results = new Array ();
         for (var i=0; i<selected_movies.length; i++){
