@@ -89,11 +89,23 @@ def get_session(request):
 
 
 def selected(request):
-    theater_id = request.POST['theater']
+    theater_id = int(request.POST['theater'])
     movies_id = request.POST['movies']
+    movie_ids = [int(i.encode('utf-8')) for i in movies_id.strip('[]').split(',')]
     data = {}
     data['theater'] = theater_id
     data['movies'] = movies_id
+    # print out the users selections here
     results = json.loads(request.session['results'])
-    pp.pprint(results)
+    user_picks = []
+    theater_selection = results[theater_id]
+
+    for movie in theater_selection['movies']:
+        if movie['id'] in movie_ids:
+            user_picks.append(movie)
+
+    print 'user picks **********************'
+    print user_picks
     return HttpResponse(data)
+
+    
