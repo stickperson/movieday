@@ -16,13 +16,14 @@ $(document).ready(function(){
         // Extract theater name
         // Loop through session data for name
         // Display showtimes?
-        $.ajax({
-            url: '/session',
-            dataType: 'JSON',
-            type: 'GET',
-            success: function(data){
-                theaters = data
-            }
-        })
+        
+        // $.ajax({
+        //     url: '/session',
+        //     dataType: 'JSON',
+        //     type: 'GET',
+        //     success: function(data){
+        //         theaters = data
+        //     }
+        // })
     });
 });
