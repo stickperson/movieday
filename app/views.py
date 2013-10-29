@@ -21,14 +21,14 @@ def is_not_new(string):
     return True
 
 def convert_to_military(time_str):
-    if 'a' in time_str:
-        result = time_str[:len(time_str)-1]
-    elif 'p' and '12' in time_str:
-        result = time_str[:len(time_str)-1]
-    elif 'a' and '12' in time_str:
+    if 'a' and '12' in time_str:
         hour, minutes = time_str.split(':')
         hour = 0
         result = str(hour) + ':' + minutes[:len(minutes)-1]
+    elif 'a' in time_str:
+        result = time_str[:len(time_str)-1]
+    elif 'p' and '12' in time_str:
+        result = time_str[:len(time_str)-1]
     else:
         hour, minutes = time_str.split(':')
         hour = int(hour) + 12
