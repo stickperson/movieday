@@ -115,5 +115,3 @@ def selected(request):
     print 'user picks **********************'
     print pp.pprint(user_picks)
     return HttpResponse(data)
-
-    
