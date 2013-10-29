@@ -23,6 +23,11 @@ def is_not_new(string):
 def convert_to_military(time_str):
     if 'a' in time_str:
         result = time_str[:len(time_str)-1]
+    elif 'p' and '12' in time_str:
+        print time_str
+        result = time_str[:len(time_str)-1]
+        print result
+        return result
     else:
         hour, minutes = time_str.split(':')
         hour = int(hour) + 12
@@ -107,7 +112,7 @@ def selected(request):
             user_picks.append(movie)
 
     print 'user picks **********************'
-    print user_picks
+    print pp.pprint(user_picks)
     return HttpResponse(data)
 
     
