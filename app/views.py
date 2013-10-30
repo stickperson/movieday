@@ -1,5 +1,6 @@
 from django.http import HttpResponse
 from django.shortcuts import render
+from datetime import date, datetime, time, timedelta
 import requests
 import re
 import json
@@ -14,11 +15,12 @@ def home(request):
 
 
 # some spans return NEW!
-def is_not_new(string):
-    if string == 'NEW!':
-        return False
+# MAX - 10/30 temporarily commenting this out 
+# def is_not_new(string):
+#     if string == 'NEW!':
+#         return False
 
-    return True
+#     return True
 
 def convert_to_military(time_str):
     if 'a' and '12' in time_str:
@@ -34,6 +36,15 @@ def convert_to_military(time_str):
         hour = int(hour) + 12
         result = str(hour) + ':' + minutes[:len(minutes)-1]
     return result
+
+def calc_end_time(mtime, dur_hours, dur_minutes):
+    duration = timedelta(hours=dur_hours, minutes=dur_minutes)
+
+    start_hour, start_min = [int(t) for t in mtime.split(':')]
+    start_time = time(start_hour, start_min)
+    dt_end = datetime.combine(date.today(), start_time) + duration
+    end_time = dt_end.strftime('%H:%M')
+    return end_time
 
 def get_nearby(request):
     zip = request.POST['zip']
@@ -58,20 +69,31 @@ def get_nearby(request):
         title_divs = movie_div.find_all('div', class_='title')
         print type(title_divs)
         print len(title_divs)
-        print title_divs[1]
         movie_id = 0
         for title_div in title_divs:
             m = {}
             m['id'] = movie_id
             movie_id += 1
             movie_name = title_div.find('h4').find('a').contents[0].strip()
-            rating_duration = title_div.find('span').contents[0].strip().encode('ascii', 'ignore')
-            if is_not_new(rating_duration):
+            # quick fix for getting duration of "NEW!" movies
+            span_tags = title_div.find_all('span')
+            if len(span_tags) == 1:
+                dur_span = span_tags[0]
+            else:
+                dur_span = span_tags[1]
+            # also accounts for movies without duration listed
+            if dur_span.contents[0].strip() == '':
+                duration = '0 hr 0 min'
+            else:
+                rating_duration = dur_span.contents[0].strip().encode('ascii', 'ignore')
                 duration = rating_duration.split(",")[1]
-                duration_numb = re.sub("[^0-9]", "", duration)
-                minutes = int(duration_numb[0])*60 + int(duration_numb[1:])
-                m['duration'] = duration
-                m['minutes'] = minutes
+            
+            duration_numb = re.sub("[^0-9]", "", duration)
+            dur_hours = int(duration_numb[0])
+            dur_minutes = int(duration_numb[1:])
+            minutes = dur_hours * 60 + dur_minutes
+            m['duration'] = duration
+            m['minutes'] = minutes
             m['name'] = movie_name
             m['showtimes'] = []
             siblings = title_div.next_siblings # returns a generator
@@ -81,13 +103,13 @@ def get_nearby(request):
                 time = showtime_link.contents[0]
                 # convert to military time
                 time = convert_to_military(time)
-                m['showtimes'].append(time)
+                end_time = calc_end_time(time, dur_hours, dur_minutes)
+                m['showtimes'].append((time, end_time))
             t['movies'].append(m)
         results.append(t)
     data = json.dumps(results)
     request.session['results'] = data
     return HttpResponse(data)
-
 
 def get_session(request):
     data = request.session['results']
