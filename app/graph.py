@@ -47,9 +47,10 @@ class Graph(object):
         return vertex
 
     def add_edge(self, start_vert, end_vert):
+        # need to pass in showtime in if/else statements
         if start_vert not in self.vert_list:
             vertex = self.add_vert(start_vert)
-        if end_vert not in self.vert_list:
+        elif end_vert not in self.vert_list:
             vertex = self.add_vert(end_vert)
         self.vert_list[start_vert].add_neighbor(end_vert)
 

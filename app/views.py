@@ -143,5 +143,11 @@ def selected(request):
          start = movie['showtimes'][i][0]
          end = movie['showtimes'][i][1]
          g.add_vert(movie, movie['showtimes'][i])
-    print g
+    # Trying to find a way to loop through all vertexes and try to add neighhbors
+    print g.vert_list
+    for key, value in g.vert_list.iteritems():
+        print value
+        for k, v in g.vert_list.iteritems():
+            g.add_edge(value, v)
+        # g.add_edge(value, val) for k, val in g.vert_list.iteritems()
     return HttpResponse(data)
