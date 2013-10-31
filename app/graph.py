@@ -12,6 +12,7 @@ class Vertex(object):
         else:
             return True
 
+    # will fix weight calculation
     def add_neighbor(self, neighbor):
         if different_movie():
             weight = self.end - neighbor.start
