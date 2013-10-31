@@ -6,6 +6,7 @@ import re
 import json
 import pprint
 from bs4 import BeautifulSoup
+from graph import Vertex, Graph
 
 pp = pprint.PrettyPrinter(indent=4)
 
@@ -136,4 +137,11 @@ def selected(request):
 
     print 'user picks **********************'
     print pp.pprint(user_picks)
+    g = Graph()
+    for movie in user_picks:
+     for i in range(0,len(movie['showtimes'])):
+         start = movie['showtimes'][i][0]
+         end = movie['showtimes'][i][1]
+         g.add_vert(movie, movie['showtimes'][i])
+    print g
     return HttpResponse(data)

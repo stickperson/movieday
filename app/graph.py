@@ -15,23 +15,23 @@ class Vertex(object):
     # Set cutoff to 12 hours for now
     def calc_weight_seconds(self, neighbor):
         fmt = '%H:%M'
-        time = datetime.strptime(neighbor.start, fmt) - datetime.strptime(self.end, fmt)
-        seconds = time.seconds
+        t = datetime.strptime(neighbor.start, fmt) - datetime.strptime(self.end, fmt)
+        seconds = t.seconds
         hours = seconds//3600
         if hours > 12:
             return False
         return seconds
 
-        def different_movie(self, neighbor):
-            if neighbor['id'] == self.id:
-                return False
-            else:
-                return True
+    def different_movie(self, neighbor):
+        if neighbor['id'] == self.id:
+            return False
+        else:
+            return True
 
     # will fix weight calculation
     def add_neighbor(self, neighbor):
-        if different_movie():
-            weight = calc_weight(self, neighbor)
+        if self.different_movie(neighbor):
+            weight = self.calc_weight(self, neighbor)
             self.neighbors[neighbor] = weight
 
 
