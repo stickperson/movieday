@@ -8,6 +8,7 @@ class Vertex(object):
         self.name = movie['name']
         self.start = showtime[0]
         self.end = showtime[1]
+        self.unique_key = '{} - {}'.format(self.id, self.start)
 
     # Returns weight in seconds. We are not passing in a day, so if the next movie starts before a movie ends
     # this method would still return a positive number (because of datetime)
@@ -46,16 +47,18 @@ class Graph(object):
 
     def add_vert(self, movie, showtime):
         vertex = Vertex(movie, showtime)
-
+        # unique_key = '{} - {}'.format(movie['id'], showtime[0])
+        self.vert_list[vertex.unique_key] = vertex
         # Rethink following line. What if there are duplicate keys?
-        self.vert_list[showtime[0]] = vertex
+        # self.vert_list[showtime[0]] = vertex
         self.num_verts += 1
         return vertex
 
     def add_edge(self, start_vert, end_vert):
 
         # Duplicate keys may be a problem here.
-        self.vert_list[start_vert.start].add_neighbor(end_vert)
+        # self.vert_list[start_vert.start].add_neighbor(end_vert)
+        self.vert_list[start_vert.unique_key].add_neighbor(end_vert)
 
 # Sample movie list
 # movies = [{
