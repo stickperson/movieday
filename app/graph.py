@@ -1,7 +1,7 @@
 from datetime import date, datetime, time, timedelta
 
 
-class Vertex(object):
+class Node(object):
     def __init__(self, movie, showtime):
         self.children = {}
         self.id = movie['id']
@@ -12,7 +12,7 @@ class Vertex(object):
 
     # Returns weight in seconds. We are not passing in a day, so if the next movie starts before a movie ends
     # this method would still return a positive number (because of datetime)
-    # e.g. self vertex ends at 1:00 and child starts at 12:30. This would return 23:30
+    # e.g. self node ends at 1:00 and child starts at 12:30. This would return 23:30
     # Set cutoff to 12 hours for now
     def calc_weight(self, child):
         print 'calculating weight'
@@ -43,19 +43,19 @@ class Vertex(object):
 
 class Graph(object):
     def __init__(self):
-        self.vert_list = {}
-        self.num_verts = 0
+        self.node_list = {}
+        self.num_nodes = 0
 
-    def add_vert(self, movie, showtime):
-        vertex = Vertex(movie, showtime)
-        self.vert_list[vertex.unique_key] = vertex
-        self.num_verts += 1
-        return vertex
+    def add_node(self, movie, showtime):
+        node = Node(movie, showtime)
+        self.node_list[node.unique_key] = node
+        self.num_nodes += 1
+        return node
 
-    def add_edge(self, start_vert, end_vert):
+    def add_edge(self, start_node, end_node):
 
         # Duplicate keys may be a problem here.
-        self.vert_list[start_vert.unique_key].add_child(end_vert)
+        self.node_list[start_node.unique_key].add_child(end_node)
 
 # Sample movie list
 # movies = [{

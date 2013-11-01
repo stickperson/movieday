@@ -6,7 +6,7 @@ import re
 import json
 import pprint
 from bs4 import BeautifulSoup
-from graph import Vertex, Graph
+from graph import Node, Graph
 
 pp = pprint.PrettyPrinter(indent=4)
 
@@ -141,14 +141,14 @@ def selected(request):
     g = Graph()
     for movie in user_picks:
         for i in range(0,len(movie['showtimes'])):
-            g.add_vert(movie, movie['showtimes'][i])
-    # Trying to find a way to loop through all vertexes and try to add children
+            g.add_node(movie, movie['showtimes'][i])
+    # Trying to find a way to loop through all nodes and try to add children
     count = 0
-    for key, value in g.vert_list.iteritems():
-        for k, v in g.vert_list.iteritems():
+    for key, value in g.node_list.iteritems():
+        for k, v in g.node_list.iteritems():
             count += 1
             print '--'*20
             print 'comparison number {}: {} (ending at {}) and {} (starting at {})'.format(count, value.name, value.end, v.name, v.start)
             g.add_edge(value, v)
-    print g.vert_list['3 - 17:20'].children
+    print g.node_list['3 - 17:20'].children
     return HttpResponse(data)
