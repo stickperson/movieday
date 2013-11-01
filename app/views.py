@@ -141,8 +141,6 @@ def selected(request):
     g = Graph()
     for movie in user_picks:
      for i in range(0,len(movie['showtimes'])):
-         start = movie['showtimes'][i][0]
-         end = movie['showtimes'][i][1]
          g.add_vert(movie, movie['showtimes'][i])
     # Trying to find a way to loop through all vertexes and try to add neighhbors
     print g.vert_list
