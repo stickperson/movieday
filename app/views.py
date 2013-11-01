@@ -140,10 +140,9 @@ def selected(request):
     print pp.pprint(user_picks)
     g = Graph()
     for movie in user_picks:
-     for i in range(0,len(movie['showtimes'])):
-         g.add_vert(movie, movie['showtimes'][i])
-    # Trying to find a way to loop through all vertexes and try to add neighhbors
-    print g.vert_list
+        for i in range(0,len(movie['showtimes'])):
+            g.add_vert(movie, movie['showtimes'][i])
+    # Trying to find a way to loop through all vertexes and try to add children
     count = 0
     for key, value in g.vert_list.iteritems():
         for k, v in g.vert_list.iteritems():
@@ -151,4 +150,5 @@ def selected(request):
             print '--'*20
             print 'comparison number {}: {} (ending at {}) and {} (starting at {})'.format(count, value.name, value.end, v.name, v.start)
             g.add_edge(value, v)
+    print g.vert_list['3 - 17:20'].children
     return HttpResponse(data)
