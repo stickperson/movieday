@@ -24,7 +24,7 @@ def home(request):
 #     return True
 
 def convert_to_military(time_str):
-    if 'a' and '12' in time_str:
+    if 'a' in time_str and '12' in time_str:
         hour, minutes = time_str.split(':')
         hour = 0
         result = str(hour) + ':' + minutes[:len(minutes)-1]
@@ -36,6 +36,7 @@ def convert_to_military(time_str):
         hour, minutes = time_str.split(':')
         hour = int(hour) + 12
         result = str(hour) + ':' + minutes[:len(minutes)-1]
+    print '{} converted to {}'.format(time_str, result)
     return result
 
 def calc_end_time(mtime, dur_hours, dur_minutes):
@@ -145,9 +146,11 @@ def selected(request):
          g.add_vert(movie, movie['showtimes'][i])
     # Trying to find a way to loop through all vertexes and try to add neighhbors
     print g.vert_list
+    count = 0
     for key, value in g.vert_list.iteritems():
-        print value
         for k, v in g.vert_list.iteritems():
+            count += 1
+            print '--'*20
+            print 'comparison number {}: {} (ending at {}) and {} (starting at {})'.format(count, value.name, value.end, v.name, v.start)
             g.add_edge(value, v)
-        # g.add_edge(value, val) for k, val in g.vert_list.iteritems()
     return HttpResponse(data)

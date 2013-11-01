@@ -10,28 +10,32 @@ class Vertex(object):
         self.end = showtime[1]
 
     # Returns weight in seconds. We are not passing in a day, so if the next movie starts before a movie ends
-    # this method would still return a positive number 
+    # this method would still return a positive number (because of datetime)
     # e.g. self vertex ends at 1:00 and neighbor starts at 12:30. This would return 23:30
     # Set cutoff to 12 hours for now
-    def calc_weight_seconds(self, neighbor):
+    def calc_weight(self, neighbor):
+        print 'calculating weight'
         fmt = '%H:%M'
         t = datetime.strptime(neighbor.start, fmt) - datetime.strptime(self.end, fmt)
         seconds = t.seconds
         hours = seconds//3600
         if hours > 12:
             return False
+        print '{} has a neighbor {} whose weight is {}'.format(self.name, neighbor.name, seconds)
         return seconds
 
     def different_movie(self, neighbor):
-        if neighbor['id'] == self.id:
+        if neighbor.id == self.id:
+            print 'same movie'
             return False
         else:
+            print 'different movie!'
             return True
 
-    # will fix weight calculation
     def add_neighbor(self, neighbor):
+        print 'adding neighbor'
         if self.different_movie(neighbor):
-            weight = self.calc_weight(self, neighbor)
+            weight = self.calc_weight(neighbor)
             self.neighbors[neighbor] = weight
 
 
@@ -42,17 +46,16 @@ class Graph(object):
 
     def add_vert(self, movie, showtime):
         vertex = Vertex(movie, showtime)
+
+        # Rethink following line. What if there are duplicate keys?
         self.vert_list[showtime[0]] = vertex
         self.num_verts += 1
         return vertex
 
     def add_edge(self, start_vert, end_vert):
-        # need to pass in showtime in if/else statements
-        if start_vert not in self.vert_list:
-            vertex = self.add_vert(start_vert)
-        elif end_vert not in self.vert_list:
-            vertex = self.add_vert(end_vert)
-        self.vert_list[start_vert].add_neighbor(end_vert)
+
+        # Duplicate keys may be a problem here.
+        self.vert_list[start_vert.start].add_neighbor(end_vert)
 
 # Sample movie list
 # movies = [{
