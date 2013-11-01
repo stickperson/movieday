@@ -15,14 +15,6 @@ def home(request):
     return render(request, 'index.html')
 
 
-# some spans return NEW!
-# MAX - 10/30 temporarily commenting this out 
-# def is_not_new(string):
-#     if string == 'NEW!':
-#         return False
-
-#     return True
-
 def convert_to_military(time_str):
     if 'a' in time_str and '12' in time_str:
         hour, minutes = time_str.split(':')
@@ -39,14 +31,15 @@ def convert_to_military(time_str):
     print '{} converted to {}'.format(time_str, result)
     return result
 
+
 def calc_end_time(mtime, dur_hours, dur_minutes):
     duration = timedelta(hours=dur_hours, minutes=dur_minutes)
-
     start_hour, start_min = [int(t) for t in mtime.split(':')]
     start_time = time(start_hour, start_min)
     dt_end = datetime.combine(date.today(), start_time) + duration
     end_time = dt_end.strftime('%H:%M')
     return end_time
+
 
 def get_nearby(request):
     zip = request.POST['zip']
@@ -113,6 +106,7 @@ def get_nearby(request):
     request.session['results'] = data
     return HttpResponse(data)
 
+
 def get_session(request):
     data = request.session['results']
     return HttpResponse(data)
@@ -131,11 +125,9 @@ def selected(request):
     results = json.loads(request.session['results'])
     user_picks = []
     theater_selection = results[theater_id]
-
     for movie in theater_selection['movies']:
         if movie['id'] in movie_ids:
             user_picks.append(movie)
-
     print 'user picks **********************'
     print pp.pprint(user_picks)
     g = Graph()
@@ -150,5 +142,4 @@ def selected(request):
             print '--'*20
             print 'comparison number {}: {} (ending at {}) and {} (starting at {})'.format(count, value.name, value.end, v.name, v.start)
             g.add_edge(value, v)
-    print g.node_list['3 - 17:20'].children
     return HttpResponse(data)
