@@ -1,6 +1,9 @@
 from django.http import HttpResponse
+from django.core.serializers.json import DjangoJSONEncoder
 from django.shortcuts import render
 from datetime import date, datetime, time, timedelta
+from time import strptime
+from time import mktime
 import requests
 import re
 import json
@@ -13,15 +16,6 @@ pp = pprint.PrettyPrinter(indent=4)
 
 def home(request):
     return render(request, 'index.html')
-
-
-# some spans return NEW!
-# MAX - 10/30 temporarily commenting this out 
-# def is_not_new(string):
-#     if string == 'NEW!':
-#         return False
-
-#     return True
 
 def convert_to_military(time_str):
     if 'a' in time_str and '12' in time_str:
@@ -41,12 +35,16 @@ def convert_to_military(time_str):
 
 def calc_end_time(mtime, dur_hours, dur_minutes):
     duration = timedelta(hours=dur_hours, minutes=dur_minutes)
-
     start_hour, start_min = [int(t) for t in mtime.split(':')]
     start_time = time(start_hour, start_min)
     dt_end = datetime.combine(date.today(), start_time) + duration
-    end_time = dt_end.strftime('%H:%M')
-    return end_time
+    return dt_end
+
+def calc_start_time(mtime):
+    start_hour, start_min = [int(t) for t in mtime.split(':')]
+    start_time = time(start_hour, start_min)
+    dt_start = datetime.combine(date.today(), start_time)
+    return dt_start
 
 def get_nearby(request):
     zip = request.POST['zip']
@@ -103,13 +101,15 @@ def get_nearby(request):
             showtime_links = x[1].find_all('a', class_='showtime_itr')
             for showtime_link in showtime_links:
                 time = showtime_link.contents[0]
-                # convert to military time
                 time = convert_to_military(time)
+                start_time = calc_start_time(time)
                 end_time = calc_end_time(time, dur_hours, dur_minutes)
-                m['showtimes'].append((time, end_time))
+                m['showtimes'].append((start_time, end_time))
             t['movies'].append(m)
         results.append(t)
-    data = json.dumps(results)
+    data = json.dumps(results, cls=DjangoJSONEncoder)
+    # putting encoded data in session b/c of a strange error with 
+    # beautiful soup objects
     request.session['results'] = data
     return HttpResponse(data)
 
@@ -141,7 +141,11 @@ def selected(request):
     g = Graph()
     for movie in user_picks:
         for i in range(0,len(movie['showtimes'])):
-            g.add_node(movie, movie['showtimes'][i])
+            # now we have to deserialize timestamp data and make datetime obj
+            showtime = make_datetime(movie['showtimes'][i])
+            print 'showtime'
+            print showtime
+            g.add_node(movie, showtime)
     # Trying to find a way to loop through all nodes and try to add children
     count = 0
     for key, value in g.node_list.iteritems():
@@ -152,3 +156,12 @@ def selected(request):
             g.add_edge(value, v)
     print g.node_list['3 - 17:20'].children
     return HttpResponse(data)
+
+def make_datetime(timestamps):
+    start_timestamp = timestamps[0]
+    end_timestamp = timestamps[1]
+    start_time_struct = strptime(start_timestamp, "%Y-%m-%dT%H:%M:%S")
+    end_time_struct = strptime(end_timestamp, "%Y-%m-%dT%H:%M:%S")
+    start_dt = datetime.fromtimestamp(mktime(start_time_struct))
+    end_dt = datetime.fromtimestamp(mktime(end_time_struct))
+    return (start_dt, end_dt)
