@@ -17,14 +17,10 @@ class Node(object):
     # Set cutoff to 12 hours for now
     def calc_weight(self, child):
         print 'calculating weight'
-        fmt = '%H:%M'
-        t = datetime.strptime(child.start, fmt) - datetime.strptime(self.end, fmt)
-        seconds = t.seconds
-        hours = seconds//3600
-        if hours > 12:
-            return False
-        print '{} has a child {} whose weight is {}'.format(self.name, child.name, seconds)
-        return seconds
+        # in timedelta format
+        weight = child.start - self.end
+        print '{} has a child {} whose weight is {}'.format(self.name, child.name, weight)
+        return weight
 
     def different_movie(self, child):
         if child.id == self.id:
@@ -37,8 +33,9 @@ class Node(object):
     def add_child(self, child):
         print 'adding child'
         if self.different_movie(child):
-            if self.calc_weight(child):
-                weight = self.calc_weight(child)
+            weight = self.calc_weight(child)
+            # time between movies must be more than 5 minutes
+            if weight > timedelta(minutes=5):   
                 self.connected.append(Weight(child, weight))
 
 
