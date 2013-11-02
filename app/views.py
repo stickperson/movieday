@@ -16,7 +16,7 @@ pp = pprint.PrettyPrinter(indent=4)
 
 def home(request):
     return render(request, 'index.html')
-
+    
 def convert_to_military(time_str):
     if 'a' in time_str and '12' in time_str:
         hour, minutes = time_str.split(':')
@@ -46,6 +46,7 @@ def calc_start_time(mtime):
     start_time = time(start_hour, start_min)
     dt_start = datetime.combine(date.today(), start_time)
     return dt_start
+
 
 
 def get_nearby(request):
