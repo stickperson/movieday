@@ -4,6 +4,7 @@ from datetime import date, datetime, time, timedelta
 class Node(object):
     def __init__(self, movie, showtime):
         self.children = {}
+        self.connected = []
         self.id = movie['id']
         self.name = movie['name']
         self.start = showtime[0]
@@ -38,7 +39,13 @@ class Node(object):
         if self.different_movie(child):
             if self.calc_weight(child):
                 weight = self.calc_weight(child)
-                self.children[child] = weight
+                self.connected.append(Weight(child, weight))
+
+
+class Weight(object):
+    def __init__(self, node, weight):
+        self.node = node
+        self.weight = weight
 
 
 class Graph(object):

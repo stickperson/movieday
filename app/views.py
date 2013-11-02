@@ -33,6 +33,7 @@ def convert_to_military(time_str):
     print '{} converted to {}'.format(time_str, result)
     return result
 
+
 def calc_end_time(mtime, dur_hours, dur_minutes):
     duration = timedelta(hours=dur_hours, minutes=dur_minutes)
     start_hour, start_min = [int(t) for t in mtime.split(':')]
@@ -45,6 +46,7 @@ def calc_start_time(mtime):
     start_time = time(start_hour, start_min)
     dt_start = datetime.combine(date.today(), start_time)
     return dt_start
+
 
 def get_nearby(request):
     zip = request.POST['zip']
@@ -113,6 +115,7 @@ def get_nearby(request):
     request.session['results'] = data
     return HttpResponse(data)
 
+
 def get_session(request):
     data = request.session['results']
     return HttpResponse(data)
@@ -131,11 +134,9 @@ def selected(request):
     results = json.loads(request.session['results'])
     user_picks = []
     theater_selection = results[theater_id]
-
     for movie in theater_selection['movies']:
         if movie['id'] in movie_ids:
             user_picks.append(movie)
-
     print 'user picks **********************'
     print pp.pprint(user_picks)
     g = Graph()
@@ -154,7 +155,6 @@ def selected(request):
             print '--'*20
             print 'comparison number {}: {} (ending at {}) and {} (starting at {})'.format(count, value.name, value.end, v.name, v.start)
             g.add_edge(value, v)
-    print g.node_list['3 - 17:20'].children
     return HttpResponse(data)
 
 def make_datetime(timestamps):
