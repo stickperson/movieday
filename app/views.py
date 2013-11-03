@@ -156,6 +156,9 @@ def selected(request):
             print '--'*20
             print 'comparison number {}: {} (ending at {}) and {} (starting at {})'.format(count, value.name, value.end, v.name, v.start)
             g.add_edge(value, v)
+    for key, value in g.node_list.iteritems():
+        print '--'*20
+        print '{} starting at {} has {} connections'.format(value.name, value.start, len(value.connected))
     return HttpResponse(data)
 
 def make_datetime(timestamps):
