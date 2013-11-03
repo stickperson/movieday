@@ -20,6 +20,8 @@ class Node(object):
         # in timedelta format
         weight = child.start - self.end
         print '{} has a child {} whose weight is {}'.format(self.name, child.name, weight)
+        if int(weight.total_seconds()) < 0:
+            return False
         return weight
 
     def different_movie(self, child):
@@ -33,10 +35,12 @@ class Node(object):
     def add_child(self, child):
         print 'adding child'
         if self.different_movie(child):
-            weight = self.calc_weight(child)
-            # time between movies must be more than 5 minutes
-            if weight > timedelta(minutes=5):   
-                self.connected.append(Weight(child, weight))
+            if self.calc_weight(child):
+                weight = self.calc_weight(child)
+                # time between movies must be more than 5 minutes
+                # maybe have it initially at 0 and give users an option?
+                if weight > timedelta(minutes=5):   
+                    self.connected.append(Weight(child, weight))
 
 
 class Weight(object):
