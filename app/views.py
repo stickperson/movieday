@@ -16,6 +16,9 @@ pp = pprint.PrettyPrinter(indent=4)
 
 def home(request):
     return render(request, 'index.html')
+
+def chart(request):
+    return render(request, 'chart.html')
     
 def convert_to_military(time_str):
     if 'a' in time_str and '12' in time_str:

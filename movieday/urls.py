@@ -17,5 +17,6 @@ urlpatterns = patterns('',
     url(r'^$', 'app.views.home'),
     url(r'^search', 'app.views.get_nearby'),
     url(r'^session$', 'app.views.get_session'),
-    url(r'^selected$', 'app.views.selected')
+    url(r'^selected$', 'app.views.selected'),
+    url(r'^chart$', 'app.views.chart')
 )
