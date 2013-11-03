@@ -3,7 +3,6 @@ from datetime import date, datetime, time, timedelta
 
 class Node(object):
     def __init__(self, movie, showtime):
-        self.children = {}
         self.connected = []
         self.id = movie['id']
         self.name = movie['name']
