@@ -19,6 +19,9 @@ def home(request):
 
 def chart(request):
     return render(request, 'chart.html')
+
+def bootstrap(request):
+    return render(request, 'bootstrap.html')
     
 def convert_to_military(time_str):
     if 'a' in time_str and '12' in time_str:

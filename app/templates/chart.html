@@ -7,31 +7,44 @@
     </head>
     <body>
         <script type="text/javascript">
-            $(function () { 
-                $('#container').highcharts({
-                    chart: {
-                        type: 'bar'
-                    },
-                    title: {
-                        text: 'Fruit Consumption'
-                    },
-                    xAxis: {
-                        categories: ['Apples', 'Bananas', 'Oranges']
-                    },
-                    yAxis: {
-                        title: {
-                            text: 'Fruit eaten'
-                        }
-                    },
-                    series: [{
-                        name: 'Jane',
-                        data: [1, 0, 4]
-                    }, {
-                        name: 'John',
-                        data: [5, 7, 3]
-                    }]
-                });
-            });
+$(function () {
+        $('#container').highcharts({
+            chart: {
+                type: 'bar'
+            },
+            title: {
+                text: 'Stacked bar chart'
+            },
+            xAxis: {
+                categories: ['Apples', 'Oranges', 'Pears', 'Grapes', 'Bananas']
+            },
+            yAxis: {
+                min: 0,
+                title: {
+                    text: 'Total fruit consumption'
+                }
+            },
+            legend: {
+                backgroundColor: '#FFFFFF',
+                reversed: true
+            },
+            plotOptions: {
+                series: {
+                    stacking: 'normal'
+                }
+            },
+                series: [{
+                name: 'John',
+                data: [5, 3, 4, 7, 2]
+            }, {
+                name: 'Jane',
+                data: [2, 2, 3, 2, 1]
+            }, {
+                name: 'Joe',
+                data: [3, 4, 4, 2, 5]
+            }]
+        });
+    });
         </script>
         <div id="container" style="width: 100%; height: 100%">
 
