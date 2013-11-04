@@ -17,12 +17,11 @@ pp = pprint.PrettyPrinter(indent=4)
 def home(request):
     return render(request, 'index.html')
 
+
 def chart(request):
     return render(request, 'chart.html')
-
-def bootstrap(request):
-    return render(request, 'bootstrap.html')
     
+
 def convert_to_military(time_str):
     if 'a' in time_str and '12' in time_str:
         hour, minutes = time_str.split(':')
@@ -47,12 +46,12 @@ def calc_end_time(mtime, dur_hours, dur_minutes):
     dt_end = datetime.combine(date.today(), start_time) + duration
     return dt_end
 
+
 def calc_start_time(mtime):
     start_hour, start_min = [int(t) for t in mtime.split(':')]
     start_time = time(start_hour, start_min)
     dt_start = datetime.combine(date.today(), start_time)
     return dt_start
-
 
 
 def get_nearby(request):
@@ -166,6 +165,7 @@ def selected(request):
         print '--'*20
         print '{} starting at {} has {} connections'.format(value.name, value.start, len(value.connected))
     return HttpResponse(data)
+
 
 def make_datetime(timestamps):
     start_timestamp = timestamps[0]
