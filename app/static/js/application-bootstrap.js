@@ -1,20 +1,20 @@
+// Rotten Tomatoes info
 var baseUrl = "http://api.rottentomatoes.com/api/public/v1.0";
 var inTheaters = '/lists/movies/in_theaters.json?apikey='
 var apikey = 'nupxubc8tbpecvuq8gqdsyv2'
 
 
 $(document).ready(function(){
-    // Get movies in theaters
+    // Get movies currently in theaters from Rotten Tomatoes API
     $.ajax({
         url: baseUrl + inTheaters + apikey,
         dataType: "jsonp",
         success: function(data){
             console.log(data);
             for (var i=0; i<data['movies'].length; i++){
-                var poster = data['movies'][i]['posters']['profile'];
-                console.log(poster);
+                var poster_url = data['movies'][i]['posters']['profile'];
                 var score = data['movies'][i]['ratings']['critics_score'];
-                var img = '<img src="' + poster + '"/>';
+                var img = '<img src="' + poster_url + '"/>';
                 var div = '<div class="tile col-md-2">'+img+'<span class="banner">'+score+'</span></div>';
                 $('.intheaters').append(div);
             }
