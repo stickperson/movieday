@@ -1,9 +1,26 @@
-var apikey = 'nupxubc8tbpecvuq8gqdsyv2'
 var baseUrl = "http://api.rottentomatoes.com/api/public/v1.0";
-var moviesSearchUrl = baseUrl + '/movies.json?apikey=' + apikey;
+var inTheaters = '/lists/movies/in_theaters.json?apikey='
+var apikey = 'nupxubc8tbpecvuq8gqdsyv2'
 
 
 $(document).ready(function(){
+    // Get movies in theaters
+    $.ajax({
+        url: baseUrl + inTheaters + apikey,
+        dataType: "jsonp",
+        success: function(data){
+            console.log(data);
+            for (var i=0; i<data['movies'].length; i++){
+                var poster = data['movies'][i]['posters']['profile'];
+                console.log(poster);
+                var score = data['movies'][i]['ratings']['critics_score'];
+                var img = '<img src="' + poster + '"/>';
+                var div = '<div class="tile col-md-2">'+img+'<span class="banner">'+score+'</span></div>';
+                $('.intheaters').append(div);
+            }
+        },
+    });
+
     // Scrapes movie data after entering zip code
     $('#search').on('click', function(){
         console.log('hello');
@@ -22,20 +39,7 @@ $(document).ready(function(){
     $('body').on('click', '.theater-link', function(){
         theater_id = Number($(this).attr('id'));
         theater = theaters[theater_id];
-        console.log('theater id: ' + theater_id)
-        for (var i=0; i<theaters[theater_id]['movies'].length; i++){
-            console.log('test');
-            var query = theaters[theater_id]['movies'][i]['name']
-            $.ajax({
-                url: moviesSearchUrl + '&q=' + encodeURI(query),
-                dataType: "jsonp",
-                success: function(data){
-                console.log('dfadfads');
-                console.log(data);
-                },
-            });
-        }
-
+        console.log('theater id: ' + theater_id);
         $('#content').html(Mustache.render($('#theater').html(), theater));
     });
 

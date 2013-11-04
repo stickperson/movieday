@@ -8,3 +8,12 @@
     height: 3%;
     z-index: 2;
 }
+
+/* Tile overrides */
+.tile {
+    width: 120px;
+    height: 200px;
+    margin: 12px;
+    margin-bottom:6px;
+    position:relative; /*Fixes opacity in ie*/
+}
