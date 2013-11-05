@@ -9,11 +9,7 @@ class Node(object):
         self.start = showtime[0]
         self.end = showtime[1]
         self.unique_key = '{} - {}'.format(self.id, self.start)
-
-    # Returns weight in seconds. We are not passing in a day, so if the next movie starts before a movie ends
-    # this method would still return a positive number (because of datetime)
-    # e.g. self node ends at 1:00 and child starts at 12:30. This would return 23:30
-    # Set cutoff to 12 hours for now
+        
     def calc_weight(self, child):
         print 'calculating weight'
         # in timedelta format
