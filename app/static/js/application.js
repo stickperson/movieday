@@ -28,6 +28,7 @@ $(document).ready(function(){
         data = {
             zip: zip
         }
+        $('#content').html('<div class="container text-center"><img src="static/images/status.gif" /></div>');
         $.post('/search', data, function(response){
             theaters = JSON.parse(response);
             console.log(theaters);
