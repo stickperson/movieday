@@ -43,28 +43,45 @@ class Node(object):
                 print '{} has a child {} whose weight is {}'.format(self.name, child.name, weight) 
                 self.connected.append(Weight(child, weight))
 
+    def __repr__(self):
+        return '{} - ({}:{} - {}:{})'.format(self.name, self.start.hour, self.start.minute, self.end.hour, self.end.minute)
+
 
 class Weight(object):
     def __init__(self, node, weight):
         self.node = node
         self.weight = weight
 
+    def __repr__(self):
+        return '{} - {}'.format(self.node.name, self.weight)
+
 
 class Graph(object):
     def __init__(self):
-        self.node_list = {}
+        self.node_list = []
         self.num_nodes = 0
 
     def add_node(self, movie, showtime):
         node = Node(movie, showtime)
-        self.node_list[node.unique_key] = node
+        self.node_list.append(node)
         self.num_nodes += 1
         return node
 
     def add_edge(self, start_node, end_node):
-
         # Duplicate keys may be a problem here.
-        self.node_list[start_node.unique_key].add_child(end_node)
+        if start_node not in self.node_list:
+            self.node_list.append(start_node.add_child(end_node))
+        else:
+            start_node.add_child(end_node)
+
+
+    def get_double_feature(self):
+        time_now = datetime.now()
+        hour_from_now = time_now + timedelta(hours=1)
+        start_movies = filter(None, [node if node.start < hour_from_now else '' for node in self.node_list])
+        for movie in start_movies:
+            print '{} has children: {}'.format(movie.name, movie.connected)
+        print start_movies
 
 # Sample movie list
 # movies = [{
