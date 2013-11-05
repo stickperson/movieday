@@ -163,7 +163,7 @@ def selected(request):
             g.add_edge(value, v)
     for key, value in g.node_list.iteritems():
         print '--'*20
-        print '{} starting at {} has {} connections'.format(value.name, value.start, len(value.connected))
+        print '{} starting at {} has {} connections and {} unique movies ({})'.format(value.name, value.start, len(value.connected), len(value.unique_movies), value.unique_movies)
     return HttpResponse(data)
 
 

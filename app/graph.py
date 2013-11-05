@@ -3,6 +3,7 @@ from datetime import date, datetime, time, timedelta
 
 class Node(object):
     def __init__(self, movie, showtime):
+        self.unique_movies = []
         self.connected = []
         self.id = movie['id']
         self.name = movie['name']
@@ -24,14 +25,23 @@ class Node(object):
             print 'different movie!'
             return True
 
+    def is_unique(self, name):
+        if name in self.unique_movies:
+            return False
+        else:
+            return True
+
     def add_child(self, child):
-        weight = self.calc_weight(child)
-        # time between movies must be more than 5 minutes
-        # maybe have it initially at 0 and give users an option?
-        if weight > timedelta(minutes=5):  
-            print 'adding child' 
-            print '{} has a child {} whose weight is {}'.format(self.name, child.name, weight) 
-            self.connected.append(Weight(child, weight))
+        if self.different_movie(child):
+            weight = self.calc_weight(child)
+            # time between movies must be more than 5 minutes
+            # maybe have it initially at 0 and give users an option?
+            if weight > timedelta(minutes=5): 
+                if self.is_unique(child.name):
+                    self.unique_movies.append(child.name)
+                print 'adding child' 
+                print '{} has a child {} whose weight is {}'.format(self.name, child.name, weight) 
+                self.connected.append(Weight(child, weight))
 
 
 class Weight(object):
