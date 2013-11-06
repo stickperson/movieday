@@ -44,25 +44,25 @@ $(document).ready(function(){
         console.log('theater id: ' + theater_id);
 
         // Old view. Save until new view is working
-        // $('#content').html(Mustache.render($('#theater').html(), theater));
+        $('#content').html(Mustache.render($('#theater').html(), theater));
 
         //New view with pictures
 
-        $('#content').html(Mustache.render($('#theater-new').html(), theater));
-        var movies = theater['movies'];
-        for (var i=0; i<rt_info.length; i++){
-            var title = rt_info[i]['title'];
-            for (var x=0; x<movies.length; x++){
-                var name = movies[x]['name']
-                if (name.indexOf(title) > -1){
-                    var poster_url = rt_info[i]['posters']['profile'];
-                    var score = rt_info[i]['ratings']['critics_score'];
-                    var img = '<img src="' + poster_url + '"/>';
-                    var div = '<div class="tile col-md-2">'+img+'<span class="banner">'+score+'</span></div>';
-                    $('.intheaters').append(div);
-                }
-            }
-        }
+        // $('#content').html(Mustache.render($('#theater-new').html(), theater));
+        // var movies = theater['movies'];
+        // for (var i=0; i<rt_info.length; i++){
+        //     var title = rt_info[i]['title'];
+        //     for (var x=0; x<movies.length; x++){
+        //         var name = movies[x]['name']
+        //         if (name.indexOf(title) > -1){
+        //             var poster_url = rt_info[i]['posters']['profile'];
+        //             var score = rt_info[i]['ratings']['critics_score'];
+        //             var img = '<img src="' + poster_url + '"/>';
+        //             var div = '<div class="tile col-md-2">'+img+'<span class="banner">'+score+'</span></div>';
+        //             $('.intheaters').append(div);
+        //         }
+        //     }
+        // }
     });
 
     var selected_movies = new Array();
