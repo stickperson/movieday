@@ -56,7 +56,7 @@ def calc_start_time(mtime):
 
 def get_nearby(request):
     zip = request.POST['zip']
-    r = requests.get('http://www.fandango.com/{}_movietimes'.format(zip))
+    r = requests.get('http://www.fandango.com/{}_movietimes?date=11/6/2013'.format(zip))
     t = r.text
     soup = BeautifulSoup(t)
     theaters = soup.find_all('div', class_='theaterWrapper')

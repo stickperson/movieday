@@ -41,25 +41,27 @@ class Node(object):
                     self.unique_movies.append(child.name)
                 print 'adding child' 
                 print '{} has a child {} whose weight is {}'.format(self.name, child.name, weight) 
-                self.connected.append(Weight(child, weight))
+                self.connected.append(Weight(self, weight, child))
 
     def __repr__(self):
         return '{} - ({}:{} - {}:{})'.format(self.name, self.start.hour, self.start.minute, self.end.hour, self.end.minute)
 
 
 class Weight(object):
-    def __init__(self, node, weight):
-        self.node = node
+    def __init__(self, parent, weight, child):
+        self.parent = parent
         self.weight = weight
+        self.child = child
 
     def __repr__(self):
-        return '{} - {}'.format(self.node.name, self.weight)
+        return '{} - {} - {}'.format(self.parent.name, self.weight, self.child.name)
 
 
 class Graph(object):
     def __init__(self):
         self.node_list = []
         self.num_nodes = 0
+        self.time_now = datetime.now()
 
     def add_node(self, movie, showtime):
         node = Node(movie, showtime)
@@ -74,14 +76,38 @@ class Graph(object):
         else:
             start_node.add_child(end_node)
 
+    def get_min_child(self, start_movies):
+        double_features = []
+        # get the min
+        for movie in start_movies:
+            if movie.connected != []:
+                print '{} has children: {}'.format(movie.name, movie.connected)
+                min_node = movie.connected[0]
+                for m in movie.connected:
+                    if (m.weight < min_node.weight):
+                        min_node = m
+        
+                double_features.append(min_node)
+        print '**************'
+        min_node = double_features[0]
+        for feature in double_features:
+            print feature
+            # there can be more than one option with the same weight
+            # need to modify this function to deal with that
+            if feature.weight < min_node.weight:
+                min_node = feature
+        return min_node
+        # now recurse
+        # I think we need to implement a stack or queue here in order to 
+        # keep track of where we have been as we traverse the graph
+        #if min_node.connected != []
 
     def get_double_feature(self):
-        time_now = datetime.now()
-        hour_from_now = time_now + timedelta(hours=1)
-        start_movies = filter(None, [node if node.start < hour_from_now else '' for node in self.node_list])
-        for movie in start_movies:
-            print '{} has children: {}'.format(movie.name, movie.connected)
-        print start_movies
+        # this line won't work for looking at tomorrow's movies
+        # start_movies = filter(None, [node if node.start < (self.time_now + timedelta(hours=1)) else '' for node in self.node_list])
+        min_node = self.get_min_child(self.node_list)
+        print "The Best Option is: {}".format(min_node)
+
 
 # Sample movie list
 # movies = [{
