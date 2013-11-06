@@ -78,7 +78,8 @@ class Graph(object):
 
     def get_min_child(self, start_movies):
         double_features = []
-        # get the min
+        # for each movie that has connections, returns the connection with the smallest weight
+        # movie.connected is a list of weight objects, each with the parent and child nodes
         for movie in start_movies:
             if movie.connected != []:
                 print '{} has children: {}'.format(movie.name, movie.connected)
