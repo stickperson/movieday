@@ -10,7 +10,8 @@ $(document).ready(function(){
         url: baseUrl + inTheaters + apikey,
         dataType: "jsonp",
         success: function(data){
-            console.log(data);
+            rt_info = data['movies']
+            console.log(rt_info);
             for (var i=0; i<data['movies'].length; i++){
                 var poster_url = data['movies'][i]['posters']['profile'];
                 var score = data['movies'][i]['ratings']['critics_score'];
@@ -41,7 +42,27 @@ $(document).ready(function(){
         theater_id = Number($(this).attr('id'));
         theater = theaters[theater_id];
         console.log('theater id: ' + theater_id);
-        $('#content').html(Mustache.render($('#theater').html(), theater));
+
+        // Old view. Save until new view is working
+        // $('#content').html(Mustache.render($('#theater').html(), theater));
+
+        //New view with pictures
+
+        $('#content').html(Mustache.render($('#theater-new').html(), theater));
+        var movies = theater['movies'];
+        for (var i=0; i<rt_info.length; i++){
+            var title = rt_info[i]['title'];
+            for (var x=0; x<movies.length; x++){
+                var name = movies[x]['name']
+                if (name.indexOf(title) > -1){
+                    var poster_url = rt_info[i]['posters']['profile'];
+                    var score = rt_info[i]['ratings']['critics_score'];
+                    var img = '<img src="' + poster_url + '"/>';
+                    var div = '<div class="tile col-md-2">'+img+'<span class="banner">'+score+'</span></div>';
+                    $('.intheaters').append(div);
+                }
+            }
+        }
     });
 
     var selected_movies = new Array();
