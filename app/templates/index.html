@@ -12,6 +12,19 @@
 </head>
 <body>
     {% verbatim %}
+        <script type="text/template" id="intheaters_template">
+            <h3 class="text-center">Currently In Theaters</h3>
+            {{#.}}
+            <a class="tile" href="#">
+                <div class="content">
+                    <div class="pic" style="background-image:url('{{posters.profile}}')">
+                        <span class="banner">{{ratings.critics_score}}</span>
+                    </div>
+                </div>
+                <div class="title">{{title}}</div>
+            </a>
+            {{/.}}
+        </script>
         <script type="text/template" id="results">
             <div class="container">
                 <div class="row">
@@ -98,14 +111,9 @@
                 </div>
             </div>
         </div>
-        <div class="container">
-            <h3 class="text-center">In Theaters</h3>
-            <div class="row">
-                <div class="intheaters">
+        <section id="movies" style="display:block">
 
-                </div>
-            </div>
-        </div>
+        </section>
     </div>
 </body>
 </html>

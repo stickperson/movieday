@@ -12,14 +12,16 @@ $(document).ready(function(){
         success: function(data){
             rt_info = data['movies']
             console.log(rt_info);
-            for (var i=0; i<data['movies'].length; i++){
-                var poster_url = data['movies'][i]['posters']['profile'];
-                var score = data['movies'][i]['ratings']['critics_score'];
-                var img = '<img src="' + poster_url + '"/>';
-                var div = '<div class="tile col-md-2">'+img+'<span class="banner">'+score+'</span></div>';
-                $('.intheaters').append(div);
-            }
-        },
+            $('#movies').html(Mustache.render($('#intheaters_template').html(), rt_info));
+            // for (var i=0; i<data['movies'].length; i++){
+            //     var poster_url = data['movies'][i]['posters']['profile'];
+            //     console.log(poster_url);
+            //     var score = data['movies'][i]['ratings']['critics_score'];
+            //     var img = '<img src="' + poster_url + '"/>';
+            //     var div = '<div class="tile col-md-2">'+img+'<span class="banner">'+score+'</span></div>';
+            //     $('.intheaters').append(div);
+            // }
+        }
     });
 
     // Scrapes movie data after entering zip code
