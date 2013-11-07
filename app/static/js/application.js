@@ -2,25 +2,19 @@
 var baseUrl = "http://api.rottentomatoes.com/api/public/v1.0";
 var inTheaters = '/lists/movies/in_theaters.json?apikey='
 var apikey = 'nupxubc8tbpecvuq8gqdsyv2'
+var perPage = '&page_limit=50'
 
 
 $(document).ready(function(){
     // Get movies currently in theaters from Rotten Tomatoes API
     $.ajax({
-        url: baseUrl + inTheaters + apikey,
+        url: baseUrl + inTheaters + apikey + perPage,
         dataType: "jsonp",
         success: function(data){
             rt_info = data['movies']
             console.log(rt_info);
+            console.log(baseUrl+inTheaters+apikey);
             $('#movies').html(Mustache.render($('#intheaters_template').html(), rt_info));
-            // for (var i=0; i<data['movies'].length; i++){
-            //     var poster_url = data['movies'][i]['posters']['profile'];
-            //     console.log(poster_url);
-            //     var score = data['movies'][i]['ratings']['critics_score'];
-            //     var img = '<img src="' + poster_url + '"/>';
-            //     var div = '<div class="tile col-md-2">'+img+'<span class="banner">'+score+'</span></div>';
-            //     $('.intheaters').append(div);
-            // }
         }
     });
 
@@ -46,25 +40,30 @@ $(document).ready(function(){
         console.log('theater id: ' + theater_id);
 
         // Old view. Save until new view is working
-        $('#content').html(Mustache.render($('#theater').html(), theater));
+        // $('#content').html(Mustache.render($('#theater').html(), theater));
 
         //New view with pictures
 
         // $('#content').html(Mustache.render($('#theater-new').html(), theater));
-        // var movies = theater['movies'];
-        // for (var i=0; i<rt_info.length; i++){
-        //     var title = rt_info[i]['title'];
-        //     for (var x=0; x<movies.length; x++){
-        //         var name = movies[x]['name']
-        //         if (name.indexOf(title) > -1){
-        //             var poster_url = rt_info[i]['posters']['profile'];
-        //             var score = rt_info[i]['ratings']['critics_score'];
-        //             var img = '<img src="' + poster_url + '"/>';
-        //             var div = '<div class="tile col-md-2">'+img+'<span class="banner">'+score+'</span></div>';
-        //             $('.intheaters').append(div);
-        //         }
-        //     }
-        // }
+        var movies = theater['movies'];
+        for (var i=0; i<rt_info.length; i++){
+            var title = rt_info[i]['title'];
+            for (var x=0; x<movies.length; x++){
+                var name = movies[x]['name'];
+                if (name.indexOf(title) > -1){
+                    var poster_url = rt_info[i]['posters']['profile'];
+                    movies[x]['poster'] = poster_url;
+                    var score = rt_info[i]['ratings']['critics_score'];
+                    movies[x]['score'] = score;
+                    movies[x]['synopsis'] = rt_info[i]['synopsis'];
+                    // var img = '<img src="' + poster_url + '"/>';
+                    // var div = '<div class="tile col-md-2">'+img+'<span class="banner">'+score+'</span></div>';
+                    // $('.intheaters').append(div);
+                }
+            }
+        }
+        console.log(movies);
+        $('#content').html(Mustache.render($('#results_template').html(), movies));
     });
 
     var selected_movies = new Array();
