@@ -1,10 +1,12 @@
 from django.http import HttpResponse
+from django.core.context_processors import csrf
+from django.shortcuts import render_to_response
 from django.core.serializers.json import DjangoJSONEncoder
 from django.shortcuts import render
 from datetime import date, datetime, time, timedelta
 from time import strptime
 from time import mktime
-from django.views.decorators.csrf import csrf_exempt
+from django.views.decorators.csrf import ensure_csrf_cookie
 import requests
 import re
 import json
@@ -14,9 +16,14 @@ from graph import Node, Graph
 
 pp = pprint.PrettyPrinter(indent=4)
 
-
+@ensure_csrf_cookie
 def home(request):
-    return render(request, 'index.html')
+    c = {}
+    c.update(csrf(request))
+    return render_to_response('index.html', c)
+
+# def home(request):
+#     return render(request, 'index.html')
 
 
 def chart(request):
@@ -55,7 +62,6 @@ def calc_start_time(mtime):
     return dt_start
 
 
-@csrf_exempt
 def get_nearby(request):
     zip = request.POST['zip']
     r = requests.get('http://www.fandango.com/{}_movietimes'.format(zip))

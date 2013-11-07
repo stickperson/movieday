@@ -4,10 +4,7 @@ var inTheaters = '/lists/movies/in_theaters.json?apikey='
 var apikey = 'nupxubc8tbpecvuq8gqdsyv2'
 var perPage = '&page_limit=50'
 
-
 $(document).ready(function(){
-    var csrftoken = $.cookie('csrftoken');
-    console.log(csrftoken);
     // Get movies currently in theaters from Rotten Tomatoes API
     $.ajax({
         url: baseUrl + inTheaters + apikey + perPage,
@@ -22,7 +19,7 @@ $(document).ready(function(){
 
     // Scrapes movie data after entering zip code
     $('#search').on('click', function(){
-        console.log('hello');
+        setupCSRF();
         zip = $('#zip').val();
         data = {
             zip: zip
@@ -98,4 +95,23 @@ function showSelected(choices){
         titles.push(results[i]['name']);
     }
     $('#content').html(Mustache.render($('#graph').html(), results));
+}
+
+function csrfSafeMethod(method) {
+    // these HTTP methods do not require CSRF protection
+    return (/^(GET|HEAD|OPTIONS|TRACE)$/.test(method));
+}
+
+function setupCSRF(){
+    var csrftoken = $.cookie('csrftoken');
+    console.log(csrftoken);
+
+    $.ajaxSetup({
+        crossDomain: false, // obviates need for sameOrigin test
+        beforeSend: function(xhr, settings) {
+            if (!csrfSafeMethod(settings.type)) {
+                xhr.setRequestHeader("X-CSRFToken", csrftoken);
+            }
+        }
+    });
 }
