@@ -64,14 +64,12 @@
                     <div class="pic" style="background-image:url('{{poster}}')">
                         <span class="banner">{{score}}</span>
                     </div>
-                    
                 </div>
                 <div class="title">{{name}}</div>
                 <label class="btn btn-success btn-xs">
                     <input type="checkbox" style="display:none" value="{{id}}">
                     Watch!
                 </label>
-            
             </div>
             <div class="modal fade" id="{{id}}" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
               <div class="modal-dialog">
@@ -93,6 +91,27 @@
         </script>
         <script type="text/template" id="results_template">
             {{#.}}
+            <div class="container">
+                <div class="row">
+                    <div class="col-lg-4 col-lg-offset-4">
+                        <h3 class="text-center">Select a theater</h3>
+                        {{#.}}
+                            <h4><a href='#{{name}}' id="{{id}}" class="theater-link">{{name}}</a></h4>
+                        {{/.}}
+                    </div>
+                </div>
+            </div>
+        </script>
+        <script type="text/template" id="theater_template">
+            <button type="button" id="choose" class="btn btn-default">GO</button>
+            <h3 class="text-center">Results</h3>
+            {{#.}}
+            <div class="tile" href="#">
+                <div class="pic" style="background-image:url('{{poster}}')">
+                    <span class="banner">score</span>
+                </div>  
+                <div class="title">{{first_name}}</div>
+            </div>
                 <h4>{{name}}</h4>
                 <ul>
                     {{#showtimes}}
@@ -102,12 +121,27 @@
             {{/.}}
         </script>
         <script type="text/template" id="final_template">
-            <h3 class="text-center">You should see...</h3>
-            {{#.}}
-                <p>{{first_name}}</p>
-                <p>followed by</p>
-                <p>{{second_name}}</p>
-            {{/.}}
+            <section id="movies" style="display:block">
+                <h3 class="text-center">You should see...</h3>
+                {{#.}}
+                <div class="tile" href="#">
+                    <div class="content">
+                        <div class="pic" style="background-image:url('{{first_poster}}')">
+                            <span class="banner">42</span>
+                        </div>
+                    </div>
+                    <div class="title">{{first_name}}</div>
+                </div>
+                <div class="tile" href="#">
+                    <div class="content">
+                        <div class="pic" style="background-image:url('{{second_poster}}')">
+                            <span class="banner">42</span>
+                        </div>
+                    </div>
+                    <div class="title">{{second_name}}</div>
+                </div>
+                {{/.}}
+            </section>
         </script>
     {% endverbatim %}
 
