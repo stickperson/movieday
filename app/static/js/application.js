@@ -93,6 +93,7 @@ function showSelected(choices){
     }
     $.post('/selected', data, function(data){
         console.log('POST working');
+        console.log(data);
     });
 
     // For frontend
