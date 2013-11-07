@@ -108,6 +108,7 @@ class Graph(object):
         # start_movies = filter(None, [node if node.start < (self.time_now + timedelta(hours=1)) else '' for node in self.node_list])
         min_node = self.get_min_child(self.node_list)
         print "The Best Option is: {}".format(min_node)
+        return min_node
 
 
 # Sample movie list
