@@ -94,7 +94,7 @@ function showSelected(choices){
     for (var i=0; i<results.length; i++){
         titles.push(results[i]['name']);
     }
-    $('#content').html(Mustache.render($('#graph').html(), results));
+    $('#content').html(Mustache.render($('#results_template').html(), results));
 }
 
 function csrfSafeMethod(method) {
