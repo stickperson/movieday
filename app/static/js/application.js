@@ -58,6 +58,17 @@ $(document).ready(function(){
         $('#content').html(Mustache.render($('#theater_template').html(), movies));
     });
 
+    // change button color on click
+    $('#content').on('change', 'div.tile label', function() {
+        if ($(this).hasClass('btn-success')) {
+            $(this).removeClass('btn-success');
+            $(this).addClass('btn-primary');
+        } else {
+            $(this).removeClass('btn-primary');
+            $(this).addClass('btn-success');
+        }
+    });
+
     var selected_movies = new Array();
     $('body').on('click', '#choose', function(){
         $('input:checked').each(function(){
