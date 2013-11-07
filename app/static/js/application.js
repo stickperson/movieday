@@ -6,6 +6,8 @@ var perPage = '&page_limit=50'
 
 
 $(document).ready(function(){
+    var csrftoken = $.cookie('csrftoken');
+    console.log(csrftoken);
     // Get movies currently in theaters from Rotten Tomatoes API
     $.ajax({
         url: baseUrl + inTheaters + apikey + perPage,
