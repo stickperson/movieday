@@ -4,6 +4,7 @@ from django.shortcuts import render
 from datetime import date, datetime, time, timedelta
 from time import strptime
 from time import mktime
+from django.views.decorators.csrf import csrf_exempt
 import requests
 import re
 import json
@@ -54,6 +55,7 @@ def calc_start_time(mtime):
     return dt_start
 
 
+@csrf_exempt
 def get_nearby(request):
     zip = request.POST['zip']
     r = requests.get('http://www.fandango.com/{}_movietimes'.format(zip))
