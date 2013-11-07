@@ -36,11 +36,12 @@ $(document).ready(function(){
     // Scrapes movie data after entering zip code
     $('#search').on('click', function(){
         setupCSRF();
-        zip = $('#zip').val();
+        var user_zip = $('#zip').val();
         var data = {
-            'zipcode': zip
+            'zip': user_zip
         }
-        getTheaters(data);
+        zip = data;
+        getTheaters(zip);
     });
 
     // Shows all movies at a particular theater
@@ -107,7 +108,7 @@ function showSelected(choices){
     
     // For Django
     selected = JSON.stringify(choices);
-    data = {
+    var data = {
         theater: theater_id,
         movies: selected
     }
