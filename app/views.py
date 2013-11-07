@@ -141,9 +141,6 @@ def selected(request):
     # movie_ids was a single unicode element, 
     # needed to re-encode as a utf-8 list and typecast as int for comparison later
     movie_ids = [int(i.encode('utf-8')) for i in movie_ids.strip('[]').split(',')]
-    data = {}
-    data['theater'] = theater_id
-    data['movies'] = movie_ids
     # print out the users selections here
     results = json.loads(request.session['results'])
     user_picks = []
@@ -173,8 +170,18 @@ def selected(request):
     for node in g.node_list:
         print '--'*20
         print '{} starting at {} has {} connections and {} unique movies ({})'.format(node.name, node.start, len(node.connected), len(node.unique_movies), node.unique_movies)
-    g.get_double_feature()
-    return HttpResponse(data)
+    answer = g.get_double_feature()
+    print '****final result*****'
+    print answer
+    final_movies = []
+    first_movie = {'name': answer.parent.name, 'id': answer.parent.id, 'start': answer.parent.start}
+    second_movie = {'name': answer.child.name, 'id': answer.child.id, 'start': answer.child.start}
+    time_difference = answer.weight.seconds
+    final_movies.append(first_movie)
+    final_movies.append(second_movie)
+    final_movies.append(time_difference)
+    final = json.dumps(final_movies, cls=DjangoJSONEncoder)
+    return HttpResponse(final)
 
 
 def make_datetime(timestamps):
