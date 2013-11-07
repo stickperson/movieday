@@ -56,9 +56,6 @@ $(document).ready(function(){
                     var score = rt_info[i]['ratings']['critics_score'];
                     movies[x]['score'] = score;
                     movies[x]['synopsis'] = rt_info[i]['synopsis'];
-                    // var img = '<img src="' + poster_url + '"/>';
-                    // var div = '<div class="tile col-md-2">'+img+'<span class="banner">'+score+'</span></div>';
-                    // $('.intheaters').append(div);
                 }
             }
         }
