@@ -173,13 +173,16 @@ def selected(request):
     answer = g.get_double_feature()
     print '****final result*****'
     print answer
+    data = {}
+    data['first_name'] = answer.parent.name
+    data['first_id'] = answer.parent.id
+    data['first_start'] = answer.parent.start
+    data['second_name'] = answer.child.name
+    data['second_id'] = answer.child.id
+    data['second_start'] = answer.child.start
+    data['time_difference'] = answer.weight.seconds
     final_movies = []
-    first_movie = {'name': answer.parent.name, 'id': answer.parent.id, 'start': answer.parent.start}
-    second_movie = {'name': answer.child.name, 'id': answer.child.id, 'start': answer.child.start}
-    time_difference = answer.weight.seconds
-    final_movies.append(first_movie)
-    final_movies.append(second_movie)
-    final_movies.append(time_difference)
+    final_movies.append(data)
     final = json.dumps(final_movies, cls=DjangoJSONEncoder)
     return HttpResponse(final)
 
