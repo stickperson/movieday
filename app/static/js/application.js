@@ -4,7 +4,23 @@ var inTheaters = '/lists/movies/in_theaters.json?apikey='
 var apikey = 'nupxubc8tbpecvuq8gqdsyv2'
 var perPage = '&page_limit=50'
 
+// ------------------------------------------------------- //
+//                      Globals                            //
+// ------------------------------------------------------- //
+
+var zip;
+
 $(document).ready(function(){
+
+    // navbar listener
+    $('ul.nav li a#goto-theaters').on('click', function() {
+        if (zip) {
+            getTheaters(zip);
+        } else {
+            console.log('no zipcode selected yet');
+        }
+    })
+
     // Get movies currently in theaters from Rotten Tomatoes API
     $.ajax({
         url: baseUrl + inTheaters + apikey + perPage,
@@ -21,15 +37,10 @@ $(document).ready(function(){
     $('#search').on('click', function(){
         setupCSRF();
         zip = $('#zip').val();
-        data = {
-            zip: zip
+        var data = {
+            'zipcode': zip
         }
-        $('#content').html('<div class="container text-center"><img src="static/images/status.gif" /></div>');
-        $.post('/search', data, function(response){
-            theaters = JSON.parse(response);
-            console.log(theaters);
-            $('#content').html(Mustache.render($('#zip_results').html(), theaters));
-        });
+        getTheaters(data);
     });
 
     // Shows all movies at a particular theater
@@ -83,11 +94,20 @@ $(document).ready(function(){
     });
 });
 
+function getTheaters(data) {
+    $('#content').html('<div class="container text-center"><img src="static/images/status.gif" /></div>');
+    $.post('/search', data, function(response){
+        theaters = JSON.parse(response);
+        console.log(theaters);
+        $('#content').html(Mustache.render($('#zip_results').html(), theaters));
+    });
+}
+
 function showSelected(choices){
     
     // For Django
     movies = JSON.stringify(choices);
-    data = {
+    var data = {
         theater: theater_id,
         movies: movies
     }
