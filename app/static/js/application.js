@@ -94,19 +94,21 @@ function showSelected(choices){
     $.post('/selected', data, function(data){
         console.log('POST working');
         console.log(data);
+        var results = JSON.parse(data);
+        $('#content').html(Mustache.render($('#final_template').html(), results));
     });
 
     // For frontend
-    var results = new Array ();
-    for (var i=0; i<choices.length; i++){
-        var movie = _.findWhere(theater['movies'], {id: choices[i]});
-        results.push(movie);
-    }
-    var titles = new Array ();
-    for (var i=0; i<results.length; i++){
-        titles.push(results[i]['name']);
-    }
-    $('#content').html(Mustache.render($('#results_template').html(), results));
+    // var results = new Array ();
+    // for (var i=0; i<choices.length; i++){
+    //     var movie = _.findWhere(theater['movies'], {id: choices[i]});
+    //     results.push(movie);
+    // }
+    // var titles = new Array ();
+    // for (var i=0; i<results.length; i++){
+    //     titles.push(results[i]['name']);
+    // }
+    // $('#content').html(Mustache.render($('#results_template').html(), results));
 }
 
 function csrfSafeMethod(method) {

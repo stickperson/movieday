@@ -101,6 +101,14 @@
                 </ul>
             {{/.}}
         </script>
+        <script type="text/template" id="final_template">
+            <h3 class="text-center">You should see...</h3>
+            {{#.}}
+                <p>{{first_name}}</p>
+                <p>followed by</p>
+                <p>{{.second_name}}</p>
+            {{/.}}
+        </script>
     {% endverbatim %}
 
 <nav class="navbar navbar-inverse" role="navigation">
