@@ -51,7 +51,7 @@ $(document).ready(function(){
 
         //New view with pictures
 
-        var movies = theater['movies'];
+        movies = theater['movies'];
         for (var i=0; i<rt_info.length; i++){
             var title = rt_info[i]['title'];
             for (var x=0; x<movies.length; x++){
@@ -106,29 +106,20 @@ function getTheaters(data) {
 function showSelected(choices){
     
     // For Django
-    movies = JSON.stringify(choices);
-    var data = {
+    selected = JSON.stringify(choices);
+    data = {
         theater: theater_id,
-        movies: movies
+        movies: selected
     }
     $.post('/selected', data, function(data){
         console.log('POST working');
-        console.log(data);
         var results = JSON.parse(data);
+        results[0]['first_poster'] = movies[results[0]['first_id']]['poster']
+        results[0]['second_poster'] = movies[results[0]['second_id']]['poster']
+        console.log(results);
+        console.log(typeof(results))
         $('#content').html(Mustache.render($('#final_template').html(), results));
     });
-
-    // For frontend
-    // var results = new Array ();
-    // for (var i=0; i<choices.length; i++){
-    //     var movie = _.findWhere(theater['movies'], {id: choices[i]});
-    //     results.push(movie);
-    // }
-    // var titles = new Array ();
-    // for (var i=0; i<results.length; i++){
-    //     titles.push(results[i]['name']);
-    // }
-    // $('#content').html(Mustache.render($('#results_template').html(), results));
 }
 
 function csrfSafeMethod(method) {
