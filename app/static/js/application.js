@@ -29,7 +29,7 @@ $(document).ready(function(){
         $.post('/search', data, function(response){
             theaters = JSON.parse(response);
             console.log(theaters);
-            $('#content').html(Mustache.render($('#results').html(), theaters));
+            $('#content').html(Mustache.render($('#zip_results').html(), theaters));
         });
     });
 
@@ -39,12 +39,8 @@ $(document).ready(function(){
         theater = theaters[theater_id];
         console.log('theater id: ' + theater_id);
 
-        // Old view. Save until new view is working
-        // $('#content').html(Mustache.render($('#theater').html(), theater));
-
         //New view with pictures
 
-        // $('#content').html(Mustache.render($('#theater-new').html(), theater));
         var movies = theater['movies'];
         for (var i=0; i<rt_info.length; i++){
             var title = rt_info[i]['title'];
@@ -60,39 +56,44 @@ $(document).ready(function(){
             }
         }
         console.log(movies);
-        $('#content').html(Mustache.render($('#results_template').html(), movies));
+        $('#content').html(Mustache.render($('#theater_template').html(), movies));
     });
 
     var selected_movies = new Array();
-
-    // Adds movie ids to an array
-    $('body').on('click', '.movie-checkbox', function(){
-        movie_id = Number($(this).attr('id'));
-        console.log('movie id: ' + movie_id)
-        selected_movies.push(movie_id);
-    });
-
-    // POST movies and theater id
-    $('body').on('click', '#select-movies', function(){
-        // For Django
-        movies = JSON.stringify(selected_movies);
-        data = {
-            theater: theater_id,
-            movies: movies
-        }
-        $.post('/selected', data, function(data){
-            console.log('POST working');
+    $('body').on('click', '#choose', function(){
+        $('input:checked').each(function(){
+            if ($(this).is(':checked')){
+                console.log('checked');
+                var movie_id = Number($(this).attr('value'));
+                selected_movies.push(movie_id);
+            }
         });
-        // For frontend
-        var results = new Array ();
-        for (var i=0; i<selected_movies.length; i++){
-            var movie = _.findWhere(theater['movies'], {id: selected_movies[i]});
-            results.push(movie);
-        }
-        var titles = new Array ();
-        for (var i=0; i<results.length; i++){
-            titles.push(results[i]['name']);
-        }
-        $('#content').html(Mustache.render($('#graph').html(), results));
+        console.log(selected_movies);
+        showSelected(selected_movies)
     });
 });
+
+function showSelected(choices){
+    
+    // For Django
+    movies = JSON.stringify(choices);
+    data = {
+        theater: theater_id,
+        movies: movies
+    }
+    $.post('/selected', data, function(data){
+        console.log('POST working');
+    });
+
+    // For frontend
+    var results = new Array ();
+    for (var i=0; i<choices.length; i++){
+        var movie = _.findWhere(theater['movies'], {id: choices[i]});
+        results.push(movie);
+    }
+    var titles = new Array ();
+    for (var i=0; i<results.length; i++){
+        titles.push(results[i]['name']);
+    }
+    $('#content').html(Mustache.render($('#graph').html(), results));
+}

@@ -42,7 +42,7 @@
             </div>
             {{/.}}
         </script>
-        <script type="text/template" id="results">
+        <script type="text/template" id="zip_results">
             <div class="container">
                 <div class="row">
                     <div class="col-lg-4 col-lg-offset-4">
@@ -54,36 +54,8 @@
                 </div>
             </div>
         </script>
-        <script type="text/template" id="theater">
-            <h3>Select movies</h3>
-            <form>
-            {{#movies}}
-                <input type="checkbox" id='{{id}}' class="movie-checkbox">{{name}}<br>
-            {{/movies}}
-            <button type="button" id="select-movies">Go!</button>
-            </form>
-        </script>
-        <script type="text/template" id="theater-new">
-            <div class="container">
-                <h3 class="text-center">Select Two Movies</h3>
-                <div class="row">
-                    <div class="intheaters">
-
-                    </div>
-                </div>
-            </div>
-        </script>
-        <script type="text/template" id="graph">
-            {{#.}}
-                <h4>{{name}}</h4>
-                <ul>
-                    {{#showtimes}}
-                        <li>{{.}}</li>
-                    {{/showtimes}}
-                </ul>
-            {{/.}}
-        </script>
-        <script type="text/template" id="results_template">
+        <script type="text/template" id="theater_template">
+            <button type="button" id="choose" class="btn btn-default">GO</button>
             <h3 class="text-center">Results</h3>
             {{#.}}
             <div class="tile" href="#">
@@ -94,7 +66,11 @@
                     
                 </div>
                 <div class="title">{{name}}</div>
-                <button type="button" class="btn btn-success btn-xs text">Watch</button>
+                <label class="btn btn-success btn-xs">
+                    <input type="checkbox" style="display:none" value="{{id}}">
+                    Watch!
+                </label>
+            
             </div>
             <div class="modal fade" id="{{id}}" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
               <div class="modal-dialog">
