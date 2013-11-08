@@ -63,6 +63,7 @@ def calc_start_time(mtime):
 
 
 def get_nearby(request):
+    print request.POST
     start_date = request.POST['start_date']
     zip = request.POST['zip']
     r = requests.get('http://www.fandango.com/{}_movietimes?{}'.format(zip, start_date))
