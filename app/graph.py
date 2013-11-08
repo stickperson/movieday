@@ -87,6 +87,9 @@ class Graph(object):
                 for m in movie.connected:
                     if (m.weight < min_node.weight):
                         min_node = m
+            else:
+                # we need to think of how to handle this situation
+                print "SELECTED MOVIES HAVE NO CHILDREN"
         
                 double_features.append(min_node)
         print '**************'

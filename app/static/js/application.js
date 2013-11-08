@@ -9,6 +9,8 @@ var perPage = '&page_limit=50'
 // ------------------------------------------------------- //
 
 var zip;
+var theater_id;
+var theaters;
 
 $(document).ready(function(){
 
@@ -47,7 +49,7 @@ $(document).ready(function(){
     // Shows all movies at a particular theater
     $('body').on('click', '.theater-link', function(){
         theater_id = Number($(this).attr('id'));
-        theater = theaters[theater_id];
+        var theater = theaters[theater_id];
         console.log('theater id: ' + theater_id);
 
         //New view with pictures
@@ -105,11 +107,15 @@ $(document).ready(function(){
 
 function getTheaters(data) {
     $('#content').html('<div class="container text-center"><img src="static/images/status.gif" /></div>');
-    $.post('/search', data, function(response){
-        theaters = JSON.parse(response);
-        console.log(theaters);
+    if (theaters) {
         $('#content').html(Mustache.render($('#zip_results').html(), theaters));
-    });
+    } else {
+        $.post('/search', data, function(response){
+            theaters = JSON.parse(response);
+            console.log(theaters);
+            $('#content').html(Mustache.render($('#zip_results').html(), theaters));
+        });
+    }
 }
 
 function showSelected(choices){
