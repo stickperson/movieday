@@ -47,7 +47,7 @@ var theater_id;
 var theater;
 var theaters;
 var start_time = current_hour;
-var start_date = current_month;
+var start_date = current_year + '-' + current_month + '-' + current_date;
 
 $(document).ready(function(){
     setDay();
@@ -63,7 +63,7 @@ $(document).ready(function(){
 
     $('ul#day li').on('click', function(){
         var day = $(this).html();
-        start_date = 
+        start_date = $(this).attr('id');
         span = ' <span class="caret"></span>'
         $('#chosen-date').html(day + span);
     });
@@ -107,7 +107,8 @@ $(document).ready(function(){
 
         var data = {
             'zip': user_zip,
-            'start_time': start_time
+            'start_time': start_time,
+            'start_date': start_date
         }
         zip = data;
         getTheaters(zip);
