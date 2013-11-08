@@ -1,13 +1,12 @@
-#sidebar {
-    background-color: #151515;
-    width: 120%;
-    padding: 10;
-    left: 0;
-    top: 0;
-    position: fixed;
-    height: 3%;
-    z-index: 2;
+@font-face
+{
+font-family: Glyphicon Halflings;
+src: url('static/fonts/glyphicons-halflings-regular.svg'),
+     url('static/fonts/glyphicons-halflings-regular.eot'),
+     url('static/fonts/glyphicons-halflings-regular.ttf'),
+     url('static/fonts/glyphicons-halflings-regular.woff')
 }
+
 
 .tile {
     display: inline-block;
