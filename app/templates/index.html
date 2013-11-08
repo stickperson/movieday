@@ -32,8 +32,16 @@
                     <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
                     <h4 class="modal-title" id="myModalLabel">{{title}}</h4>
                   </div>
-                  <div class="modal-body">
-                    {{synopsis}}
+                                      <div class="tile" href="#" style="display:inline-block">
+                        <div class="content" data-toggle="modal" data-target="#{{id}}" style="display:inline-block">
+                            <div class="pic" style="background-image:url('{{posters.profile}}')">
+                                <span class="banner">{{ratings.critics_score}}</span>
+                            </div>  
+                        </div>
+                    </div>
+                  <div class="modal-body" style="display:inline">
+
+                    <p style="display:inline">{{synopsis}}</p>
                   </div>
                   <div class="modal-footer">
                     <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
@@ -130,7 +138,7 @@
   <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
     <ul class="nav navbar-nav">
       <li><a id="goto-theaters" href="#">Theaters</a></li>
-      <li><a id="goto-movies" href="#">Movies</a></li>
+      <li><a href="#">Link</a></li>
     </ul>
   </div>
 </nav>
@@ -148,6 +156,22 @@
                             </span>
                         </div>
                     </div>
+                </div>
+                <div class="btn-group">
+                  <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
+                    Today <span class="caret"></span>
+                  </button>
+                  <ul id="day" class="dropdown-menu" role="menu">
+
+                  </ul>
+                </div>
+                <div class="btn-group">
+                  <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
+                    Now <span class="caret"></span>
+                  </button>
+                  <ul id="time" class="dropdown-menu" role="menu">
+
+                  </ul>
                 </div>
             </div>
         </div>

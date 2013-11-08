@@ -13,7 +13,42 @@ var theater_id;
 var theater;
 var theaters;
 
+// ------------------------------------------------------- //
+//                          Date                           //
+// ------------------------------------------------------- //
+
+var d = new Date();
+console.log(d);
+var current_month = d.getMonth();
+var current_date = d.getDate();
+var current_day = d.getDay();
+var current_hour = d.getHours();
+var weekday=new Array(7);
+weekday[0]="Sun.";
+weekday[1]="Mon.";
+weekday[2]="Tues.";
+weekday[3]="Wed.";
+weekday[4]="Thurs.";
+weekday[5]="Fri.";
+weekday[6]="Sat.";
+
+var month=new Array(12);
+month[0]="Jan.";
+month[1]="Feb.";
+month[2]="Mar.";
+month[3]="Apr.";
+month[4]="May";
+month[5]="Jun.";
+month[6]="Jul.";
+month[7]="Aug.";
+month[8]="Sept.";
+month[9]="Oct.";
+month[10]="Nov.";
+month[11]="Dec.";
+
 $(document).ready(function(){
+    setDay();
+    setHours();
 
     // navbar back to theater option
     $('ul.nav li a#goto-theaters').on('click', function() {
@@ -167,4 +202,30 @@ function setupCSRF(){
             }
         }
     });
+}
+
+function setDay(){
+    for (var i=0; i<2; i++){
+        day = weekday[current_day + i];
+        date = current_date + i;
+        month = current_month;
+        formatted_date = day + ', ' + month + '/' + date
+        $('#day').append('<li>' + formatted_date +  '</li>');
+    }
+}
+
+function setHours(){
+    for (var i=current_hour+1; i<24; i++){
+        if (i==0){
+            var midnight = i;
+            $('#time').append('<li>' + midnight + ':00am' + '</li>');
+        }
+        else if (i < 12){
+            $('#time').append('<li>' + i + ':00am' + '</li>');
+        }
+        else {
+            var pm = i % 12;
+            $('#time').append('<li>' + pm + ':00pm' + '</li>');
+        }
+    }
 }
