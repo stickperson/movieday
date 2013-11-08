@@ -11,7 +11,7 @@ var perPage = '&page_limit=50'
 var d = new Date();
 console.log(d);
 var current_year = d.getFullYear();
-var current_month = d.getMonth();
+var current_month = d.getMonth() + 1;
 var current_date = d.getDate();
 var current_day = d.getDay();
 var current_hour = d.getHours();
@@ -47,7 +47,7 @@ var theater_id;
 var theater;
 var theaters;
 var start_time = current_hour;
-var start_date = current_date;
+var start_date = current_month;
 
 $(document).ready(function(){
     setDay();
@@ -63,6 +63,7 @@ $(document).ready(function(){
 
     $('ul#day li').on('click', function(){
         var day = $(this).html();
+        start_date = 
         span = ' <span class="caret"></span>'
         $('#chosen-date').html(day + span);
     });
