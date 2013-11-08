@@ -83,15 +83,23 @@ $(document).ready(function(){
 
     var selected_movies = new Array();
     $('body').on('click', '#choose', function(){
+        var count = 0;
         $('input:checked').each(function(){
+            count += 1;
             if ($(this).is(':checked')){
                 console.log('checked');
                 var movie_id = Number($(this).attr('value'));
                 selected_movies.push(movie_id);
             }
         });
-        console.log(selected_movies);
-        showSelected(selected_movies)
+        if (count<2){
+            // Popover not working
+            // $('#choose').popover({title:'test'});
+            alert('choose more than 1 movie');
+        }
+        else {
+            showSelected(selected_movies)
+        }
     });
 });
 
