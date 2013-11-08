@@ -89,37 +89,6 @@
             </div>
             {{/.}}
         </script>
-        <script type="text/template" id="results_template">
-            {{#.}}
-            <div class="container">
-                <div class="row">
-                    <div class="col-lg-4 col-lg-offset-4">
-                        <h3 class="text-center">Select a theater</h3>
-                        {{#.}}
-                            <h4><a href='#{{name}}' id="{{id}}" class="theater-link">{{name}}</a></h4>
-                        {{/.}}
-                    </div>
-                </div>
-            </div>
-        </script>
-        <script type="text/template" id="theater_template">
-            <button type="button" id="choose" class="btn btn-default">GO</button>
-            <h3 class="text-center">Results</h3>
-            {{#.}}
-            <div class="tile" href="#">
-                <div class="pic" style="background-image:url('{{poster}}')">
-                    <span class="banner">score</span>
-                </div>  
-                <div class="title">{{first_name}}</div>
-            </div>
-                <h4>{{name}}</h4>
-                <ul>
-                    {{#showtimes}}
-                    <li>{{.}}</li>
-                    {{/showtimes}}
-                </ul>
-            {{/.}}
-        </script>
         <script type="text/template" id="final_template">
             <section id="movies" style="display:block">
                 <h3 class="text-center">You should see...</h3>
