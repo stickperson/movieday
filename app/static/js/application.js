@@ -50,6 +50,12 @@ $(document).ready(function(){
     setDay();
     setHours();
 
+    $('ul#time li').on('click', function(){
+        var time = $(this).html();
+        span = ' <span class="caret"></span>'
+        $('#chosen-time').html(time + span);
+    });
+
     // navbar back to theater option
     $('ul.nav li a#goto-theaters').on('click', function() {
         if (zip) {
@@ -210,7 +216,7 @@ function setDay(){
         date = current_date + i;
         month = current_month;
         formatted_date = day + ', ' + month + '/' + date
-        $('#day').append('<li>' + formatted_date +  '</li>');
+        $('#day').append('<li id="' + month + '-' + date + '">' + formatted_date +  '</li>');
     }
 }
 
@@ -218,14 +224,14 @@ function setHours(){
     for (var i=current_hour+1; i<24; i++){
         if (i==0){
             var midnight = i;
-            $('#time').append('<li>' + midnight + ':00am' + '</li>');
+            $('#time').append('<li id="' + i + '">' + midnight + ':00am' + '</li>');
         }
         else if (i < 12){
-            $('#time').append('<li>' + i + ':00am' + '</li>');
+            $('#time').append('<li id="' + i + '">' + i + ':00am' + '</li>');
         }
         else {
             var pm = i % 12;
-            $('#time').append('<li>' + pm + ':00pm' + '</li>');
+            $('#time').append('<li id="' + i + '">' + pm + ':00pm' + '</li>');
         }
     }
 }
