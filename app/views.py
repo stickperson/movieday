@@ -84,47 +84,50 @@ def get_nearby(request):
         t['movies'] = []
         # all movies names and showtimes at theater
         movie_div = theater.find('ul', class_='showtimes')
-        title_divs = movie_div.find_all('div', class_='title')
-        print type(title_divs)
-        print len(title_divs)
-        movie_id = 0
-        for title_div in title_divs:
-            m = {}
-            m['id'] = movie_id
-            movie_id += 1
-            movie_name = title_div.find('h4').find('a').contents[0].strip()
-            # quick fix for getting duration of "NEW!" movies
-            span_tags = title_div.find_all('span')
-            if len(span_tags) == 1:
-                dur_span = span_tags[0]
-            else:
-                dur_span = span_tags[1]
-            # also accounts for movies without duration listed
-            if dur_span.contents[0].strip() == '':
-                duration = '0 hr 0 min'
-            else:
-                rating_duration = dur_span.contents[0].strip().encode('ascii', 'ignore')
-                duration = rating_duration.split(",")[1]
-            
-            duration_numb = re.sub("[^0-9]", "", duration)
-            dur_hours = int(duration_numb[0])
-            dur_minutes = int(duration_numb[1:])
-            minutes = dur_hours * 60 + dur_minutes
-            m['duration'] = duration
-            m['minutes'] = minutes
-            m['name'] = movie_name
-            m['showtimes'] = []
-            siblings = title_div.next_siblings # returns a generator
-            x = list(siblings) # turns generator into a list 
-            showtime_links = x[1].find_all('a', class_='showtime_itr')
-            for showtime_link in showtime_links:
-                time = showtime_link.contents[0]
-                time = convert_to_military(time)
-                start_time = calc_start_time(time)
-                end_time = calc_end_time(time, dur_hours, dur_minutes)
-                m['showtimes'].append((start_time, end_time))
-            t['movies'].append(m)
-        results.append(t)
+        if movie_div == None:
+            pass
+        else:
+            title_divs = movie_div.find_all('div', class_='title')
+            print type(title_divs)
+            print len(title_divs)
+            movie_id = 0
+            for title_div in title_divs:
+                m = {}
+                m['id'] = movie_id
+                movie_id += 1
+                movie_name = title_div.find('h4').find('a').contents[0].strip()
+                # quick fix for getting duration of "NEW!" movies
+                span_tags = title_div.find_all('span')
+                if len(span_tags) == 1:
+                    dur_span = span_tags[0]
+                else:
+                    dur_span = span_tags[1]
+                # also accounts for movies without duration listed
+                if dur_span.contents[0].strip() == '':
+                    duration = '0 hr 0 min'
+                else:
+                    rating_duration = dur_span.contents[0].strip().encode('ascii', 'ignore')
+                    duration = rating_duration.split(",")[1]
+                
+                duration_numb = re.sub("[^0-9]", "", duration)
+                dur_hours = int(duration_numb[0])
+                dur_minutes = int(duration_numb[1:])
+                minutes = dur_hours * 60 + dur_minutes
+                m['duration'] = duration
+                m['minutes'] = minutes
+                m['name'] = movie_name
+                m['showtimes'] = []
+                siblings = title_div.next_siblings # returns a generator
+                x = list(siblings) # turns generator into a list 
+                showtime_links = x[1].find_all('a', class_='showtime_itr')
+                for showtime_link in showtime_links:
+                    time = showtime_link.contents[0]
+                    time = convert_to_military(time)
+                    start_time = calc_start_time(time)
+                    end_time = calc_end_time(time, dur_hours, dur_minutes)
+                    m['showtimes'].append((start_time, end_time))
+                t['movies'].append(m)
+            results.append(t)
     data = json.dumps(results, cls=DjangoJSONEncoder)
     # putting encoded data in session b/c of a strange error with 
     # beautiful soup objects
