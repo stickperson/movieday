@@ -10,18 +10,28 @@ var perPage = '&page_limit=50'
 
 var zip;
 var theater_id;
+var theater;
 var theaters;
 
 $(document).ready(function(){
 
-    // navbar listener
+    // navbar back to theater option
     $('ul.nav li a#goto-theaters').on('click', function() {
         if (zip) {
             getTheaters(zip);
         } else {
             console.log('no zipcode selected yet');
         }
-    })
+    });
+
+    // navbar back to movies option
+    $('ul.nav li a#goto-movies').on('click', function() {
+        if (theater) {
+            showMovies(theater);
+        } else {
+            window.location = '/';
+        }
+    });
 
     // Get movies currently in theaters from Rotten Tomatoes API
     $.ajax({
@@ -49,27 +59,11 @@ $(document).ready(function(){
     // Shows all movies at a particular theater
     $('body').on('click', '.theater-link', function(){
         theater_id = Number($(this).attr('id'));
-        var theater = theaters[theater_id];
+        theater = theaters[theater_id];
         console.log('theater id: ' + theater_id);
 
         //New view with pictures
-
-        movies = theater['movies'];
-        for (var i=0; i<rt_info.length; i++){
-            var title = rt_info[i]['title'];
-            for (var x=0; x<movies.length; x++){
-                var name = movies[x]['name'];
-                if (name.indexOf(title) > -1){
-                    var poster_url = rt_info[i]['posters']['profile'];
-                    movies[x]['poster'] = poster_url;
-                    var score = rt_info[i]['ratings']['critics_score'];
-                    movies[x]['score'] = score;
-                    movies[x]['synopsis'] = rt_info[i]['synopsis'];
-                }
-            }
-        }
-        console.log(movies);
-        $('#content').html(Mustache.render($('#theater_template').html(), movies));
+        showMovies(theater);
     });
 
     // change button color on click
@@ -104,6 +98,25 @@ $(document).ready(function(){
         }
     });
 });
+
+function showMovies(theater) {
+    movies = theater['movies'];
+    for (var i=0; i<rt_info.length; i++){
+        var title = rt_info[i]['title'];
+        for (var x=0; x<movies.length; x++){
+            var name = movies[x]['name'];
+            if (name.indexOf(title) > -1){
+                var poster_url = rt_info[i]['posters']['profile'];
+                movies[x]['poster'] = poster_url;
+                var score = rt_info[i]['ratings']['critics_score'];
+                movies[x]['score'] = score;
+                movies[x]['synopsis'] = rt_info[i]['synopsis'];
+            }
+        }
+    }
+    console.log(movies);
+    $('#content').html(Mustache.render($('#theater_template').html(), movies));
+}
 
 function getTheaters(data) {
     $('#content').html('<div class="container text-center"><img src="static/images/status.gif" /></div>');
