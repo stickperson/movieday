@@ -5,20 +5,12 @@ var apikey = 'nupxubc8tbpecvuq8gqdsyv2'
 var perPage = '&page_limit=50'
 
 // ------------------------------------------------------- //
-//                      Globals                            //
-// ------------------------------------------------------- //
-
-var zip;
-var theater_id;
-var theater;
-var theaters;
-
-// ------------------------------------------------------- //
 //                          Date                           //
 // ------------------------------------------------------- //
 
 var d = new Date();
 console.log(d);
+var current_year = d.getFullYear();
 var current_month = d.getMonth();
 var current_date = d.getDate();
 var current_day = d.getDay();
@@ -46,6 +38,17 @@ month[9]="Oct.";
 month[10]="Nov.";
 month[11]="Dec.";
 
+// ------------------------------------------------------- //
+//                      Globals                            //
+// ------------------------------------------------------- //
+
+var zip;
+var theater_id;
+var theater;
+var theaters;
+var start_time = current_hour;
+var start_date = current_date;
+
 $(document).ready(function(){
     setDay();
     setHours();
@@ -53,6 +56,7 @@ $(document).ready(function(){
     // update date/time buttons on click
     $('ul#time li').on('click', function(){
         var time = $(this).html();
+        start_time = $(this).attr('id');
         span = ' <span class="caret"></span>'
         $('#chosen-time').html(time + span);
     });
@@ -97,8 +101,12 @@ $(document).ready(function(){
     $('#search').on('click', function(){
         setupCSRF();
         var user_zip = $('#zip').val();
+        var a_date = $('button#chosen-date').html().trim().split(' ');
+        var a_time = $('button#chosen-time').html().trim().split(' ');
+
         var data = {
-            'zip': user_zip
+            'zip': user_zip,
+            'start_time': start_time
         }
         zip = data;
         getTheaters(zip);
@@ -219,26 +227,19 @@ function setupCSRF(){
 
 function setDay(){
     for (var i=0; i<3; i++){
-        var day = current_day + i
-        var day_name = weekday[current_day + i];
-        var date = current_date + i;
-        var month = current_month;
-        if (day==7){
-            day_name = weekday[0];
-        }
-        else if (day == 8){
-            day_name = weekday[1];
-        }
-        formatted_date = day_name + ', ' + month + '/' + date
-        console.log(formatted_date);
+        var thisDateObj = addDays(d, i);
+        var thisDay = thisDateObj.getDate();
+        var thisDayName = thisDateObj.getDay();
+        var thisMonth = thisDateObj.getMonth()+1
+
         if (i==0){
-            $('#day').append('<li id="' + month + '-' + date + '">Today</li>');
+            $('#day').append('<li id="' + current_year + '-' + current_month + '-' + current_date + '">Today</li>');
         }
         else if (i==1){
-            $('#day').append('<li id="' + month + '-' + date + '">Tomorrow</li>');
+            $('#day').append('<li id="' + current_year + '-' + thisMonth + '-' + thisDay + '">Tomorrow</li>');
         }
         else {
-            $('#day').append('<li id="' + month + '-' + date + '">' + formatted_date +  '</li>');
+            $('#day').append('<li id="' + current_year + '-' + thisMonth + '-' + thisDay + '">' + thisDateObj.toLocaleDateString() +  '</li>');
         }
     }
 }
@@ -258,3 +259,8 @@ function setHours(){
         }
     }
 }
+
+function addDays(dateObj, days) {
+    return new Date(dateObj.getTime() + days*86400000);
+}
+
