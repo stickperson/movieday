@@ -47,7 +47,7 @@ var theater_id;
 var theater;
 var theaters;
 var start_time = current_hour;
-var start_date = current_year + '-' + current_month + '-' + current_date;
+var start_date = current_month + '/' + current_date + '/' + current_year;
 
 $(document).ready(function(){
     setDay();
@@ -107,7 +107,7 @@ $(document).ready(function(){
 
         var data = {
             'zip': user_zip,
-            'start_time': start_time,
+            'start_time': start_time+':'+00,
             'start_date': start_date
         }
         zip = data;
@@ -232,16 +232,17 @@ function setDay(){
         var thisDateObj = addDays(d, i);
         var thisDay = thisDateObj.getDate();
         var thisDayName = thisDateObj.getDay();
-        var thisMonth = thisDateObj.getMonth()+1
+        var thisMonth = thisDateObj.getMonth()+1;
+        var thisYear = thisDateObj.getFullYear();
 
         if (i==0){
-            $('#day').append('<li id="' + current_year + '-' + current_month + '-' + current_date + '">Today</li>');
+            $('#day').append('<li id="' + thisMonth + '/' + thisDay + '/' + thisYear + '">Today</li>');
         }
         else if (i==1){
-            $('#day').append('<li id="' + current_year + '-' + thisMonth + '-' + thisDay + '">Tomorrow</li>');
+            $('#day').append('<li id="' + thisMonth + '/' + thisDay + '/' + thisYear + '">Tomorrow</li>');
         }
         else {
-            $('#day').append('<li id="' + current_year + '-' + thisMonth + '-' + thisDay + '">' + thisDateObj.toLocaleDateString() +  '</li>');
+            $('#day').append('<li id="' + thisMonth + '/' + thisDay + '/' + thisYear + '">' + thisDateObj.toLocaleDateString() +  '</li>');
         }
     }
 }
