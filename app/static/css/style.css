@@ -116,3 +116,11 @@ a.tile, a.tile:hover { text-decoration: none; }
 }
 
 .open ul li:hover {cursor: pointer; background-color: #EEE;}
+
+.row .col-md-4 h3 {
+    text-align: center;
+}
+
+.col-md-4 .glyphicon {
+    font-size: 70px;
+}
