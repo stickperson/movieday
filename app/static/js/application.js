@@ -50,10 +50,17 @@ $(document).ready(function(){
     setDay();
     setHours();
 
+    // update date/time buttons on click
     $('ul#time li').on('click', function(){
         var time = $(this).html();
         span = ' <span class="caret"></span>'
         $('#chosen-time').html(time + span);
+    });
+
+    $('ul#day li').on('click', function(){
+        var day = $(this).html();
+        span = ' <span class="caret"></span>'
+        $('#chosen-date').html(day + span);
     });
 
     // navbar back to theater option
@@ -211,17 +218,33 @@ function setupCSRF(){
 }
 
 function setDay(){
-    for (var i=0; i<2; i++){
-        day = weekday[current_day + i];
-        date = current_date + i;
-        month = current_month;
-        formatted_date = day + ', ' + month + '/' + date
-        $('#day').append('<li id="' + month + '-' + date + '">' + formatted_date +  '</li>');
+    for (var i=0; i<3; i++){
+        var day = current_day + i
+        var day_name = weekday[current_day + i];
+        var date = current_date + i;
+        var month = current_month;
+        if (day==7){
+            day_name = weekday[0];
+        }
+        else if (day == 8){
+            day_name = weekday[1];
+        }
+        formatted_date = day_name + ', ' + month + '/' + date
+        console.log(formatted_date);
+        if (i==0){
+            $('#day').append('<li id="' + month + '-' + date + '">Today</li>');
+        }
+        else if (i==1){
+            $('#day').append('<li id="' + month + '-' + date + '">Tomorrow</li>');
+        }
+        else {
+            $('#day').append('<li id="' + month + '-' + date + '">' + formatted_date +  '</li>');
+        }
     }
 }
 
 function setHours(){
-    for (var i=current_hour+1; i<24; i++){
+    for (var i=current_hour; i<24; i++){
         if (i==0){
             var midnight = i;
             $('#time').append('<li id="' + i + '">' + midnight + ':00am' + '</li>');
