@@ -1,4 +1,5 @@
 from datetime import date, datetime, time, timedelta
+from django.utils import timezone
 
 
 class Node(object):
@@ -62,6 +63,8 @@ class Graph(object):
         self.node_list = []
         self.num_nodes = 0
         self.time_now = datetime.now()
+        print self.time_now
+        # print tzinfo.tzname
 
     def add_node(self, movie, showtime):
         node = Node(movie, showtime)
@@ -85,14 +88,18 @@ class Graph(object):
                 print '{} has children: {}'.format(movie.name, movie.connected)
                 min_node = movie.connected[0]
                 for m in movie.connected:
+                    print 'printing weights'
+                    print m.weight
+                    print min_node.weight
                     if (m.weight < min_node.weight):
                         min_node = m
+                double_features.append(min_node)
             else:
                 # we need to think of how to handle this situation
                 print "SELECTED MOVIES HAVE NO CHILDREN"
         
-                double_features.append(min_node)
         print '**************'
+        print double_features
         min_node = double_features[0]
         for feature in double_features:
             print feature
@@ -108,8 +115,10 @@ class Graph(object):
 
     def get_double_feature(self):
         # this line won't work for looking at tomorrow's movies
-        # start_movies = filter(None, [node if node.start < (self.time_now + timedelta(hours=1)) else '' for node in self.node_list])
-        min_node = self.get_min_child(self.node_list)
+        start_movies = filter(None, [node if node.start < (self.time_now + timedelta(hours=1)) else '' for node in self.node_list])
+        print '********START MOVIES*********'
+        print start_movies
+        min_node = self.get_min_child(start_movies)
         print "The Best Option is: {}".format(min_node)
         return min_node
 
