@@ -143,66 +143,74 @@
   </div>
 </nav>
     <div id="content">
-        <div class="container">
-            <div class="jumbotron text-center">
-                <h1>Welcome to Movie Day!</h1>
-                <p>Movie day helps you plan your day at the movies. Simply choose which movies you want to see, and we'll tell you the most efficient way to watch them.</p>
-                <div class="row">
-                    <div class="col-lg-4 col-lg-offset-4">
-                        <div class="input-group">
-                            <input type="text" class="form-control" id ="zip" placeholder="Enter zip code"/> 
-                            <span class="input-group-btn">
-                                <button class="btn btn-info" id ="search" type="button">Go!</button>
-                            </span>
+        <div id="jumbotron-wrapper" style="background-image:url('http://i.imgur.com/fkBIlX1.jpg')">
+            <div class="container">
+                <div class="jumbotron text-center">
+                    <h1>Welcome to Movie Day!</h1>
+                    <p>Movie day helps you plan your day at the movies. Simply choose which movies you want to see, and we'll tell you the most efficient way to watch them.</p>
+                    <div class="row">
+                        <div class="col-lg-4 col-lg-offset-4">
+                            <div class="input-group">
+                                <input type="text" class="form-control" id ="zip" placeholder="Enter zip code"/> 
+                                <span class="input-group-btn">
+                                    <button class="btn btn-info" id ="search" type="button">Go!</button>
+                                </span>
+                            </div>
                         </div>
                     </div>
-                </div>
-                <div class="btn-group">
-                  <button id="chosen-date" type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
-                    Today <span class="caret"></span>
-                  </button>
-                  <ul id="day" class="dropdown-menu" role="menu">
+                    <div class="btn-group">
+                      <button id="chosen-date" type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
+                        Today <span class="caret"></span>
+                      </button>
+                      <ul id="day" class="dropdown-menu" role="menu">
 
-                  </ul>
-                </div>
-                <div class="btn-group">
-                  <button id="chosen-time" type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
-                    Now <span class="caret"></span>
-                  </button>
-                  <ul id="time" class="dropdown-menu" role="menu">
+                      </ul>
+                    </div>
+                    <div class="btn-group">
+                      <button id="chosen-time" type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
+                        Now <span class="caret"></span>
+                      </button>
+                      <ul id="time" class="dropdown-menu" role="menu">
 
-                  </ul>
+                      </ul>
+                    </div>
                 </div>
             </div>
         </div>
-        <div class="container">
-            <div class="row">
-                <div class="col-md-4">
-                    <div class="text-center">
-                        <p class="glyphicon glyphicon-search"></p>
+        <div class="divider"></div>
+        <div id="steps-wrapper">
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-4">
+                        <div class="text-center">
+                            <p class="glyphicon glyphicon-search"></p>
+                        </div>
+                        <h3>Search for theater</h3>
+                        <p>Enter your zip code above to search for theaters in your area. You can also specify when you want to go by choosing the date and time.</p>
                     </div>
-                    <h3>Search for theater</h3>
-                    <p>Enter your zip code above to search for theaters in your area. You can also specify when you want to go by choosing the date and time.</p>
-                </div>
-                <div class="col-md-4">
-                    <div class="text-center">
-                        <span class="glyphicon glyphicon-hand-up"></span>
+                    <div class="col-md-4">
+                        <div class="text-center">
+                            <span class="glyphicon glyphicon-hand-up"></span>
+                        </div>
+                        <h3>Select Movies</h3>
+                        <p>Select at least two movies you want to see. You can click on each movie to get more information about the movie. We'll tell you the most time efficient way to watch two movies.</p>
                     </div>
-                    <h3>Select Movies</h3>
-                    <p>Select at least two movies you want to see. You can click on each movie to get more information about the movie. We'll tell you the most time efficient way to watch two movies.</p>
-                </div>
-                <div class="col-md-4">
-                    <div class="text-center">
-                        <span class="glyphicon glyphicon-eye-open"></span>
+                    <div class="col-md-4">
+                        <div class="text-center">
+                            <span class="glyphicon glyphicon-eye-open"></span>
+                        </div>
+                        <h3>Watch</h3>
+                        <p>This is a test paragraph. Talk about how we show users the results.</p>
                     </div>
-                    <h3>Watch</h3>
-                    <p>This is a test paragraph. Talk about how we show users the results.</p>
                 </div>
             </div>
         </div>
-        <section id="movies" style="display:block">
+        <div class="divider"></div>
+        <div id="intheaters-wrapper">
+            <section id="movies" style="display:block">
 
-        </section>
+            </section>
+        </div>
     </div>
 </body>
 </html>
