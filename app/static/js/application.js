@@ -113,7 +113,7 @@ $(document).ready(function(){
 
         var data = {
             'zip': user_zip,
-            'start_time': start_time+':'+'00',
+            'start_time': start_time+':'+'00:00',
             'start_date': start_date
         }
         zip = data;
