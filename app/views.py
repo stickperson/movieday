@@ -47,7 +47,7 @@ def convert_to_military(time_str):
     return result
 
 
-def calc_end_time(mtime, dur_hours, dur_minutes):
+def calc_end_time(u_datetime, mtime, dur_hours, dur_minutes):
     duration = timedelta(hours=dur_hours, minutes=dur_minutes)
     start_hour, start_min = [int(t) for t in mtime.split(':')]
     start_time = time(start_hour, start_min)
@@ -55,7 +55,7 @@ def calc_end_time(mtime, dur_hours, dur_minutes):
     return dt_end
 
 
-def calc_start_time(mtime):
+def calc_start_time(u_datetime, mtime):
     start_hour, start_min = [int(t) for t in mtime.split(':')]
     start_time = time(start_hour, start_min)
     dt_start = datetime.combine(date.today(), start_time)
@@ -65,9 +65,17 @@ def calc_start_time(mtime):
 def get_nearby(request):
     print request.POST
     start_date = request.POST['start_date']
+    u_datetime = str_to_date(start_date)
+    a_start_date = start_date.split('/')
+    start_date = reformat_date(a_start_date)
+
+    start_time = request.POST['start_time']
+    dt_user_start = str_to_datetime(start_date+'T'+start_time)
+    request.session['dt_user_start'] = dt_user_start
     zip = request.POST['zip']
-    r = requests.get('http://www.fandango.com/{}_movietimes?{}'.format(zip, start_date))
+    r = requests.get('http://www.fandango.com/{}_movietimes?date={}'.format(zip, start_date))
     t = r.text
+    print r.url
     soup = BeautifulSoup(t)
     theaters = soup.find_all('div', class_='theaterWrapper')
     results = []
@@ -123,8 +131,8 @@ def get_nearby(request):
                 for showtime_link in showtime_links:
                     time = showtime_link.contents[0]
                     time = convert_to_military(time)
-                    start_time = calc_start_time(time)
-                    end_time = calc_end_time(time, dur_hours, dur_minutes)
+                    start_time = calc_start_time(u_datetime, time)
+                    end_time = calc_end_time(u_datetime, time, dur_hours, dur_minutes, )
                     m['showtimes'].append((start_time, end_time))
                 t['movies'].append(m)
             results.append(t)
@@ -143,6 +151,7 @@ def get_session(request):
 def selected(request):
     theater_id = int(request.POST['theater'])
     movie_ids = request.POST['movies']
+    dt_user_start = request.session['dt_user_start']
     # movie_ids was a single unicode element, 
     # needed to re-encode as a utf-8 list and typecast as int for comparison later
     movie_ids = [int(i.encode('utf-8')) for i in movie_ids.strip('[]').split(',')]
@@ -175,16 +184,18 @@ def selected(request):
     for node in g.node_list:
         print '--'*20
         print '{} starting at {} has {} connections and {} unique movies ({})'.format(node.name, node.start, len(node.connected), len(node.unique_movies), node.unique_movies)
-    answer = g.get_double_feature()
+    answer = g.get_double_feature(dt_user_start)
     print '****final result*****'
     print answer
     data = {}
     data['first_name'] = answer.parent.name
     data['first_id'] = answer.parent.id
     data['first_start'] = answer.parent.start
+    data['first_end'] = answer.parent.end
     data['second_name'] = answer.child.name
     data['second_id'] = answer.child.id
     data['second_start'] = answer.child.start
+    data['second_end'] = answer.child.end
     data['time_difference'] = answer.weight.seconds
     final_movies = []
     final_movies.append(data)
@@ -195,8 +206,22 @@ def selected(request):
 def make_datetime(timestamps):
     start_timestamp = timestamps[0]
     end_timestamp = timestamps[1]
-    start_time_struct = strptime(start_timestamp, "%Y-%m-%dT%H:%M:%S")
-    end_time_struct = strptime(end_timestamp, "%Y-%m-%dT%H:%M:%S")
-    start_dt = datetime.fromtimestamp(mktime(start_time_struct))
-    end_dt = datetime.fromtimestamp(mktime(end_time_struct))
+    start_dt = str_to_datetime(start_timestamp)
+    end_dt = str_to_datetime(end_timestamp)
     return (start_dt, end_dt)
+
+def str_to_datetime(timestamp):
+    time_struct = strptime(timestamp, "%Y-%m-%dT%H:%M:%S")
+    return datetime.fromtimestamp(mktime(time_struct))
+
+def str_to_date(date_str):
+    date_struct = strptime(date_str, '%m/%d/%Y')
+    return datetime.fromtimestamp(mktime(date_struct))
+
+def reformat_date(a_date):
+    year = a_date.pop()
+    a_date.insert(0, year)
+    return '-'.join(a_date)
+
+
+

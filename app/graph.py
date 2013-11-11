@@ -113,9 +113,9 @@ class Graph(object):
         # keep track of where we have been as we traverse the graph
         #if min_node.connected != []
 
-    def get_double_feature(self):
+    def get_double_feature(self, dt_user_start):
         # this line won't work for looking at tomorrow's movies
-        start_movies = filter(None, [node if node.start < (self.time_now + timedelta(hours=1)) else '' for node in self.node_list])
+        start_movies = filter(None, [node if node.start < (dt_user_start + timedelta(hours=1)) else '' for node in self.node_list])
         print '********START MOVIES*********'
         print start_movies
         print '******************************'
