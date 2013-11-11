@@ -51,14 +51,14 @@ def calc_end_time(u_datetime, mtime, dur_hours, dur_minutes):
     duration = timedelta(hours=dur_hours, minutes=dur_minutes)
     start_hour, start_min = [int(t) for t in mtime.split(':')]
     start_time = time(start_hour, start_min)
-    dt_end = datetime.combine(date.today(), start_time) + duration
+    dt_end = datetime.combine(u_datetime, start_time) + duration
     return dt_end
 
 
 def calc_start_time(u_datetime, mtime):
     start_hour, start_min = [int(t) for t in mtime.split(':')]
     start_time = time(start_hour, start_min)
-    dt_start = datetime.combine(date.today(), start_time)
+    dt_start = datetime.combine(u_datetime, start_time)
     return dt_start
 
 
