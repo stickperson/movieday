@@ -3,8 +3,8 @@
 <head>
     <link href='http://fonts.googleapis.com/css?family=Roboto:300' rel='stylesheet' type='text/css'>
     <link href='http://fonts.googleapis.com/css?family=Montserrat' rel='stylesheet' type='text/css'>
+    <link rel="stylesheet" type="text/css" href="static/css/bootstrap.min.css">
     <link rel="stylesheet" type="text/css" href="static/css/style.css">
-    <link rel="stylesheet" type="text/css" href="static/css/bootstrap.css">
     <script type="text/javascript" src="static/js/jquery-2.0.3.min.js"></script>
     <script type="text/javascript" src="static/js/jquery-cookie.js"></script>
     <script type="text/javascript" src="static/js/bootstrap.min.js"></script>
@@ -38,13 +38,43 @@
                     <h4 class="modal-title" id="myModalLabel">{{title}}</h4>
                   </div>
                   <div class="modal-body" style="display:inline">
-                    <div class="tile" href="#" style="display:inline-block">
-                        <div class="content" data-toggle="modal" data-target="#{{id}}" style="display:inline-block">
-                            <div class="pic" style="background-image:url('{{posters.profile}}')">
-                                <span class="banner">{{ratings.critics_score}}</span>
-                            </div>  
+                        <div class="row">
+                            <div class="col-md-2">
+                                <p>Test paragraph 1</p>
+                            </div>
+                            <div class="col-md-4">
+                                <p>Test paragraph 2</p>
+                            </div>
                         </div>
-                    </div>
+<div class="container">
+<div class="row">
+  <div class="col-md-1">.col-md-1</div>
+  <div class="col-md-1">.col-md-1</div>
+  <div class="col-md-1">.col-md-1</div>
+  <div class="col-md-1">.col-md-1</div>
+  <div class="col-md-1">.col-md-1</div>
+  <div class="col-md-1">.col-md-1</div>
+  <div class="col-md-1">.col-md-1</div>
+  <div class="col-md-1">.col-md-1</div>
+  <div class="col-md-1">.col-md-1</div>
+  <div class="col-md-1">.col-md-1</div>
+  <div class="col-md-1">.col-md-1</div>
+  <div class="col-md-1">.col-md-1</div>
+</div>
+<div class="row">
+  <div class="col-md-8">.col-md-8</div>
+  <div class="col-md-4">.col-md-4</div>
+</div>
+<div class="row">
+  <div class="col-md-4">.col-md-4</div>
+  <div class="col-md-4">.col-md-4</div>
+  <div class="col-md-4">.col-md-4</div>
+</div>
+<div class="row">
+  <div class="col-md-6">.col-md-6</div>
+  <div class="col-md-6">.col-md-6</div>
+</div>
+</div>
                     <p style="display:inline">{{synopsis}}</p>
                   </div>
                   <div class="modal-footer">
