@@ -26,7 +26,6 @@
                     <div class="pic" style="background-image:url('{{posters.profile}}')">
                         <span class="banner">{{ratings.critics_score}}</span>
                     </div>
-                    
                 </div>
                 <div class="title">{{title}}</div>
             </div>
@@ -43,6 +42,7 @@
                                 <img src="{{posters.profile}}"/>
                             </div>
                             <div class="col-md-9">
+                                <h4>Synopsis</h4>
                                 <p style="display:inline">{{synopsis}}</p>
                             </div>
                         </div>
@@ -95,8 +95,16 @@
                         <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
                         <h4 class="modal-title" id="myModalLabel">{{name}}</h4>
                       </div>
-                      <div class="modal-body">
-                        {{synopsis}}
+                      <div class="modal-body" style="display:inline">
+                            <div class="row">
+                                <div class="col-md-3" style="overflow:hidden">
+                                    <img src="{{poster}}"/>
+                                </div>
+                                <div class="col-md-9">
+                                    <h4>Synopsis</h4>
+                                    <p style="display:inline">{{synopsis}}</p>
+                                </div>
+                            </div>
                       </div>
                       <div class="modal-footer">
                         <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
@@ -112,7 +120,7 @@
                 <h2 class="text-center">You should see...</h2>
                 {{#.}}
                 <div class="tile" href="#">
-                    <div class="content">
+                    <div class="content" data-toggle="modal" data-target="#{{first_id}}">
                         <div class="pic" style="background-image:url('{{first_poster}}')">
                             <span class="banner">{{first_score}}</span>
                         </div>
@@ -120,12 +128,62 @@
                     <div class="title">{{first_name}}</div>
                 </div>
                 <div class="tile" href="#">
-                    <div class="content">
+                    <div class="content" data-toggle="modal" data-target="#{{second_id}}">
                         <div class="pic" style="background-image:url('{{second_poster}}')">
                             <span class="banner">{{second_score}}</span>
                         </div>
                     </div>
                     <div class="title">{{second_name}}</div>
+                </div>
+
+                <!-- Modal for 1st movie -->
+                <div class="modal fade" id="{{first_id}}" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+                  <div class="modal-dialog">
+                    <div class="modal-content">
+                      <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                        <h4 class="modal-title" id="myModalLabel">{{first_name}}</h4>
+                      </div>
+                      <div class="modal-body" style="display:inline">
+                            <div class="row">
+                                <div class="col-md-3" style="overflow:hidden">
+                                    <img src="{{first_poster}}"/>
+                                </div>
+                                <div class="col-md-9">
+                                    <p style="display:inline">{{first_synopsis}}</p>
+                                </div>
+                            </div>
+                      </div>
+                      <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <!-- Modal for 2nd movie -->
+                <div class="modal fade" id="{{second_id}}" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+                  <div class="modal-dialog">
+                    <div class="modal-content">
+                      <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                        <h4 class="modal-title" id="myModalLabel">{{second_name}}</h4>
+                      </div>
+                      <div class="modal-body" style="display:inline">
+                            <div class="row">
+                                <div class="col-md-3" style="overflow:hidden">
+                                    <img src="{{second_poster}}"/>
+                                </div>
+                                <div class="col-md-9">
+                                    <p style="display:inline">{{second_synopsis}}</p>
+                                </div>
+                            </div>
+                      </div>
+                      <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                      </div>
+                    </div>
+                  </div>
                 </div>
                 {{/.}}
             </section>

@@ -203,7 +203,7 @@ body .navbar {
     text-shadow: 0 0 10px rgba(0,0,0,.5);
 }
 
-#jumbotron-wrapper .jumbotron {
+body .jumbotron {
     background-color: transparent;
 }
 
