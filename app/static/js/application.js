@@ -2,7 +2,7 @@
 var baseUrl = "http://api.rottentomatoes.com/api/public/v1.0";
 var inTheaters = '/lists/movies/in_theaters.json?apikey='
 var apikey = 'nupxubc8tbpecvuq8gqdsyv2'
-var perPage = '&page_limit=50'
+var perPage = '&page_limit=40'
 
 // ------------------------------------------------------- //
 //                          Date                           //
@@ -177,7 +177,7 @@ function showMovies(theater) {
 }
 
 function getTheaters(data) {
-    $('#content').html('<div class="container text-center"><img src="static/images/status.gif" /></div>');
+    $('#content').html('<div id="jumbotron-wrapper"><img src="static/images/status.gif" /></div>');
     if (theaters) {
         $('#content').html(Mustache.render($('#zip_results').html(), theaters));
     } else {
