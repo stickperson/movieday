@@ -66,6 +66,10 @@ $(document).ready(function(){
         start_date = $(this).attr('id');
         span = ' <span class="caret"></span>'
         $('#chosen-date').html(day + span);
+        if (day != 'Today'){
+            console.log('not today!');
+            newDayHours();
+        }
     });
 
     // navbar back to theater option
@@ -266,4 +270,22 @@ function setHours(){
 function addDays(dateObj, days) {
     return new Date(dateObj.getTime() + days*86400000);
 }
+
+function newDayHours(){
+    console.log('new day hours running');
+    $('#time').empty();
+    for (var i=9; i<24; i++){
+        if (i < 12){
+            $('#time').append('<li id="' + i + '">' + i + ':00am' + '</li>');
+        }
+        else if (i==12){
+            $('#time').append('<li id="' + i + '">' + i + ':00pm' + '</li>');
+        }
+        else {
+            var pm = i % 12;
+            $('#time').append('<li id="' + i + '">' + pm + ':00pm' + '</li>');
+        }
+    }
+}
+
 
