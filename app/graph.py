@@ -119,9 +119,12 @@ class Graph(object):
         print '********START MOVIES*********'
         print start_movies
         print '******************************'
-        min_node = self.get_min_child(start_movies)
-        print "The Best Option is: {}".format(min_node)
-        return min_node
+        if len(start_movies) == 0:
+            return None
+        else:
+            min_node = self.get_min_child(start_movies)
+            print "The Best Option is: {}".format(min_node)
+            return min_node
 
 
 # Sample movie list
