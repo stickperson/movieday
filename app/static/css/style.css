@@ -206,3 +206,7 @@ body .navbar {
 #jumbotron-wrapper .jumbotron {
     background-color: transparent;
 }
+
+.modal-content .modal-body .row {
+    padding: 5px 10px;
+}
