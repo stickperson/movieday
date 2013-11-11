@@ -16,7 +16,10 @@
 <body>
     {% verbatim %}
         <script type="text/template" id="intheaters_template">
-            <h1 class="text-center">Currently In Theaters</h1>
+            <div id="header" class="text-center">
+                <h1>Currently In Theaters</h1>
+                <p>Click on a movie to see more information. Numbers represent critic&#39s ratings.</p>
+            </div>
             {{#.}}
             <div class="tile" href="#">
                 <div class="content" data-toggle="modal" data-target="#{{id}}">
@@ -146,6 +149,7 @@
     <ul class="nav navbar-nav">
       <li><a id="goto-theaters" href="#">Theaters</a></li>
       <li><a id="goto-movies" href="#">Movies</a></li>
+      <li><a href="#current-movies">Current Movies</a></li>
     </ul>
   </div>
 </nav>
@@ -214,6 +218,7 @@
         </div>
         <div class="container"><div class="divider"></div></div>
         <div id="intheaters-wrapper">
+            <a name="current-movies"></a>
             <section id="movies" style="display:block">
 
             </section>

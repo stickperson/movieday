@@ -176,7 +176,7 @@ body .navbar {
 }
 
 #intheaters-wrapper #movies h1 {
-    padding: 40px;
+    padding: 40px 0px 10px 0px;
 }
 
 #theater-results {
@@ -193,5 +193,12 @@ body .navbar {
 #zip-wrapper .jumbotron h2, #zip-wrapper .jumbotron p a {
     font-family: 'Montserrat', sans-serif;
     color: white;
+    text-shadow: 0 0 10px rgba(0,0,0,.5);
+}
+
+#movies #header p {
+    font-family: 'Montserrat', sans-serif;
+    color: white;
+    padding-bottom: 20px;
     text-shadow: 0 0 10px rgba(0,0,0,.5);
 }
