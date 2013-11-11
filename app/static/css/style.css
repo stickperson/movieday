@@ -171,9 +171,27 @@ body .navbar {
 
 #jumbotron-wrapper, #theater-results {
     background-image:url('http://i.imgur.com/fkBIlX1.jpg');
-    /*background-image: url('../images/bridge2.jpg');*/
+    /*background-image: url('../images/51.jpg');*/
+    /*background-position: center; */
 }
 
 #intheaters-wrapper #movies h1 {
     padding: 40px;
+}
+
+#theater-results {
+    padding: 50px 0px;
+    margin-bottom: 50px;
+}
+
+#zip-wrapper {
+    background-image:url('../images/27.jpg');
+    /*background-image: url('../images/51.jpg');*/
+    background-position: center; 
+}
+
+#zip-wrapper .jumbotron h2, #zip-wrapper .jumbotron p a {
+    font-family: 'Montserrat', sans-serif;
+    color: white;
+    text-shadow: 0 0 10px rgba(0,0,0,.5);
 }

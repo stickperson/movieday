@@ -54,7 +54,7 @@
             {{/.}}
         </script>
         <script type="text/template" id="zip_results">
-        <div id="jumbotron-wrapper">
+        <div id="zip-wrapper">
             <div class="container">
                 <div class="jumbotron text-center">
                     <h2>Select a Theater</h2>
@@ -66,8 +66,11 @@
         </script>
         <script type="text/template" id="theater_template">
             <div id="theater-results">
-                <button type="button" id="choose" class="btn btn-default">GO</button>
-                <h2 class="text-center">Results</h2>
+                <div id="jumbotron text-center">
+                    <button type="button" id="choose" class="btn btn-default">GO</button>
+                    <h2 class="text-center">Pick Movies</h2>
+                    <p style="text-align: center">Select at least two movies you would like to see. We will tell you the most efficient way to see two at a time.</p>
+                </div>
                 {{#.}}
                 <div class="tile" href="#">
                     <div class="content" data-toggle="modal" data-target="#{{id}}">
@@ -76,10 +79,12 @@
                         </div>
                     </div>
                     <div class="title">{{name}}</div>
-                    <label class="btn btn-success btn-xs">
-                        <input type="checkbox" style="display:none" value="{{id}}">
-                        Watch!
-                    </label>
+                    <div class="text-center">
+                        <label class="btn btn-success btn-xs">
+                            <input type="checkbox" style="display:none" value="{{id}}">
+                            Watch!
+                        </label>
+                    </div>
                 </div>
                 <div class="modal fade" id="{{id}}" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
                   <div class="modal-dialog">
