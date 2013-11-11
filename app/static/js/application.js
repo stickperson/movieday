@@ -58,7 +58,7 @@ $(document).ready(function(){
         console.log('time clicked');
         var time = $(this).html();
         start_time = $(this).attr('id');
-        span = ' <span class="caret"></span>'
+        var span = ' <span class="caret"></span>'
         $('#chosen-time').html(time + span);
     });
 
@@ -70,6 +70,7 @@ $(document).ready(function(){
         if (day != 'Today'){
             console.log('not today!');
             resetTime();
+            listenToTime();
         }
     });
 
@@ -182,6 +183,7 @@ function showMovies(theater) {
 }
 
 function getTheaters(data) {
+    console.log(data);
     $('#content').html('<div id="jumbotron-wrapper"><img src="static/images/status.gif" /></div>');
     if (theaters) {
         $('#content').html(Mustache.render($('#zip_results').html(), theaters));
@@ -274,7 +276,9 @@ function addDays(dateObj, days) {
 
 function resetTime(){
     console.log('new day hours running');
-    $('#time').empty();
+    $('ul#time').empty();
+    var span = ' <span class="caret"></span>';
+    $('#chosen-time').html('9:00am'+span);
     for (var i=9; i<24; i++){
         if (i < 12){
             $('#time').append('<li id="' + i + '">' + i + ':00am' + '</li>');
@@ -289,4 +293,13 @@ function resetTime(){
     }
 }
 
+function listenToTime(){
+    $('ul#time li').on('click', function(){
+        console.log('time clicked');
+        var time = $(this).html();
+        start_time = $(this).attr('id');
+        span = ' <span class="caret"></span>';
+        $('#chosen-time').html(time + span);
+    });
+}
 
