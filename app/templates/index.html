@@ -1,6 +1,8 @@
 <!DOCTYPE html>
 <html>
 <head>
+    <link href='http://fonts.googleapis.com/css?family=Roboto:300' rel='stylesheet' type='text/css'>
+    <link href='http://fonts.googleapis.com/css?family=Montserrat' rel='stylesheet' type='text/css'>
     <link rel="stylesheet" type="text/css" href="static/css/style.css">
     <link rel="stylesheet" type="text/css" href="static/css/bootstrap.css">
     <script type="text/javascript" src="static/js/jquery-2.0.3.min.js"></script>
@@ -14,7 +16,7 @@
 <body>
     {% verbatim %}
         <script type="text/template" id="intheaters_template">
-            <h3 class="text-center">Currently In Theaters</h3>
+            <h1 class="text-center">Currently In Theaters</h1>
             {{#.}}
             <div class="tile" href="#">
                 <div class="content" data-toggle="modal" data-target="#{{id}}">
@@ -52,54 +54,55 @@
             {{/.}}
         </script>
         <script type="text/template" id="zip_results">
+        <div id="jumbotron-wrapper">
             <div class="container">
-                <div class="row">
-                    <div class="col-lg-4 col-lg-offset-4">
-                        <h3 class="text-center">Select a theater</h3>
-                        {{#.}}
-                            <h4><a href='#{{name}}' id="{{id}}" class="theater-link">{{name}}</a></h4>
-                        {{/.}}
-                    </div>
+                <div class="jumbotron text-center">
+                    <h2>Select a Theater</h2>
+                    {{#.}}
+                        <p><a href='#{{name}}' id="{{id}}" class="theater-link">{{name}}</a></p>
+                    {{/.}}
                 </div>
             </div>
         </script>
         <script type="text/template" id="theater_template">
-            <button type="button" id="choose" class="btn btn-default">GO</button>
-            <h3 class="text-center">Results</h3>
-            {{#.}}
-            <div class="tile" href="#">
-                <div class="content" data-toggle="modal" data-target="#{{id}}">
-                    <div class="pic" style="background-image:url('{{poster}}')">
-                        <span class="banner">{{score}}</span>
+            <div id="theater-results">
+                <button type="button" id="choose" class="btn btn-default">GO</button>
+                <h2 class="text-center">Results</h2>
+                {{#.}}
+                <div class="tile" href="#">
+                    <div class="content" data-toggle="modal" data-target="#{{id}}">
+                        <div class="pic" style="background-image:url('{{poster}}')">
+                            <span class="banner">{{score}}</span>
+                        </div>
                     </div>
+                    <div class="title">{{name}}</div>
+                    <label class="btn btn-success btn-xs">
+                        <input type="checkbox" style="display:none" value="{{id}}">
+                        Watch!
+                    </label>
                 </div>
-                <div class="title">{{name}}</div>
-                <label class="btn btn-success btn-xs">
-                    <input type="checkbox" style="display:none" value="{{id}}">
-                    Watch!
-                </label>
-            </div>
-            <div class="modal fade" id="{{id}}" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-              <div class="modal-dialog">
-                <div class="modal-content">
-                  <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                    <h4 class="modal-title" id="myModalLabel">{{name}}</h4>
-                  </div>
-                  <div class="modal-body">
-                    {{synopsis}}
-                  </div>
-                  <div class="modal-footer">
-                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                <div class="modal fade" id="{{id}}" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+                  <div class="modal-dialog">
+                    <div class="modal-content">
+                      <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                        <h4 class="modal-title" id="myModalLabel">{{name}}</h4>
+                      </div>
+                      <div class="modal-body">
+                        {{synopsis}}
+                      </div>
+                      <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                      </div>
+                    </div>
                   </div>
                 </div>
-              </div>
+                {{/.}}
             </div>
-            {{/.}}
         </script>
         <script type="text/template" id="final_template">
             <section id="movies" style="display:block">
-                <h3 class="text-center">You should see...</h3>
+                <h2 class="text-center">You should see...</h2>
                 {{#.}}
                 <div class="tile" href="#">
                     <div class="content">
@@ -143,11 +146,11 @@
   </div>
 </nav>
     <div id="content">
-        <div id="jumbotron-wrapper" style="background-image:url('http://i.imgur.com/fkBIlX1.jpg')">
+        <div id="jumbotron-wrapper">
             <div class="container">
                 <div class="jumbotron text-center">
                     <h1>Welcome to Movie Day!</h1>
-                    <p>Movie day helps you plan your day at the movies. Simply choose which movies you want to see, and we'll tell you the most efficient way to watch them.</p>
+                    <p>Movie day helps you plan your day at the movies. Enter your zip code below and when you want to go to the movies to get started.</p>
                     <div class="row">
                         <div class="col-lg-4 col-lg-offset-4">
                             <div class="input-group">
@@ -177,13 +180,13 @@
                 </div>
             </div>
         </div>
-        <div class="divider"></div>
+        <div class="container"><div class="divider"></div></div>
         <div id="steps-wrapper">
             <div class="container">
                 <div class="row">
                     <div class="col-md-4">
                         <div class="text-center">
-                            <p class="glyphicon glyphicon-search"></p>
+                            <span class="glyphicon glyphicon-search"></span>
                         </div>
                         <h3>Search for theater</h3>
                         <p>Enter your zip code above to search for theaters in your area. You can also specify when you want to go by choosing the date and time.</p>
@@ -205,7 +208,7 @@
                 </div>
             </div>
         </div>
-        <div class="divider"></div>
+        <div class="container"><div class="divider"></div></div>
         <div id="intheaters-wrapper">
             <section id="movies" style="display:block">
 
