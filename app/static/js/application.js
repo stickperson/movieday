@@ -108,8 +108,8 @@ $(document).ready(function(){
     $('#search').on('click', function(){
         setupCSRF();
         var user_zip = $('#zip').val();
-        var a_date = $('button#chosen-date').html().trim().split(' ');
-        var a_time = $('button#chosen-time').html().trim().split(' ');
+//        var a_date = $('button#chosen-date').html().trim().split(' ');
+//        var a_time = $('button#chosen-time').html().trim().split(' ');
 
         var data = {
             'zip': user_zip,
@@ -141,8 +141,8 @@ $(document).ready(function(){
         }
     });
 
-    var selected_movies = new Array();
-    $('body').on('click', '#choose', function(){
+    $('body').on('click', '#choose', function() {
+        var selected_movies = new Array();
         var count = 0;
         $('input:checked').each(function(){
             count += 1;
