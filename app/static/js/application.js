@@ -207,8 +207,11 @@ function showSelected(choices){
     $.post('/selected', data, function(data){
         console.log('POST working');
         var results = JSON.parse(data);
-        results[0]['first_poster'] = movies[results[0]['first_id']]['poster']
-        results[0]['second_poster'] = movies[results[0]['second_id']]['poster']
+        console.log(movies[results[0]['first_id']]);
+        results[0]['first_poster'] = movies[results[0]['first_id']]['poster'];
+        results[0]['second_poster'] = movies[results[0]['second_id']]['poster'];
+        results[0]['first_score'] = movies[results[0]['first_id']]['score'];
+        results[0]['second_score'] = movies[results[0]['second_id']]['score'];
         console.log(results);
         console.log(typeof(results))
         $('#content').html(Mustache.render($('#final_template').html(), results));
