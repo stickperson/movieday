@@ -60,6 +60,7 @@ body {
     border-bottom-left-radius:3px;
     border-bottom-right-radius:3px;
     font-family: 'Open Sans', sans-serif;
+    text-overflow: ellipsis;
 }
 
 .tile:hover .title {
@@ -164,12 +165,13 @@ body .navbar {
     font-family: 'Roboto', sans-serif;
 }
 
-#intheaters-wrapper {
-    background-image: url('../images/182.jpg');
+#movies, #theater-results {
+    /*background-image: url('../images/182.jpg');*/
+    background-image: url('../images/navy_blue.png');
     background-position:center; 
 }
 
-#jumbotron-wrapper, #theater-results {
+#jumbotron-wrapper{
     background-image:url('http://i.imgur.com/fkBIlX1.jpg');
     /*background-image: url('../images/51.jpg');*/
     /*background-position: center; */
@@ -196,7 +198,7 @@ body .navbar {
     text-shadow: 0 0 10px rgba(0,0,0,.5);
 }
 
-#movies #header p {
+#header p {
     font-family: 'Montserrat', sans-serif;
     color: white;
     padding-bottom: 20px;
@@ -209,4 +211,8 @@ body .jumbotron {
 
 .modal-content .modal-body .row {
     padding: 5px 10px;
+}
+
+#watch {
+    margin: 5px 0px 50px 0px;
 }

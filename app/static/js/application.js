@@ -154,8 +154,8 @@ $(document).ready(function(){
         });
         if (count<2){
             // Popover not working
-            // $('#choose').popover({title:'test'});
-            alert('choose more than 1 movie');
+            $('#choose').popover({title:'test'});
+            // alert('choose more than 1 movie');
         }
         else {
             showSelected(selected_movies)

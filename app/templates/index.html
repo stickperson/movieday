@@ -68,9 +68,9 @@
         </script>
         <script type="text/template" id="theater_template">
             <div id="theater-results">
-                <div id="jumbotron text-center">
+                <div id="header" class="text-center">
                     <button type="button" id="choose" class="btn btn-default">GO</button>
-                    <h2 class="text-center">Pick Movies</h2>
+                    <h2 class="text-center">Choose Movies</h2>
                     <p style="text-align: center">Select at least two movies you would like to see. We will tell you the most efficient way to see two at a time.</p>
                 </div>
                 {{#.}}
@@ -82,7 +82,7 @@
                     </div>
                     <div class="title">{{name}}</div>
                     <div class="text-center">
-                        <label class="btn btn-success btn-xs">
+                        <label id="watch" class="btn btn-success btn-xs">
                             <input type="checkbox" style="display:none" value="{{id}}">
                             Watch!
                         </label>
