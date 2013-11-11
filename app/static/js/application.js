@@ -55,6 +55,7 @@ $(document).ready(function(){
 
     // update date/time buttons on click
     $('ul#time li').on('click', function(){
+        console.log('time clicked');
         var time = $(this).html();
         start_time = $(this).attr('id');
         span = ' <span class="caret"></span>'
@@ -68,7 +69,7 @@ $(document).ready(function(){
         $('#chosen-date').html(day + span);
         if (day != 'Today'){
             console.log('not today!');
-            newDayHours();
+            resetTime();
         }
     });
 
@@ -271,7 +272,7 @@ function addDays(dateObj, days) {
     return new Date(dateObj.getTime() + days*86400000);
 }
 
-function newDayHours(){
+function resetTime(){
     console.log('new day hours running');
     $('#time').empty();
     for (var i=9; i<24; i++){
