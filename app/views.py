@@ -43,7 +43,7 @@ def convert_to_military(time_str):
         hour, minutes = time_str.split(':')
         hour = int(hour) + 12
         result = str(hour) + ':' + minutes[:len(minutes)-1]
-    print '{} converted to {}'.format(time_str, result)
+    #print '{} converted to {}'.format(time_str, result)
     return result
 
 
@@ -66,16 +66,13 @@ def get_nearby(request):
     print request.POST
     start_date = request.POST['start_date']
     u_datetime = str_to_date(start_date)
-    a_start_date = start_date.split('/')
-    start_date = reformat_date(a_start_date)
-
+    start_date = reformat_date(start_date)
     start_time = request.POST['start_time']
     dt_user_start = str_to_datetime(start_date+'T'+start_time)
     request.session['dt_user_start'] = dt_user_start
     zip = request.POST['zip']
     r = requests.get('http://www.fandango.com/{}_movietimes?date={}'.format(zip, start_date))
     t = r.text
-    print r.url
     soup = BeautifulSoup(t)
     theaters = soup.find_all('div', class_='theaterWrapper')
     results = []
@@ -96,8 +93,8 @@ def get_nearby(request):
             pass
         else:
             title_divs = movie_div.find_all('div', class_='title')
-            print type(title_divs)
-            print len(title_divs)
+            #print type(title_divs)
+            #print len(title_divs)
             movie_id = 0
             for title_div in title_divs:
                 m = {}
@@ -169,8 +166,8 @@ def selected(request):
         for i in range(0,len(movie['showtimes'])):
             # now we have to deserialize timestamp data and make datetime obj
             showtime = make_datetime(movie['showtimes'][i])
-            print 'showtime'
-            print showtime
+            #print 'showtime'
+            #print showtime
             g.add_node(movie, showtime)
     # Trying to find a way to loop through all nodes and try to add children
     count = 0
@@ -178,12 +175,12 @@ def selected(request):
         # TODO: I think we can make this part better
         for sub_node in g.node_list:
             count += 1
-            print '--'*20
-            print 'comparison number {}: {} (ending at {}) and {} (starting at {})'.format(count, main_node.name, main_node.end, sub_node.name, sub_node.start)
+            #print '--'*20
+            #print 'comparison number {}: {} (ending at {}) and {} (starting at {})'.format(count, main_node.name, main_node.end, sub_node.name, sub_node.start)
             g.add_edge(main_node, sub_node)
-    for node in g.node_list:
-        print '--'*20
-        print '{} starting at {} has {} connections and {} unique movies ({})'.format(node.name, node.start, len(node.connected), len(node.unique_movies), node.unique_movies)
+    #for node in g.node_list:
+        #print '--'*20
+        #print '{} starting at {} has {} connections and {} unique movies ({})'.format(node.name, node.start, len(node.connected), len(node.unique_movies), node.unique_movies)
     answer = g.get_double_feature(dt_user_start)
     print '****final result*****'
     print answer
@@ -218,7 +215,8 @@ def str_to_date(date_str):
     date_struct = strptime(date_str, '%m/%d/%Y')
     return datetime.fromtimestamp(mktime(date_struct))
 
-def reformat_date(a_date):
+def reformat_date(s_date):
+    a_date = s_date.split('/')
     year = a_date.pop()
     a_date.insert(0, year)
     return '-'.join(a_date)

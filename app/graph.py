@@ -13,17 +13,17 @@ class Node(object):
         self.unique_key = '{} - {}'.format(self.id, self.start)
         
     def calc_weight(self, child):
-        print 'calculating weight'
+        #print 'calculating weight'
         # in timedelta format
         weight = child.start - self.end
         return weight
 
     def different_movie(self, child):
         if child.id == self.id:
-            print 'same movie'
+            #print 'same movie'
             return False
         else:
-            print 'different movie!'
+            #print 'different movie!'
             return True
 
     def is_unique(self, name):
@@ -40,8 +40,8 @@ class Node(object):
             if weight > timedelta(minutes=5): 
                 if self.is_unique(child.name):
                     self.unique_movies.append(child.name)
-                print 'adding child' 
-                print '{} has a child {} whose weight is {}'.format(self.name, child.name, weight) 
+                #print 'adding child'
+                #print '{} has a child {} whose weight is {}'.format(self.name, child.name, weight)
                 self.connected.append(Weight(self, weight, child))
 
     def __repr__(self):
@@ -85,12 +85,12 @@ class Graph(object):
         # movie.connected is a list of weight objects, each with the parent and child nodes
         for movie in start_movies:
             if movie.connected != []:
-                print '{} has children: {}'.format(movie.name, movie.connected)
+                #print '{} has children: {}'.format(movie.name, movie.connected)
                 min_node = movie.connected[0]
                 for m in movie.connected:
-                    print 'printing weights'
-                    print m.weight
-                    print min_node.weight
+                    #print 'printing weights'
+                    #print m.weight
+                    #print min_node.weight
                     if (m.weight < min_node.weight):
                         min_node = m
                 double_features.append(min_node)
@@ -102,7 +102,7 @@ class Graph(object):
         print double_features
         min_node = double_features[0]
         for feature in double_features:
-            print feature
+            #print feature
             # there can be more than one option with the same weight
             # need to modify this function to deal with that
             if feature.weight < min_node.weight:
@@ -114,8 +114,8 @@ class Graph(object):
         #if min_node.connected != []
 
     def get_double_feature(self, dt_user_start):
-        # this line won't work for looking at tomorrow's movies
-        start_movies = filter(None, [node if node.start < (dt_user_start + timedelta(hours=1)) else '' for node in self.node_list])
+        # TODO: should these be prioritized at all by what is closest to the target time
+        start_movies = filter(None, [node if node.start < (dt_user_start + timedelta(hours=2)) and node.start > dt_user_start else '' for node in self.node_list])
         print '********START MOVIES*********'
         print start_movies
         print '******************************'
