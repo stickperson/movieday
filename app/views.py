@@ -192,11 +192,11 @@ def selected(request):
     else:
         data['first_name'] = answer.parent.name
         data['first_id'] = answer.parent.id
-        data['first_start'] = answer.parent.start
+        data['first_start'] = answer.parent.start.strftime("%I:%M%p")
         data['first_end'] = answer.parent.end
         data['second_name'] = answer.child.name
         data['second_id'] = answer.child.id
-        data['second_start'] = answer.child.start
+        data['second_start'] = answer.child.start.strftime("%I:%M%p")
         data['second_end'] = answer.child.end
         data['time_difference'] = answer.weight.seconds
     final_movies = []
