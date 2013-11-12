@@ -211,7 +211,8 @@ function showSelected(choices){
             console.log(results);
             console.log('error reached!');
             var message = results[0]['error'];
-            $('#header').prepend('<div class="container"><div class="alert alert-danger alert-disassemble"><button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>'+message+'</div></div>');
+            $('#error').empty();
+            $('#error').append('<div class="alert alert-danger alert-disassemble"><button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>'+message+'</div>');
         }
         else {
             console.log(movies[results[0]['first_id']]);
