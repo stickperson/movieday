@@ -79,8 +79,6 @@ def get_nearby(request):
     theater_id = 0
     for theater in theaters:
         t = {}
-        t['id'] = theater_id
-        theater_id += 1
         # all theaters name
         theater_div = theater.find('div', class_='theater')
         info_div = theater_div.find('h3')
@@ -92,6 +90,8 @@ def get_nearby(request):
         if movie_div == None:
             pass
         else:
+            t['id'] = theater_id
+            theater_id += 1
             title_divs = movie_div.find_all('div', class_='title')
             #print type(title_divs)
             #print len(title_divs)
