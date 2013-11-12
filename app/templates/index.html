@@ -56,7 +56,7 @@
             {{/.}}
         </script>
         <script type="text/template" id="zip_results">
-        <div id="zip-wrapper">
+        <div id="jumbotron-wrapper" style="background-image:url('static/images/27.jpg');background-position: center; ">
             <div class="container">
                 <div class="jumbotron text-center">
                     <h2>Select a Theater</h2>
@@ -67,64 +67,68 @@
             </div>
         </script>
         <script type="text/template" id="theater_template">
-            <div id="theater-results">
-            <div id="error" class="text-center"></div>
-                <div id="header" class="text-center">
-                    <h2 class="text-center">Choose Movies</h2>
-                    <p>Select at least two movies you would like to see. We will tell you the most efficient way to see two at a time.</p>
-                    <p>Click on a movie for a synopsis and showtimes. Numbers represent critics&#39 ratings.</p>
-                    <button type="button" id="choose" class="btn btn-success">GO</button>
+            <div id="jumbotron-wrapper" style="background-image: url('static/images/navy_blue.png');background-position:center">
+                <div class="container">
+                    <div class="jumbotron text-center">
+                        <div id="error" class="text-center"></div>
+                        <h2 class="text-center">Choose Movies</h2>
+                        <p>Select at least two movies you would like to see. We will tell you the most efficient way to see two at a time.</p>
+                        <p>Click on a movie for a synopsis and showtimes. Numbers represent critics&#39 ratings.</p>
+                        <button type="button" id="choose" class="btn btn-info">GO</button>
+                    </div>
                 </div>
-                {{#.}}
-                <div class="tile" href="#">
-                    <div class="content" data-toggle="modal" data-target="#{{id}}">
-                        <div class="pic" style="background-image:url('{{poster}}')">
-                            <span class="banner">{{score}}</span>
+                    {{#.}}
+                    <div class="tile" href="#">
+                        <div class="content" data-toggle="modal" data-target="#{{id}}">
+                            <div class="pic" style="background-image:url('{{poster}}')">
+                                <span class="banner">{{score}}</span>
+                            </div>
+                        </div>
+                        <div class="title">{{name}}</div>
+                        <div class="text-center">
+                            <label id="watch" class="btn btn-success btn-xs">
+                                <input type="checkbox" style="display:none" value="{{id}}">
+                                Watch!
+                            </label>
                         </div>
                     </div>
-                    <div class="title">{{name}}</div>
-                    <div class="text-center">
-                        <label id="watch" class="btn btn-success btn-xs">
-                            <input type="checkbox" style="display:none" value="{{id}}">
-                            Watch!
-                        </label>
-                    </div>
-                </div>
-                <div class="modal fade" id="{{id}}" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-                  <div class="modal-dialog">
-                    <div class="modal-content">
-                      <div class="modal-header">
-                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                        <h4 class="modal-title" id="myModalLabel">{{name}}</h4>
-                      </div>
-                      <div class="modal-body" style="display:inline">
-                            <div class="row">
-                                <div class="col-md-3" style="overflow:hidden">
-                                    <img src="{{poster}}"/>
-                                </div>
-                                <div class="col-md-9">
-                                    <h4>Synopsis</h4>
-                                    <p style="display:inline">{{synopsis}}</p>
-                                    <h4>Showtimes</h4>
-                                    <div class="row">                                        
-                                        <div class="col-md-4">
-                                            <ul>
-                                                {{#display_showtimes}}
-                                                    <li>{{.}}</li>
-                                                {{/display_showtimes}}
-                                            </ul>
-                                        </div>                                        
+                    <div class="modal fade" id="{{id}}" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+                      <div class="modal-dialog">
+                        <div class="modal-content">
+                          <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                            <h4 class="modal-title" id="myModalLabel">{{name}}</h4>
+                          </div>
+                          <div class="modal-body" style="display:inline">
+                                <div class="row">
+                                    <div class="col-md-3" style="overflow:hidden">
+                                        <img src="{{poster}}"/>
+                                    </div>
+                                    <div class="col-md-9">
+                                        <h4>Synopsis</h4>
+                                        <p style="display:inline">{{synopsis}}</p>
+                                        <h4>Showtimes</h4>
+                                        <div class="row">                                        
+                                            <div class="col-md-4">
+                                                <ul>
+                                                    {{#display_showtimes}}
+                                                        <li>{{.}}</li>
+                                                    {{/display_showtimes}}
+                                                </ul>
+                                            </div>                                        
+                                        </div>
                                     </div>
                                 </div>
-                            </div>
-                      </div>
-                      <div class="modal-footer">
-                        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                          </div>
+                          <div class="modal-footer">
+                            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                          </div>
+                        </div>
                       </div>
                     </div>
-                  </div>
+                    {{/.}}
+                    </div>
                 </div>
-                {{/.}}
             </div>
         </script>
         <script type="text/template" id="final_template">
@@ -133,7 +137,7 @@
                 {{#.}}
                 <div id="header" class="text-center">
                     <h1>You should see...</h1>
-                    <p>{{first_name}} starting at ____ followed by {{second_name}} starting at ___.</p>
+                    <p>{{first_name}} starting at {{first_start}} followed by {{second_name}} starting at {{second_start}}.</p>
                     <p>You have {{minutes}} minutes in between. Grab a snack, run to the bathroom!</p>
                 </div>
                 <div class="text-center">
@@ -242,26 +246,28 @@
                             <div class="input-group">
                                 <input type="text" class="form-control" id ="zip" placeholder="Enter zip code"/> 
                                 <span class="input-group-btn">
-                                    <button class="btn btn-info" id ="search" type="button">Go!</button>
+                                    <button class="btn btn-info" id ="search" data-loading-text="Loading..." type="button">Go!</button>
                                 </span>
                             </div>
                         </div>
                     </div>
-                    <div class="btn-group">
-                      <button id="chosen-date" type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
-                        Today <span class="caret"></span>
-                      </button>
-                      <ul id="day" class="dropdown-menu" role="menu">
+                    <div id="start-buttons">
+                        <div class="btn-group">
+                          <button id="chosen-date" type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
+                            Today <span class="caret"></span>
+                          </button>
+                          <ul id="day" class="dropdown-menu" role="menu">
 
-                      </ul>
-                    </div>
-                    <div class="btn-group">
-                      <button id="chosen-time" type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
-                        Now <span class="caret"></span>
-                      </button>
-                      <ul id="time" class="dropdown-menu" role="menu">
+                          </ul>
+                        </div>
+                        <div class="btn-group">
+                          <button id="chosen-time" type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
+                            Now <span class="caret"></span>
+                          </button>
+                          <ul id="time" class="dropdown-menu" role="menu">
 
-                      </ul>
+                          </ul>
+                        </div>
                     </div>
                 </div>
             </div>
