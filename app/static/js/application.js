@@ -106,6 +106,7 @@ $(document).ready(function(){
 
     // Scrapes movie data after entering zip code
     $('#search').on('click', function(){
+        $(this).html('Loading...');
         setupCSRF();
         var user_zip = $('#zip').val();
 //        var a_date = $('button#chosen-date').html().trim().split(' ');
@@ -183,8 +184,6 @@ function showMovies(theater) {
 }
 
 function getTheaters(data) {
-    console.log(data);
-    $('#content').html('<div id="jumbotron-wrapper"><img src="static/images/status.gif" /></div>');
     if (theaters) {
         $('#content').html(Mustache.render($('#zip_results').html(), theaters));
     } else {
