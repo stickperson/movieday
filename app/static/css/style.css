@@ -216,3 +216,7 @@ body .jumbotron {
 #watch {
     margin: 5px 0px 50px 0px;
 }
+
+body .navbar {
+    border-radius: 0px;
+}
