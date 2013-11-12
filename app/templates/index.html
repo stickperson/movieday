@@ -104,15 +104,17 @@
                                 <div class="col-md-9">
                                     <h4>Synopsis</h4>
                                     <p style="display:inline">{{synopsis}}</p>
-                                </div>
-                            </div>
-                            <h3>Showtimes</h3>
-                            <div class="row">
-                                {{#display_showtimes}}
-                                    <div class="col-md-1">
-                                        {{.}}
+                                    <h4>Showtimes</h4>
+                                    <div class="row">                                        
+                                        <div class="col-md-4">
+                                            <ul>
+                                                {{#display_showtimes}}
+                                                    <li>{{.}}</li>
+                                                {{/display_showtimes}}
+                                            </ul>
+                                        </div>                                        
                                     </div>
-                                {{/display_showtimes}}
+                                </div>
                             </div>
                       </div>
                       <div class="modal-footer">
