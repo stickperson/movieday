@@ -122,15 +122,17 @@ def get_nearby(request):
                 m['minutes'] = minutes
                 m['name'] = movie_name
                 m['showtimes'] = []
+                m['display_showtimes'] = []
                 siblings = title_div.next_siblings # returns a generator
                 x = list(siblings) # turns generator into a list 
                 showtime_links = x[1].find_all('a', class_='showtime_itr')
                 for showtime_link in showtime_links:
-                    time = showtime_link.contents[0]
-                    time = convert_to_military(time)
+                    display_time = showtime_link.contents[0]
+                    time = convert_to_military(display_time)
                     start_time = calc_start_time(u_datetime, time)
                     end_time = calc_end_time(u_datetime, time, dur_hours, dur_minutes, )
                     m['showtimes'].append((start_time, end_time))
+                    m['display_showtimes'].append(display_time)
                 t['movies'].append(m)
             results.append(t)
     data = json.dumps(results, cls=DjangoJSONEncoder)
