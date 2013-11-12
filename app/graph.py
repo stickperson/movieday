@@ -95,23 +95,24 @@ class Graph(object):
                         min_node = m
                 double_features.append(min_node)
             else:
-                # we need to think of how to handle this situation
                 print "SELECTED MOVIES HAVE NO CHILDREN"
-                return None
         print '**************'
+        print 'double_features'
         print double_features
-        min_node = double_features[0]
-        for feature in double_features:
-            #print feature
-            # there can be more than one option with the same weight
-            # need to modify this function to deal with that
-            if feature.weight < min_node.weight:
-                min_node = feature
-        return min_node
-        # now recurse
-        # I think we need to implement a stack or queue here in order to 
-        # keep track of where we have been as we traverse the graph
-        #if min_node.connected != []
+        if len(double_features) == 0:
+            return None
+        else:
+            min_node = double_features[0]
+            for feature in double_features:
+                # there can be more than one option with the same weight
+                # need to modify this function to deal with that
+                if feature.weight < min_node.weight:
+                    min_node = feature
+            return min_node
+            # now recurse
+            # I think we need to implement a stack or queue here in order to
+            # keep track of where we have been as we traverse the graph
+            #if min_node.connected != []
 
     def get_double_feature(self, dt_user_start):
         # TODO: should these be prioritized at all by what is closest to the target time
@@ -125,25 +126,5 @@ class Graph(object):
             min_node = self.get_min_child(start_movies)
             print "The Best Option is: {}".format(min_node)
             return min_node
-
-
-# Sample movie list
-# movies = [{
-#     'id': 0,
-#     'name': 'Movie 1',
-#     'showtimes':[(1200, 1330), (1245, 1415), (1330, 1500)]
-# }, {
-#     'id': 1,
-#     'name': 'Movie 2',
-#     'showtimes': [(1240, 1400),(1340, 1500)]
-# }]
-
-# Sample graph
-# g = Graph()
-# for movie in movies:
-#     for i in range(0,len(movie['showtimes'])):
-#         start = movie['showtimes'][i][0]
-#         end = movie['showtimes'][i][1]
-#         g.add_vert(movie, movie['showtimes'][i])
 
 
