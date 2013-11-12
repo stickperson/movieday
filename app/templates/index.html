@@ -70,10 +70,10 @@
             <div id="theater-results">
             <div id="error" class="text-center"></div>
                 <div id="header" class="text-center">
-                    <button type="button" id="choose" class="btn btn-default">GO</button>
                     <h2 class="text-center">Choose Movies</h2>
                     <p>Select at least two movies you would like to see. We will tell you the most efficient way to see two at a time.</p>
                     <p>Click on a movie for a synopsis and showtimes. Numbers represent critics&#39 ratings.</p>
+                    <button type="button" id="choose" class="btn btn-success">GO</button>
                 </div>
                 {{#.}}
                 <div class="tile" href="#">
@@ -128,24 +128,31 @@
             </div>
         </script>
         <script type="text/template" id="final_template">
+            <div id="intheaters-wrapper">
             <section id="movies" style="display:block">
-                <h2 class="text-center">You should see...</h2>
                 {{#.}}
-                <div class="tile" href="#">
-                    <div class="content" data-toggle="modal" data-target="#{{first_id}}">
-                        <div class="pic" style="background-image:url('{{first_poster}}')">
-                            <span class="banner">{{first_score}}</span>
-                        </div>
-                    </div>
-                    <div class="title">{{first_name}}</div>
+                <div id="header" class="text-center">
+                    <h1>You should see...</h1>
+                    <p>{{first_name}} starting at ____ followed by {{second_name}} starting at ___.</p>
+                    <p>You have {{minutes}} minutes in between. Grab a snack, run to the bathroom!</p>
                 </div>
-                <div class="tile" href="#">
-                    <div class="content" data-toggle="modal" data-target="#{{second_id}}">
-                        <div class="pic" style="background-image:url('{{second_poster}}')">
-                            <span class="banner">{{second_score}}</span>
+                <div class="text-center">
+                    <div class="tile" href="#">
+                        <div class="content" data-toggle="modal" data-target="#{{first_id}}">
+                            <div class="pic" style="background-image:url('{{first_poster}}')">
+                                <span class="banner">{{first_score}}</span>
+                            </div>
                         </div>
+                        <div class="title">{{first_name}}</div>
                     </div>
-                    <div class="title">{{second_name}}</div>
+                    <div class="tile" href="#">
+                        <div class="content" data-toggle="modal" data-target="#{{second_id}}">
+                            <div class="pic" style="background-image:url('{{second_poster}}')">
+                                <span class="banner">{{second_score}}</span>
+                            </div>
+                        </div>
+                        <div class="title">{{second_name}}</div>
+                    </div>
                 </div>
 
                 <!-- Modal for 1st movie -->
@@ -199,6 +206,7 @@
                 </div>
                 {{/.}}
             </section>
+            </div>
         </script>
     {% endverbatim %}
 
