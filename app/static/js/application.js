@@ -207,16 +207,24 @@ function showSelected(choices){
     $.post('/selected', data, function(data){
         console.log('POST working');
         var results = JSON.parse(data);
-        console.log(movies[results[0]['first_id']]);
-        results[0]['first_poster'] = movies[results[0]['first_id']]['poster'];
-        results[0]['second_poster'] = movies[results[0]['second_id']]['poster'];
-        results[0]['first_synopsis'] = movies[results[0]['first_id']]['synopsis'];
-        results[0]['second_synopsis'] = movies[results[0]['second_id']]['synopsis'];
-        results[0]['first_score'] = movies[results[0]['first_id']]['score'];
-        results[0]['second_score'] = movies[results[0]['second_id']]['score'];
-        console.log(results);
-        console.log(typeof(results))
-        $('#content').html(Mustache.render($('#final_template').html(), results));
+        if (results[0]['error']){
+            console.log(results);
+            console.log('error reached!');
+            var message = results[0]['error'];
+            $('#header').prepend('<div class="container"><div class="alert alert-danger alert-disassemble"><button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>'+message+'</div></div>');
+        }
+        else {
+            console.log(movies[results[0]['first_id']]);
+            results[0]['first_poster'] = movies[results[0]['first_id']]['poster'];
+            results[0]['second_poster'] = movies[results[0]['second_id']]['poster'];
+            results[0]['first_synopsis'] = movies[results[0]['first_id']]['synopsis'];
+            results[0]['second_synopsis'] = movies[results[0]['second_id']]['synopsis'];
+            results[0]['first_score'] = movies[results[0]['first_id']]['score'];
+            results[0]['second_score'] = movies[results[0]['second_id']]['score'];
+            console.log(results);
+            console.log(typeof(results))
+            $('#content').html(Mustache.render($('#final_template').html(), results));
+        }
     });
 }
 
