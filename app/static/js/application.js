@@ -216,12 +216,16 @@ function showSelected(choices){
         }
         else {
             console.log(movies[results[0]['first_id']]);
+            console.log(typeof(results[0]['first_start']));
+            var difference_seconds = results[0]['time_difference'];
+            var minutes = difference_seconds/60;
             results[0]['first_poster'] = movies[results[0]['first_id']]['poster'];
             results[0]['second_poster'] = movies[results[0]['second_id']]['poster'];
             results[0]['first_synopsis'] = movies[results[0]['first_id']]['synopsis'];
             results[0]['second_synopsis'] = movies[results[0]['second_id']]['synopsis'];
             results[0]['first_score'] = movies[results[0]['first_id']]['score'];
             results[0]['second_score'] = movies[results[0]['second_id']]['score'];
+            results[0]['minutes'] = minutes;
             console.log(results);
             console.log(typeof(results))
             $('#content').html(Mustache.render($('#final_template').html(), results));
