@@ -97,7 +97,7 @@ class Graph(object):
             else:
                 # we need to think of how to handle this situation
                 print "SELECTED MOVIES HAVE NO CHILDREN"
-        
+                return None
         print '**************'
         print double_features
         min_node = double_features[0]
