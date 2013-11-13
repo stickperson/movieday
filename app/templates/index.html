@@ -18,13 +18,13 @@
         <script type="text/template" id="intheaters_template">
             <div id="header" class="text-center">
                 <h1>Currently In Theaters</h1>
-                <p>Click on a movie to see more information. Numbers represent critics&#39 ratings.</p>
+                <p>Click on a movie to see more information. Numbers represent ratings.</p>
             </div>
             {{#.}}
             <div class="tile" href="#">
                 <div class="content" data-toggle="modal" data-target="#{{id}}">
                     <div class="pic" style="background-image:url('{{posters.profile}}')">
-                        <span class="banner">{{ratings.critics_score}}</span>
+                        <span class="banner">{{ratings.audience_score}}</span>
                     </div>
                 </div>
                 <div class="title">{{title}}</div>
@@ -73,7 +73,7 @@
                         <div id="error" class="text-center"></div>
                         <h2 class="text-center">Choose Movies</h2>
                         <p>Select at least two movies you would like to see. We will tell you the most efficient way to see two at a time.</p>
-                        <p>Click on a movie for a synopsis and showtimes. Numbers represent critics&#39 ratings.</p>
+                        <p>Click on a movie for a synopsis and showtimes. Numbers represent ratings.</p>
                         <button type="button" id="choose" class="btn btn-info">GO</button>
                     </div>
                 </div>

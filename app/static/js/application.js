@@ -179,7 +179,7 @@ function showMovies(theater) {
             if (name.indexOf(title) > -1){
                 var poster_url = rt_info[i]['posters']['profile'];
                 movies[x]['poster'] = poster_url;
-                var score = rt_info[i]['ratings']['critics_score'];
+                var score = rt_info[i]['ratings']['audience_score'];
                 movies[x]['score'] = score;
                 movies[x]['synopsis'] = rt_info[i]['synopsis'];
             }
