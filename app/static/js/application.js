@@ -15,6 +15,7 @@ var current_month = d.getMonth() + 1;
 var current_date = d.getDate();
 var current_day = d.getDay();
 var current_hour = d.getHours();
+var current_minute = d.getMinutes();
 var weekday=new Array(7);
 weekday[0]="Sun.";
 weekday[1]="Mon.";
@@ -46,10 +47,13 @@ var zip;
 var theater_id;
 var theater;
 var theaters;
-var start_time = current_hour;
+var start_hour = current_hour;
+var start_minute = current_minute;
+var start_time = current_hour + ':' + current_minute + ':00';
 var start_date = current_month + '/' + current_date + '/' + current_year;
 
 $(document).ready(function(){
+    console.log(start_time);
     setDay();
     setHours();
 
@@ -57,7 +61,7 @@ $(document).ready(function(){
     $('ul#time li').on('click', function(){
         console.log('time clicked');
         var time = $(this).html();
-        start_time = $(this).attr('id');
+        start_time = $(this).attr('id') + ':00:00';
         var span = ' <span class="caret"></span>'
         $('#chosen-time').html(time + span);
     });
@@ -114,7 +118,7 @@ $(document).ready(function(){
 
         var data = {
             'zip': user_zip,
-            'start_time': start_time+':'+'00:00',
+            'start_time': start_time,
             'start_date': start_date
         }
         zip = data;
@@ -314,7 +318,7 @@ function listenToTime(){
     $('ul#time li').on('click', function(){
         console.log('time clicked');
         var time = $(this).html();
-        start_time = $(this).attr('id');
+        start_time = $(this).attr('id') + ':00:00';
         span = ' <span class="caret"></span>';
         $('#chosen-time').html(time + span);
     });
