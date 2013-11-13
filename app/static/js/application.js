@@ -56,27 +56,29 @@ $(document).ready(function(){
     console.log(start_time);
     setDay();
     setHours();
+    listenToTime();
+    listenToDay();
 
     // update date/time buttons on click
-    $('ul#time li').on('click', function(){
-        console.log('time clicked');
-        var time = $(this).html();
-        start_time = $(this).attr('id') + ':00:00';
-        var span = ' <span class="caret"></span>'
-        $('#chosen-time').html(time + span);
-    });
+    // $('ul#time li').on('click', function(){
+    //     console.log('time clicked');
+    //     var time = $(this).html();
+    //     start_time = $(this).attr('id') + ':00:00';
+    //     var span = ' <span class="caret"></span>'
+    //     $('#chosen-time').html(time + span);
+    // });
 
-    $('ul#day li').on('click', function(){
-        var day = $(this).html();
-        start_date = $(this).attr('id');
-        span = ' <span class="caret"></span>'
-        $('#chosen-date').html(day + span);
-        if (day != 'Today'){
-            console.log('not today!');
-            resetTime();
-            listenToTime();
-        }
-    });
+    // $('ul#day li').on('click', function(){
+    //     var day = $(this).html();
+    //     start_date = $(this).attr('id');
+    //     span = ' <span class="caret"></span>'
+    //     $('#chosen-date').html(day + span);
+    //     if (day != 'Today'){
+    //         console.log('not today!');
+    //         resetTime();
+    //         listenToTime();
+    //     }
+    // });
 
     // navbar back to theater option
     $('ul.nav li a#goto-theaters').on('click', function() {
@@ -324,3 +326,16 @@ function listenToTime(){
     });
 }
 
+function listenToDay(){
+    $('ul#day li').on('click', function(){
+        var day = $(this).html();
+        start_date = $(this).attr('id');
+        span = ' <span class="caret"></span>'
+        $('#chosen-date').html(day + span);
+        if (day != 'Today'){
+            console.log('not today!');
+            resetTime();
+            listenToTime();
+        }
+    });
+}

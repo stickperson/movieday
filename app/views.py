@@ -69,6 +69,8 @@ def get_nearby(request):
     start_date = reformat_date(start_date)
     start_time = request.POST['start_time']
     dt_user_start = str_to_datetime(start_date+'T'+start_time)
+    print '******Users start time*****'
+    print dt_user_start
     request.session['dt_user_start'] = dt_user_start
     zip = request.POST['zip']
     r = requests.get('http://www.fandango.com/{}_movietimes?date={}'.format(zip, start_date))
