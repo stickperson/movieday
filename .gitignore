@@ -2,6 +2,5 @@
 *.zip
 *.pyc
 *.xml
-.elasticbeanstalk/
 *.iml
 *.ids

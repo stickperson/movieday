@@ -1,0 +1,12 @@
+[global]
+ApplicationName=movieday
+DevToolsEndpoint=git.elasticbeanstalk.us-west-2.amazonaws.com
+EnvironmentName=movieday-env
+EnvironmentType=SingleInstance
+InstanceProfileName=aws-elasticbeanstalk-ec2-role
+OptionSettingFile=/Users/joemeissler/Documents/sites/rocketu/python_projects/movieday/.elasticbeanstalk/optionsettings.movieday-env
+RdsEnabled=No
+Region=us-west-2
+ServiceEndpoint=https://elasticbeanstalk.us-west-2.amazonaws.com
+SolutionStack=64bit Amazon Linux 2013.09 running Python 2.7
+

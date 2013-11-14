@@ -135,7 +135,7 @@ a.tile, a.tile:hover { text-decoration: none; }
     padding: 50px 0px;
 }
 
-#jumbotron-wrapper .jumbotron h1, .jumbotron p, #intheaters-wrapper #movies h1, #jumbotron-wrapper .jumbotron h2, #jumbotron-wrapper .jumbotron p a, #theater-results h2 {
+#jumbotron-wrapper .jumbotron h1, .jumbotron p, #intheaters-wrapper #movies h1, #jumbotron-wrapper .jumbotron h2, #jumbotron-wrapper .jumbotron p a, #theater-results h2, #contact h1 {
     font-family: 'Montserrat', sans-serif;
     color: white;
     text-shadow: 0 0 10px rgba(0,0,0,.5);
@@ -177,7 +177,7 @@ body .navbar {
     /*background-position: center; */
 }
 
-#intheaters-wrapper #movies h1 {
+#intheaters-wrapper #movies h1, #contact h1 {
     padding: 40px 0px 10px 0px;
     margin: 0px;
 }
@@ -220,4 +220,10 @@ body .jumbotron {
 
 body .navbar {
     border-radius: 0px;
+}
+
+#contact {
+    padding-bottom: 500px;
+    background-image: url('../images/273.jpg');
+    background-position: center;
 }

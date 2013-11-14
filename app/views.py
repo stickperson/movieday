@@ -22,13 +22,8 @@ def home(request):
     c.update(csrf(request))
     return render_to_response('index.html', c)
 
-# def home(request):
-#     return render(request, 'index.html')
-
-
-def chart(request):
-    return render(request, 'chart.html')
-    
+def contact(request):
+    return render(request, 'contact.html')    
 
 def convert_to_military(time_str):
     if 'a' in time_str and '12' in time_str:
