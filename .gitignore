@@ -4,5 +4,5 @@
 *.xml
 *.iml
 *.ids
-*.ebextensions
-*.elasticbeanstalk
+*/.ebextensions
+*/.elasticbeanstalk
