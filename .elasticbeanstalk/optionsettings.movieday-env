@@ -22,7 +22,7 @@ PARAM5=
 [aws:elasticbeanstalk:container:python]
 NumProcesses=1
 NumThreads=15
-StaticFiles=app//static/
+StaticFiles=app/static/
 WSGIPath=movieday.wsgi.py
 
 [aws:elasticbeanstalk:container:python:staticfiles]
