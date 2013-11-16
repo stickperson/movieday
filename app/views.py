@@ -110,10 +110,16 @@ def get_nearby(request):
                 else:
                     rating_duration = dur_span.contents[0].strip().encode('ascii', 'ignore')
                     duration = rating_duration.split(",")[1]
-                
+
                 duration_numb = re.sub("[^0-9]", "", duration)
-                dur_hours = int(duration_numb[0])
-                dur_minutes = int(duration_numb[1:])
+                # movie might have only hours and not minutes, or both hours and min
+                # for now lets assume every movies has at least hours
+                if len(duration_numb) < 2:
+                    dur_hours = int(duration_numb[0])
+                    dur_minutes = 0
+                else:
+                    dur_hours = int(duration_numb[0])
+                    dur_minutes = int(duration_numb[1:])
                 minutes = dur_hours * 60 + dur_minutes
                 m['duration'] = duration
                 m['minutes'] = minutes
