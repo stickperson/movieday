@@ -109,7 +109,10 @@ def get_nearby(request):
                     duration = '0 hr 0 min'
                 else:
                     rating_duration = dur_span.contents[0].strip().encode('ascii', 'ignore')
-                    duration = rating_duration.split(",")[1]
+                    if rating_duration.find(',') == -1:
+                        duration = '0 hr 0 min'                        
+                    else:
+                        duration = rating_duration.split(",")[1]
 
                 duration_numb = re.sub("[^0-9]", "", duration)
                 # movie might have only hours and not minutes, or both hours and min
