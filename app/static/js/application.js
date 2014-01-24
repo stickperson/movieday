@@ -1,89 +1,222 @@
-// Rotten Tomatoes info
-var baseUrl = "http://api.rottentomatoes.com/api/public/v1.0";
-var inTheaters = '/lists/movies/in_theaters.json?apikey='
-var apikey = 'nupxubc8tbpecvuq8gqdsyv2'
-var perPage = '&page_limit=40'
 
-// ------------------------------------------------------- //
-//                          Date                           //
-// ------------------------------------------------------- //
+var movieday = (function (){
+    var d = new Date();
+        current_year = d.getFullYear(),
+        current_month = d.getMonth() + 1,
+        current_date = d.getDate(),
+        current_day = d.getDay(),
+        current_hour = d.getHours(),
+        current_minute = d.getMinutes(),
+        weekday = new Array(7),
+        month = new Array(12);
+        weekday[0]="Sun.";
+        weekday[1]="Mon.";
+        weekday[2]="Tues.";
+        weekday[3]="Wed.";
+        weekday[4]="Thurs.";
+        weekday[5]="Fri.";
+        weekday[6]="Sat.";
+        month[0]="Jan.";
+        month[1]="Feb.";
+        month[2]="Mar.";
+        month[3]="Apr.";
+        month[4]="May";
+        month[5]="Jun.";
+        month[6]="Jul.";
+        month[7]="Aug.";
+        month[8]="Sept.";
+        month[9]="Oct.";
+        month[10]="Nov.";
+        month[11]="Dec.";
 
-var d = new Date();
-console.log(d);
-var current_year = d.getFullYear();
-var current_month = d.getMonth() + 1;
-var current_date = d.getDate();
-var current_day = d.getDay();
-var current_hour = d.getHours();
-var current_minute = d.getMinutes();
-var weekday=new Array(7);
-weekday[0]="Sun.";
-weekday[1]="Mon.";
-weekday[2]="Tues.";
-weekday[3]="Wed.";
-weekday[4]="Thurs.";
-weekday[5]="Fri.";
-weekday[6]="Sat.";
+    return {
+        start_hour: current_hour,
+        start_minute: current_minute,
+        start_time: current_hour + ':' + current_minute + ':00',
+        start_date: current_month + '/' + current_date + '/' + current_year,
+        zip: undefined,
+        theater: undefined,
+        theaters: undefined,
+        theater_id: undefined,
+        addDays: function(dateObj, days) {
+            return new Date(dateObj.getTime() + days*86400000);
+        },
+        setHours: function(){
+            var i,
+                midnight,
+                pm;
+            for (i = current_hour; i < 24; i++){
+                if (i === 0){
+                    midnight = i;
+                    $('#time').append('<li id="' + i + '">' + midnight + ':00am' + '</li>');
+                }
+                else if (i < 12){
+                    $('#time').append('<li id="' + i + '">' + i + ':00am' + '</li>');
+                }
+                else {
+                    pm = i % 12;
+                    $('#time').append('<li id="' + i + '">' + pm + ':00pm' + '</li>');
+                }
+            }
+        },
+        setDay: function(){
+            var i,
+                thisDateObj,
+                thisDay,
+                thisDayName,
+                thisMonth,
+                thisYear;
+            for (i = 0; i < 3; i++){
+                thisDateObj = movieday.addDays(d, i);
+                thisDay = thisDateObj.getDate();
+                thisDayName = thisDateObj.getDay();
+                thisMonth = thisDateObj.getMonth()+1;
+                thisYear = thisDateObj.getFullYear();
 
-var month=new Array(12);
-month[0]="Jan.";
-month[1]="Feb.";
-month[2]="Mar.";
-month[3]="Apr.";
-month[4]="May";
-month[5]="Jun.";
-month[6]="Jul.";
-month[7]="Aug.";
-month[8]="Sept.";
-month[9]="Oct.";
-month[10]="Nov.";
-month[11]="Dec.";
+                if (i === 0){
+                    $('#day').append('<li id="' + thisMonth + '/' + thisDay + '/' + thisYear + '">Today</li>');
+                }
+                else if (i==1){
+                    $('#day').append('<li id="' + thisMonth + '/' + thisDay + '/' + thisYear + '">Tomorrow</li>');
+                }
+                else {
+                    $('#day').append('<li id="' + thisMonth + '/' + thisDay + '/' + thisYear + '">' + thisDateObj.toLocaleDateString() +  '</li>');
+                }
+            }
+        },
+        getTheaters: function (data) {
+            if (movieday.theaters) {
+                $('#content').html(Mustache.render($('#zip_results').html(), movieday.theaters));
+            } else {
+                $.post('/search', data, function(response){
+                    movieday.theaters = JSON.parse(response);
+                    console.log(movieday.theaters);
+                    $('#content').html(Mustache.render($('#zip_results').html(), movieday.theaters));
+                });
+            }
+        },
+        showMovies: function(theater, rt) {
+            var i,
+                x,
+                title,
+                name,
+                poster_url,
+                score;
+            movies = theater['movies'];
+            for (i = 0; i < rt.rt_info.length; i++){
+                title = rt.rt_info[i]['title'];
+                for (x = 0; x<movies.length; x++){
+                    name = movies[x]['name'];
+                    if (name.indexOf(title) > -1){
+                        poster_url = rt.rt_info[i]['posters']['profile'];
+                        movies[x]['poster'] = poster_url;
+                        score = rt.rt_info[i]['ratings']['audience_score'];
+                        movies[x]['score'] = score;
+                        movies[x]['synopsis'] = rt.rt_info[i]['synopsis'];
+                    }
+                }
+            }
+            console.log(movies);
+            $('#content').html(Mustache.render($('#theater_template').html(), movies));
+        },
+        listenToTime: function(){
+            // $('ul#time li').on('click', function(){
+            $('body').on('click', 'ul#time li', function(){
+                console.log('time clicked');
+                var time = $(this).html();
+                movieday.start_time = $(this).attr('id') + ':00:00';
+                span = ' <span class="caret"></span>';
+                $('#chosen-time').html(time + span);
+            });
+        },
+        listenToDay: function(){
+            $('ul#day li').on('click', function(){
+                var day = $(this).html();
+                movieday.start_date = $(this).attr('id');
+                span = ' <span class="caret"></span>';
+                $('#chosen-date').html(day + span);
+                if (day != 'Today'){
+                    console.log('not today!');
+                    resetTime();
+                    movieday.listenToTime();
+                }
+            });
+        },
+        showSelected: function(choices){
+            // For Django
+            selected = JSON.stringify(choices);
+            var data = {
+                theater: movieday.theater_id,
+                movies: selected
+            };
+            $.post('/selected', data, function(data){
+                console.log('POST working');
+                var results = JSON.parse(data);
+                if (results[0]['error']){
+                    console.log(results);
+                    console.log('error reached!');
+                    var message = results[0]['error'];
+                    $('#error').empty();
+                    $('#error').append('<div class="alert alert-danger alert-disassemble"><button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>'+message+'</div>');
+                }
+                else {
+                    console.log(movies[results[0]['first_id']]);
+                    console.log(typeof(results[0]['first_start']));
+                    var difference_seconds = results[0]['time_difference'];
+                    var minutes = difference_seconds/60;
+                    results[0]['first_poster'] = movies[results[0]['first_id']]['poster'];
+                    results[0]['second_poster'] = movies[results[0]['second_id']]['poster'];
+                    results[0]['first_synopsis'] = movies[results[0]['first_id']]['synopsis'];
+                    results[0]['second_synopsis'] = movies[results[0]['second_id']]['synopsis'];
+                    results[0]['first_score'] = movies[results[0]['first_id']]['score'];
+                    results[0]['second_score'] = movies[results[0]['second_id']]['score'];
+                    results[0]['minutes'] = minutes;
+                    $('#content').html(Mustache.render($('#final_template').html(), results));
+                }
+            });
+        }
+    };
+}());
 
-// ------------------------------------------------------- //
-//                      Globals                            //
-// ------------------------------------------------------- //
 
-var zip;
-var theater_id;
-var theater;
-var theaters;
-var start_hour = current_hour;
-var start_minute = current_minute;
-var start_time = current_hour + ':' + current_minute + ':00';
-var start_date = current_month + '/' + current_date + '/' + current_year;
+var rottentomatoes = (function () {
+    return {
+        baseUrl: "http://api.rottentomatoes.com/api/public/v1.0",
+        inTheaters: '/lists/movies/in_theaters.json?apikey=',
+        apikey: 'nupxubc8tbpecvuq8gqdsyv2',
+        perPage: '&page_limit=40',
+        rt_info: undefined
+    };
+}());
 
-$(document).ready(function(){
-    console.log(start_time);
-    setDay();
-    setHours();
-    listenToTime();
-    listenToDay();
+$(function () {
+    var md = movieday,
+        rt = rottentomatoes;
+    md.setDay();
+    md.setHours();
+    md.listenToTime();
+    md.listenToDay();
 
-    // update date/time buttons on click
-    // $('ul#time li').on('click', function(){
-    //     console.log('time clicked');
-    //     var time = $(this).html();
-    //     start_time = $(this).attr('id') + ':00:00';
-    //     var span = ' <span class="caret"></span>'
-    //     $('#chosen-time').html(time + span);
-    // });
-
-    // $('ul#day li').on('click', function(){
-    //     var day = $(this).html();
-    //     start_date = $(this).attr('id');
-    //     span = ' <span class="caret"></span>'
-    //     $('#chosen-date').html(day + span);
-    //     if (day != 'Today'){
-    //         console.log('not today!');
-    //         resetTime();
-    //         listenToTime();
-    //     }
-    // });
+    // Scrapes movie data after entering zip code
+    $('#search').on('click', function(){
+        var user_zip,
+            data;
+        $(this).html('Loading...');
+        setupCSRF();
+        user_zip = $('#zip').val();
+        data = {
+            'zip': user_zip,
+            'start_time': md.start_time,
+            'start_date': md.start_date
+        };
+        md.zip = data;
+        md.getTheaters(md.zip);
+    });
 
     // navbar back to theater option
     $('ul.nav li a#goto-theaters').on('click', function() {
-        if (zip) {
-            getTheaters(zip);
+        if (md.zip) {
+            md.getTheaters(zip);
         } else {
             console.log('no zipcode selected yet');
         }
@@ -91,8 +224,8 @@ $(document).ready(function(){
 
     // navbar back to movies option
     $('ul.nav li a#goto-movies').on('click', function() {
-        if (theater) {
-            showMovies(theater);
+        if (md.theater) {
+            md.showMovies(md.theater, rt);
         } else {
             window.location = '/';
         }
@@ -100,41 +233,22 @@ $(document).ready(function(){
 
     // Get movies currently in theaters from Rotten Tomatoes API
     $.ajax({
-        url: baseUrl + inTheaters + apikey + perPage,
+        url: rt.baseUrl + rt.inTheaters + rt.apikey + rt.perPage,
         dataType: "jsonp",
         success: function(data){
-            rt_info = data['movies']
-            console.log(rt_info);
-            console.log(baseUrl+inTheaters+apikey);
-            $('#movies').html(Mustache.render($('#intheaters_template').html(), rt_info));
+            rt.rt_info = data['movies'];
+            $('#movies').html(Mustache.render($('#intheaters_template').html(), rt.rt_info));
         }
     });
 
-    // Scrapes movie data after entering zip code
-    $('#search').on('click', function(){
-        $(this).html('Loading...');
-        setupCSRF();
-        var user_zip = $('#zip').val();
-//        var a_date = $('button#chosen-date').html().trim().split(' ');
-//        var a_time = $('button#chosen-time').html().trim().split(' ');
-
-        var data = {
-            'zip': user_zip,
-            'start_time': start_time,
-            'start_date': start_date
-        }
-        zip = data;
-        getTheaters(zip);
-    });
 
     // Shows all movies at a particular theater
     $('body').on('click', '.theater-link', function(){
-        theater_id = Number($(this).attr('id'));
-        theater = theaters[theater_id];
-        console.log('theater id: ' + theater_id);
+        md.theater_id = Number($(this).attr('id'));
+        md.theater = md.theaters[md.theater_id];
 
         //New view with pictures
-        showMovies(theater);
+        md.showMovies(md.theater, rt);
     });
 
     // change button color on click
@@ -149,13 +263,14 @@ $(document).ready(function(){
     });
 
     $('body').on('click', '#choose', function() {
-        var selected_movies = new Array();
-        var count = 0;
+        var selected_movies = new Array(),
+            count = 0,
+            movie_id;
         $('input:checked').each(function(){
             count += 1;
             if ($(this).is(':checked')){
                 console.log('checked');
-                var movie_id = Number($(this).attr('value'));
+                movie_id = Number($(this).attr('value'));
                 selected_movies.push(movie_id);
             }
         });
@@ -165,78 +280,10 @@ $(document).ready(function(){
             // alert('choose more than 1 movie');
         }
         else {
-            showSelected(selected_movies)
+            md.showSelected(selected_movies);
         }
     });
 });
-
-function showMovies(theater) {
-    movies = theater['movies'];
-    for (var i=0; i<rt_info.length; i++){
-        var title = rt_info[i]['title'];
-        for (var x=0; x<movies.length; x++){
-            var name = movies[x]['name'];
-            if (name.indexOf(title) > -1){
-                var poster_url = rt_info[i]['posters']['profile'];
-                movies[x]['poster'] = poster_url;
-                var score = rt_info[i]['ratings']['audience_score'];
-                movies[x]['score'] = score;
-                movies[x]['synopsis'] = rt_info[i]['synopsis'];
-            }
-        }
-    }
-    console.log(movies);
-    $('#content').html(Mustache.render($('#theater_template').html(), movies));
-}
-
-function getTheaters(data) {
-    if (theaters) {
-        $('#content').html(Mustache.render($('#zip_results').html(), theaters));
-    } else {
-        $.post('/search', data, function(response){
-            theaters = JSON.parse(response);
-            console.log(theaters);
-            $('#content').html(Mustache.render($('#zip_results').html(), theaters));
-        });
-    }
-}
-
-function showSelected(choices){
-    
-    // For Django
-    selected = JSON.stringify(choices);
-    var data = {
-        theater: theater_id,
-        movies: selected
-    }
-    $.post('/selected', data, function(data){
-        console.log('POST working');
-        var results = JSON.parse(data);
-        if (results[0]['error']){
-            console.log(results);
-            console.log('error reached!');
-            var message = results[0]['error'];
-            $('#error').empty();
-            $('#error').append('<div class="alert alert-danger alert-disassemble"><button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>'+message+'</div>');
-        }
-        else {
-            console.log(movies[results[0]['first_id']]);
-            console.log(typeof(results[0]['first_start']));
-            var difference_seconds = results[0]['time_difference'];
-            var minutes = difference_seconds/60;
-            results[0]['first_poster'] = movies[results[0]['first_id']]['poster'];
-            results[0]['second_poster'] = movies[results[0]['second_id']]['poster'];
-            results[0]['first_synopsis'] = movies[results[0]['first_id']]['synopsis'];
-            results[0]['second_synopsis'] = movies[results[0]['second_id']]['synopsis'];
-            results[0]['first_score'] = movies[results[0]['first_id']]['score'];
-            results[0]['second_score'] = movies[results[0]['second_id']]['score'];
-            results[0]['minutes'] = minutes;
-            console.log(results);
-            console.log(typeof(results))
-            $('#content').html(Mustache.render($('#final_template').html(), results));
-        }
-    });
-}
 
 function csrfSafeMethod(method) {
     // these HTTP methods do not require CSRF protection
@@ -245,7 +292,6 @@ function csrfSafeMethod(method) {
 
 function setupCSRF(){
     var csrftoken = $.cookie('csrftoken');
-    console.log(csrftoken);
 
     $.ajaxSetup({
         crossDomain: false, // obviates need for sameOrigin test
@@ -255,46 +301,6 @@ function setupCSRF(){
             }
         }
     });
-}
-
-function setDay(){
-    for (var i=0; i<3; i++){
-        var thisDateObj = addDays(d, i);
-        var thisDay = thisDateObj.getDate();
-        var thisDayName = thisDateObj.getDay();
-        var thisMonth = thisDateObj.getMonth()+1;
-        var thisYear = thisDateObj.getFullYear();
-
-        if (i==0){
-            $('#day').append('<li id="' + thisMonth + '/' + thisDay + '/' + thisYear + '">Today</li>');
-        }
-        else if (i==1){
-            $('#day').append('<li id="' + thisMonth + '/' + thisDay + '/' + thisYear + '">Tomorrow</li>');
-        }
-        else {
-            $('#day').append('<li id="' + thisMonth + '/' + thisDay + '/' + thisYear + '">' + thisDateObj.toLocaleDateString() +  '</li>');
-        }
-    }
-}
-
-function setHours(){
-    for (var i=current_hour; i<24; i++){
-        if (i==0){
-            var midnight = i;
-            $('#time').append('<li id="' + i + '">' + midnight + ':00am' + '</li>');
-        }
-        else if (i < 12){
-            $('#time').append('<li id="' + i + '">' + i + ':00am' + '</li>');
-        }
-        else {
-            var pm = i % 12;
-            $('#time').append('<li id="' + i + '">' + pm + ':00pm' + '</li>');
-        }
-    }
-}
-
-function addDays(dateObj, days) {
-    return new Date(dateObj.getTime() + days*86400000);
 }
 
 function resetTime(){
@@ -314,28 +320,4 @@ function resetTime(){
             $('#time').append('<li id="' + i + '">' + pm + ':00pm' + '</li>');
         }
     }
-}
-
-function listenToTime(){
-    $('ul#time li').on('click', function(){
-        console.log('time clicked');
-        var time = $(this).html();
-        start_time = $(this).attr('id') + ':00:00';
-        span = ' <span class="caret"></span>';
-        $('#chosen-time').html(time + span);
-    });
-}
-
-function listenToDay(){
-    $('ul#day li').on('click', function(){
-        var day = $(this).html();
-        start_date = $(this).attr('id');
-        span = ' <span class="caret"></span>'
-        $('#chosen-date').html(day + span);
-        if (day != 'Today'){
-            console.log('not today!');
-            resetTime();
-            listenToTime();
-        }
-    });
 }
