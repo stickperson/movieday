@@ -90,7 +90,6 @@ var movieday = (function (){
             } else {
                 $.post('/search', data, function(response){
                     movieday.theaters = JSON.parse(response);
-                    console.log(movieday.theaters);
                     $('#content').html(Mustache.render($('#zip_results').html(), movieday.theaters));
                 });
             }
@@ -116,13 +115,11 @@ var movieday = (function (){
                     }
                 }
             }
-            console.log(movies);
             $('#content').html(Mustache.render($('#theater_template').html(), movies));
         },
         listenToTime: function(){
             // $('ul#time li').on('click', function(){
             $('body').on('click', 'ul#time li', function(){
-                console.log('time clicked');
                 var time = $(this).html();
                 movieday.start_time = $(this).attr('id') + ':00:00';
                 span = ' <span class="caret"></span>';
@@ -136,7 +133,6 @@ var movieday = (function (){
                 span = ' <span class="caret"></span>';
                 $('#chosen-date').html(day + span);
                 if (day != 'Today'){
-                    console.log('not today!');
                     resetTime();
                     movieday.listenToTime();
                 }
@@ -150,18 +146,13 @@ var movieday = (function (){
                 movies: selected
             };
             $.post('/selected', data, function(data){
-                console.log('POST working');
                 var results = JSON.parse(data);
                 if (results[0]['error']){
-                    console.log(results);
-                    console.log('error reached!');
                     var message = results[0]['error'];
                     $('#error').empty();
                     $('#error').append('<div class="alert alert-danger alert-disassemble"><button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>'+message+'</div>');
                 }
                 else {
-                    console.log(movies[results[0]['first_id']]);
-                    console.log(typeof(results[0]['first_start']));
                     var difference_seconds = results[0]['time_difference'];
                     var minutes = difference_seconds/60;
                     results[0]['first_poster'] = movies[results[0]['first_id']]['poster'];
@@ -269,7 +260,6 @@ $(function () {
         $('input:checked').each(function(){
             count += 1;
             if ($(this).is(':checked')){
-                console.log('checked');
                 movie_id = Number($(this).attr('value'));
                 selected_movies.push(movie_id);
             }
@@ -304,7 +294,6 @@ function setupCSRF(){
 }
 
 function resetTime(){
-    console.log('new day hours running');
     $('ul#time').empty();
     var span = ' <span class="caret"></span>';
     $('#chosen-time').html('9:00am'+span);
